@@ -1,6 +1,6 @@
 package Entity;
 
-public class Announce {
+public abstract class Announce {
     protected int ID;
     protected String city;
     protected String address;
