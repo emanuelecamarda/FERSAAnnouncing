@@ -1,4 +1,4 @@
-package Entity;
+package entity;
 
 public class ApartmentResearch extends Research {
     private int localsMin;

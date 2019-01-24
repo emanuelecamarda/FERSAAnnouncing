@@ -1,4 +1,4 @@
-package Entity;
+package entity;
 
 public abstract class Announce {
     protected int ID;

@@ -1,4 +1,4 @@
-package Entity;
+package entity;
 
 public class RoomResearch extends Research {
     private int roomersNumberMax;

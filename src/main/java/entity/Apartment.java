@@ -1,4 +1,4 @@
-package Entity;
+package entity;
 
 public class Apartment extends Announce {
     private int locals;
