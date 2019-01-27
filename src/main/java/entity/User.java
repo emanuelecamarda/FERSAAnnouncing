@@ -8,10 +8,10 @@ public class User {
     private String cognome;
     private String email;
     private String password;
-    private Character gender;
-    private List[] favorite;
+    private Gender gender;
+    private List<Research> favorite;
 
-    public User(String nickname, String nome, String cognome, String email, String password, Character gender) {
+    public User(String nickname, String nome, String cognome, String email, String password, Gender gender) {
         this.nickname = nickname;
         this.nome = nome;
         this.cognome = cognome;

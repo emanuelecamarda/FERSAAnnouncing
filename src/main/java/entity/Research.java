@@ -11,4 +11,5 @@ public abstract class Research {
     protected Boolean favorite;
     protected User user;
     protected int ID;
+    protected Sorting sorting;
 }

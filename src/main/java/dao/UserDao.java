@@ -1,5 +1,6 @@
 package dao;
 
+import entity.Gender;
 import entity.User;
 
 import java.sql.*;
@@ -41,7 +42,14 @@ public class UserDao {
             String cognome = rs.getString("cognome");
             String nicknameLoaded = rs.getString("nickname");
             String email = rs.getString("email");
-            Character gender = rs.getString("gender").toCharArray()[0];
+            Gender gender = null;
+            if (rs.getString("gender").toCharArray()[0] == 'M') {
+                gender = Gender.male;
+            }
+            if (rs.getString("gender").toCharArray()[0] == 'F') {
+                gender = Gender.female;
+            }
+
 
 //            assert (nicknameLoaded.equals(nickname));
 
@@ -105,7 +113,13 @@ public class UserDao {
 //            String cognome = rs.getString("cognome");
 //            String nicknameLoaded = rs.getString("nickname");
 //            String email = rs.getString("email");
-//            Character gender = rs.getString("gender").toCharArray()[0];
+//            Gender gender = null;
+//            if (rs.getString("gender").toCharArray()[0] == 'M') {
+//                gender = Gender.male;
+//            }
+//            if (rs.getString("gender").toCharArray()[0] == 'F') {
+//                gender = Gender.female;
+//            }
 
 
             v = new User(nickname, nome, cognome, email, "", gender);
