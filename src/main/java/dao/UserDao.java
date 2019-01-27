@@ -42,18 +42,13 @@ public class UserDao {
             String cognome = rs.getString("cognome");
             String nicknameLoaded = rs.getString("nickname");
             String email = rs.getString("email");
-            Gender gender = null;
-            if (rs.getString("gender").toCharArray()[0] == 'M') {
-                gender = Gender.male;
-            }
-            if (rs.getString("gender").toCharArray()[0] == 'F') {
-                gender = Gender.female;
-            }
+            Character gender = rs.getString("gender").toCharArray()[0];
 
 
 //            assert (nicknameLoaded.equals(nickname));
 
-            u = new User(nicknameLoaded, nome, cognome, email, "", gender);
+            u = new User(nicknameLoaded, nome, cognome, email, "");
+            u.setGender(gender);
 
             rs.close();
             stmt.close();
@@ -96,13 +91,13 @@ public class UserDao {
             ((PreparedStatement) stmt).setString(4, email);
             ((PreparedStatement) stmt).setString(5, password);
             ((PreparedStatement) stmt).setString(6, String.valueOf(gender));
-            ResultSet rs = ((PreparedStatement) stmt).executeQuery();
+            ((PreparedStatement) stmt).executeUpdate();
 
             //problema : questa query funziona ovvero inserisce nella tabella ho controllato solo che non ritorna nessun risultato
             //ovvero rs è sempre vuoto quindi ho sempre un return null
 
-            if (!rs.first()) // rs empty
-                return null;
+//            if (!rs.first()) // rs empty
+//                return null;
 
             //boolean moreThanOne = rs.first() && rs.next();
 
@@ -113,18 +108,12 @@ public class UserDao {
 //            String cognome = rs.getString("cognome");
 //            String nicknameLoaded = rs.getString("nickname");
 //            String email = rs.getString("email");
-//            Gender gender = null;
-//            if (rs.getString("gender").toCharArray()[0] == 'M') {
-//                gender = Gender.male;
-//            }
-//            if (rs.getString("gender").toCharArray()[0] == 'F') {
-//                gender = Gender.female;
-//            }
+//            Character gender = rs.getString("gender").toCharArray()[0];
 
 
-            v = new User(nickname, nome, cognome, email, "", gender);
+            v = new User(nickname, nome, cognome, email, "");
+            v.setGender(gender);
 
-            rs.close();
             stmt.close();
             conn.close();
         } catch (SQLException se) {
@@ -147,4 +136,55 @@ public class UserDao {
 
         return v;
     }
+
+    public User findByNickname(String nickname) {
+        Statement stmt = null;
+        Connection conn = null;
+        User u = null;
+        try {
+            conn = this.ds.getConnection();
+
+            stmt = conn.prepareStatement("select * from \"public\".\"Users\" where \"nickname\" = ?;",
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ((PreparedStatement) stmt).setString(1, nickname);
+            ResultSet rs = ((PreparedStatement) stmt).executeQuery();
+
+            if (!rs.first()) // rs empty
+                return null;
+
+            rs.first();
+
+            String nome = rs.getString("nome");
+            String cognome = rs.getString("cognome");
+            String nicknameLoaded = rs.getString("nickname");
+            String email = rs.getString("email");
+            Character gender = rs.getString("gender").toCharArray()[0];
+
+            u = new User(nicknameLoaded, nome, cognome, email, "");
+            u.setGender(gender);
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException se2) {
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+
+        return u;
+    }
+
 }

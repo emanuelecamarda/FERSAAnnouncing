@@ -1,15 +1,115 @@
 package entity;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public abstract class Research {
     protected String city;
     protected Double priceMin;
     protected Double priceMax;
     protected Double size;
-    protected Date date;
+    protected GregorianCalendar date;
     protected Boolean favorite;
     protected User user;
     protected int ID;
     protected Sorting sorting;
+
+    public Research(String city, Double priceMin, Double priceMax, Double size, GregorianCalendar date, Boolean favorite,
+                    User user, int ID) {
+        this.city = city;
+        this.priceMin = priceMin;
+        this.priceMax = priceMax;
+        this.size = size;
+        this.date = date;
+        this.favorite = favorite;
+        this.user = user;
+        this.ID = ID;
+    }
+
+    public Research() {
+
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Double getPriceMin() {
+        return priceMin;
+    }
+
+    public void setPriceMin(Double priceMin) {
+        this.priceMin = priceMin;
+    }
+
+    public Double getPriceMax() {
+        return priceMax;
+    }
+
+    public void setPriceMax(Double priceMax) {
+        this.priceMax = priceMax;
+    }
+
+    public Double getSize() {
+        return size;
+    }
+
+    public void setSize(Double size) {
+        this.size = size;
+    }
+
+    public GregorianCalendar getDate() {
+        return date;
+    }
+
+    public void setDate(GregorianCalendar date) {
+        this.date = date;
+    }
+
+    public Boolean getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(Boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public Sorting getSorting() {
+        return sorting;
+    }
+
+    public void setSorting(String sorting) {
+        if (sorting == "moreExpensive")
+            this.sorting = Sorting.moreExpensive;
+        if (sorting == "lessExpensive")
+            this.sorting = Sorting.lessExpensive;
+        if (sorting == "moreBig")
+            this.sorting = Sorting.moreBig;
+        if (sorting == "lessBig")
+            this.sorting = Sorting.lessBig;
+        if (sorting == "moreRecent")
+            this.sorting = Sorting.moreRecent;
+        if (sorting == "lessRecent")
+            this.sorting = Sorting.lessRecent;
+    }
 }
