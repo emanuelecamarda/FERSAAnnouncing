@@ -74,7 +74,7 @@ public class UserDao {
         return u;
     }
 
-    public User SignUp(String nickname, String nome , String cognome , String email , String password , Character gender) {
+    public User create(String nickname, String nome , String cognome , String email , String password , Character gender) {
         Statement stmt = null;
         Connection conn = null;
         User v = null;

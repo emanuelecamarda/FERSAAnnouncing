@@ -10,8 +10,9 @@ public class ApartmentResearchDao {
 
     private DataSource ds = new DataSource();
     private UserDao userDao = new UserDao();
+    private static Integer count = 0;
 
-    public Boolean saveApartmentResearch(ApartmentResearch apartmentResearch) {
+    public Boolean save(ApartmentResearch apartmentResearch) {
         PreparedStatement stmt = null;
         Connection conn = null;
         try {
@@ -65,7 +66,12 @@ public class ApartmentResearchDao {
         return Boolean.FALSE;
     }
 
-    public ApartmentResearch findApartmentResearchByID(Integer ID) {
+    /**
+     *
+     * @param ID
+     * @return
+     */
+    public ApartmentResearch findByID(Integer ID) {
         PreparedStatement stmt = null;
         Connection conn = null;
         ApartmentResearch apartmentResearch = null;
