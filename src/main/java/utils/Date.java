@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 public class Date {
 
     /**
-     * convert a String date into a Gregorian Calendar
+     * convert a String date into a Gregorian Calendar. Do by EC
      * @param date Must be in format "GG/MM/AAAA HH:MM:SS"
      * @return
      */
@@ -26,7 +26,7 @@ public class Date {
     }
 
     /**
-     * convert a GregorianCalendar into a String with format "GG/MM/AAAA HH:MM:SS"
+     * convert a GregorianCalendar into a String with format "GG/MM/AAAA HH:MM:SS". Do by EC
      * @param date
      * @return
      */

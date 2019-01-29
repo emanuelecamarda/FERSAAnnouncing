@@ -20,7 +20,7 @@ public class Test {
         ApartmentResearch apartmentResearch = new ApartmentResearch("Roma", 200.0, 800.0,
                 50.0, date, Boolean.TRUE, v, 1, "moreRecent", 1, 3, Boolean.FALSE,
                 1, 2, 4);
-        apartmentResearchDao.save(apartmentResearch);
+        apartmentResearchDao.create(apartmentResearch);
         System.out.println(apartmentResearchDao.findByID(1));
     }
 }

@@ -1,7 +1,7 @@
 package dao;
 
 import entity.ApartmentResearch;
-import entity.User;
+import utils.Database;
 import utils.Date;
 
 import java.sql.*;
@@ -10,11 +10,16 @@ public class ApartmentResearchDao {
 
     private DataSource ds = new DataSource();
     private UserDao userDao = new UserDao();
-    private static Integer count = 0;
 
-    public Boolean save(ApartmentResearch apartmentResearch) {
+    /**
+     * create method. Do by EC
+     * @param apartmentResearch
+     * @return
+     */
+    public Boolean create(ApartmentResearch apartmentResearch) {
         PreparedStatement stmt = null;
         Connection conn = null;
+        Database database = Database.getInstance();
         try {
             conn = this.ds.getConnection();
 
@@ -24,7 +29,7 @@ public class ApartmentResearchDao {
                             "\"bedsNumberMin\", \"bedsNumberMax\", \"date\") " +
                             "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            stmt.setInt(1, apartmentResearch.getID());
+            stmt.setInt(1, database.getID());
             stmt.setString(2, apartmentResearch.getCity());
             stmt.setDouble(3, apartmentResearch.getPriceMin());
             stmt.setDouble(4, apartmentResearch.getPriceMax());
@@ -54,6 +59,7 @@ public class ApartmentResearchDao {
                 if (stmt != null)
                     stmt.close();
             } catch (SQLException se2) {
+                se2.printStackTrace();
             }
             try {
                 if (conn != null)
@@ -67,9 +73,9 @@ public class ApartmentResearchDao {
     }
 
     /**
-     *
+     * Do by EC.
      * @param ID
-     * @return
+     * @return ApartmentResearch or null if not exists.
      */
     public ApartmentResearch findByID(Integer ID) {
         PreparedStatement stmt = null;
@@ -124,6 +130,47 @@ public class ApartmentResearchDao {
         }
 
         return apartmentResearch;
+    }
+
+    /**
+     * Edit by EC.
+     * @param ID
+     * @return
+     */
+    public Boolean delete(Integer ID) {
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        try {
+            conn = this.ds.getConnection();
+
+            stmt = conn.prepareStatement("delete from \"public\".\"ApartmentResearch\" where \"ID\" = ?;",
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            stmt.setInt(1, ID);
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+            return Boolean.TRUE;
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException se2) {
+                se2.printStackTrace();
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+
+        return Boolean.FALSE;
     }
 
 }
