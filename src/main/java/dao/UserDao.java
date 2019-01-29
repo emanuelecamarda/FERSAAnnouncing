@@ -76,24 +76,6 @@ public class UserDao {
             ((PreparedStatement) stmt).setString(6, String.valueOf(gender));
             ((PreparedStatement) stmt).executeUpdate();
 
-            //problema : questa query funziona ovvero inserisce nella tabella ho controllato solo che non ritorna nessun risultato
-            //ovvero rs è sempre vuoto quindi ho sempre un return null
-
-//            if (!rs.first()) // rs empty
-//                return null;
-
-            //boolean moreThanOne = rs.first() && rs.next();
-
-
-            //rs.first();
-
-//            String nome = rs.getString("nome");
-//            String cognome = rs.getString("cognome");
-//            String nicknameLoaded = rs.getString("nickname");
-//            String email = rs.getString("email");
-//            Character gender = rs.getString("gender").toCharArray()[0];
-
-
             v = new User(nickname, nome, cognome, email, "");
             v.setGender(gender);
 
