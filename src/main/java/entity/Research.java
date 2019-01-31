@@ -1,5 +1,7 @@
 package entity;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
+
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -11,11 +13,11 @@ public abstract class Research {
     protected GregorianCalendar date;
     protected Boolean favorite;
     protected User user;
-    protected int ID;
+    protected Integer ID;
     protected Sorting sorting;
 
     public Research(String city, Double priceMin, Double priceMax, Double size, GregorianCalendar date, Boolean favorite,
-                    User user, int ID) {
+                    User user, Integer ID) {
         this.city = city;
         this.priceMin = priceMin;
         this.priceMax = priceMax;
@@ -24,6 +26,17 @@ public abstract class Research {
         this.favorite = favorite;
         this.user = user;
         this.ID = ID;
+    }
+
+    public Research(String city, Double priceMin, Double priceMax, Double size, GregorianCalendar date,
+                    Boolean favorite, User user) {
+        this.city = city;
+        this.priceMin = priceMin;
+        this.priceMax = priceMax;
+        this.size = size;
+        this.date = date;
+        this.favorite = favorite;
+        this.user = user;
     }
 
     public Research() {
@@ -86,11 +99,11 @@ public abstract class Research {
         this.user = user;
     }
 
-    public int getID() {
+    public Integer getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(Integer ID) {
         this.ID = ID;
     }
 
@@ -99,15 +112,15 @@ public abstract class Research {
     }
 
     public void setSorting(String sorting) {
-        if (sorting == "moreExpensive")
+        if (sorting.equals("moreExpensive"))
             this.sorting = Sorting.moreExpensive;
-        if (sorting == "lessExpensive")
+        if (sorting.equals("lessExpensive"))
             this.sorting = Sorting.lessExpensive;
-        if (sorting == "moreBig")
+        if (sorting.equals("moreBig"))
             this.sorting = Sorting.moreBig;
-        if (sorting == "lessBig")
+        if (sorting.equals("lessBig"))
             this.sorting = Sorting.lessBig;
-        if (sorting == "moreRecent")
+        if (sorting.equals("moreRecent"))
             this.sorting = Sorting.moreRecent;
         if (sorting == "lessRecent")
             this.sorting = Sorting.lessRecent;

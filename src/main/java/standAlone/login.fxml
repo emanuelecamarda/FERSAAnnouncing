@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundary.LoginBoundary">
+   <children>
+      <SplitPane dividerPositions="0.6666666666666666" orientation="VERTICAL" prefHeight="359.0" prefWidth="395.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <GridPane alignment="center" hgap="10.0" vgap="10.0">
+                      <padding>
+                        <Insets bottom="40" left="40" right="40" top="40" />
+                     </padding>
+                      <columnConstraints>
+                          <ColumnConstraints halignment="RIGHT" maxWidth="Infinity" minWidth="100.0" prefWidth="100.0">
+        </ColumnConstraints>
+                          <ColumnConstraints hgrow="ALWAYS" maxWidth="Infinity" minWidth="200.0" prefWidth="200.0">
+        </ColumnConstraints>
+                      </columnConstraints>
+                      <children>
+                  
+                                                  <!-- Add Header Label -->
+                          <Label text="LOGIN" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.rowSpan="1">
+                              <font>
+                                  <Font name="Arial" size="24" />
+                              </font>
+                              <GridPane.margin>
+                                  <Insets bottom="20.0" top="15.0" />
+                              </GridPane.margin>
+                          </Label>
+                  
+                                    
+                                    
+                                            <!-- Add Name Label -->
+                          <Label text="Nickname:  " GridPane.columnIndex="0" GridPane.rowIndex="1">
+        </Label>
+                          <!-- Add Name Text Field -->
+                          <TextField fx:id="nicknameField" prefHeight="40" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  
+                                    
+                                    
+                                            <!-- Add Password Label -->
+                          <Label text="Password:  " GridPane.columnIndex="0" GridPane.rowIndex="2">
+        </Label>
+                          <!-- Add Password Field -->
+                          <PasswordField fx:id="passwordField" prefHeight="40" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                      </children>
+                      <rowConstraints>
+                          <RowConstraints />
+                          <RowConstraints />
+                          <RowConstraints />
+                      </rowConstraints>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="120.0" prefWidth="408.0">
+               <children>
+                  <SplitPane dividerPositions="0.5115089514066496" prefHeight="115.0" prefWidth="393.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <Button layoutX="50.0" layoutY="33.0" mnemonicParsing="false" onAction="#login" prefHeight="47.0" prefWidth="96.0" text="Login" />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <Button layoutX="46.0" layoutY="33.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="96.0" text="Signup" />
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

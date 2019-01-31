@@ -1,0 +1,16 @@
+- Finire CRUD Room e Apartment -- Ste
+- inizializzazione count di Database  -- Ema
+- creare thread per gestione annunci vecchi
+- vedere come switchare da un interfaccia ad un'altra
+- finire di creare le interfacce
+    - favorite -- Ema
+    - recent -- Ema
+    - new research -- Ema
+    - show research -- Ste
+    - show annuncio  -- Ste
+- implementare le factory
+    - Research room -- Ema
+    - research apart -- Ema
+    - Users -- Ema
+    - room -- Ste
+    - apartm  -- Ste

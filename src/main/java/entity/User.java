@@ -4,17 +4,17 @@ import java.util.List;
 
 public class User {
     private String nickname;
-    private String nome;
-    private String cognome;
+    private String name;
+    private String surname;
     private String email;
     private String password;
     private Gender gender;
     private List<Research> favorite;
 
-    public User(String nickname, String nome, String cognome, String email, String password) {
+    public User(String nickname, String name, String surname, String email, String password) {
         this.nickname = nickname;
-        this.nome = nome;
-        this.cognome = cognome;
+        this.name = name;
+        this.surname = surname;
         this.email = email;
         this.password = password;
     }
@@ -27,20 +27,20 @@ public class User {
         this.nickname = nickname;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getCognome() {
-        return cognome;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setCognome(String cognome) {
-        this.cognome = cognome;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getEmail() {
@@ -82,7 +82,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "nome: " + this.nome + "\ncognome: " + this.cognome;
+        return "----- User -----\nname: " + this.name + "\nsurname: " + this.surname + "\n";
     }
 }
 

@@ -1,6 +1,8 @@
 import dao.ApartmentResearchDao;
+import dao.RoomResearchDao;
 import dao.UserDao;
 import entity.ApartmentResearch;
+import entity.RoomResearch;
 import entity.User;
 
 import java.util.GregorianCalendar;
@@ -9,18 +11,37 @@ public class Test {
 
 
     public static void main(String args[]) {
-        UserDao userDao = new UserDao();
-        User u = userDao.findByNicknameAndPassword("bella", "bella");
-        User v = userDao.create("ciao", "hello ","bye" , "aaabbb" , "abcd" , 'm');
-        System.out.println(u);
-        System.out.println(v);
+        try {
+            UserDao userDao = new UserDao();
+            User u = userDao.create("pippo", "pippo ", "de pippis", "pippo@gmail.com",
+                    "pippo", 'm');
+            System.out.println(u);
+            u = userDao.findByNicknameAndPassword("pippo", "pippo");
+            System.out.println(u);
+            u = userDao.findByNickname("pippo");
+            System.out.println(u);
 
-        ApartmentResearchDao apartmentResearchDao = new ApartmentResearchDao();
-        GregorianCalendar date = new GregorianCalendar();
-        ApartmentResearch apartmentResearch = new ApartmentResearch("Roma", 200.0, 800.0,
-                50.0, date, Boolean.TRUE, v, 1, "moreRecent", 1, 3, Boolean.FALSE,
-                1, 2, 4);
-        apartmentResearchDao.create(apartmentResearch);
-        System.out.println(apartmentResearchDao.findByID(1));
+            ApartmentResearchDao apartmentResearchDao = new ApartmentResearchDao();
+            GregorianCalendar date = new GregorianCalendar();
+            ApartmentResearch apartmentResearch = new ApartmentResearch("Roma", 200.0, 800.0,
+                    50.0, date, Boolean.TRUE, u, 1, 3, Boolean.TRUE,
+                    1, 2, 4);
+            apartmentResearch.setSorting("moreRecent");
+            apartmentResearch = apartmentResearchDao.create(apartmentResearch);
+            System.out.println(apartmentResearchDao.findByID(apartmentResearch.getID()));
+
+            RoomResearchDao roomResearchDao = new RoomResearchDao();
+            RoomResearch roomResearch = new RoomResearch("Roma", 200.0, 800.0, 50.0, date,
+                    Boolean.TRUE, u, 3, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+            roomResearch.setSorting("moreRecent");
+            roomResearch = roomResearchDao.create(roomResearch);
+            System.out.println(roomResearchDao.findByID(roomResearch.getID()));
+
+            apartmentResearchDao.delete(apartmentResearch.getID());
+            roomResearchDao.delete(roomResearch.getID());
+            userDao.delete(u.getNickname());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

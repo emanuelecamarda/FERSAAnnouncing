@@ -1,6 +1,7 @@
 package dao;
 
 import entity.ApartmentResearch;
+import exception.EntityNotExistException;
 import utils.Database;
 import utils.Date;
 
@@ -16,7 +17,7 @@ public class ApartmentResearchDao {
      * @param apartmentResearch
      * @return
      */
-    public Boolean create(ApartmentResearch apartmentResearch) {
+    public ApartmentResearch create(ApartmentResearch apartmentResearch) {
         PreparedStatement stmt = null;
         Connection conn = null;
         Database database = Database.getInstance();
@@ -29,7 +30,8 @@ public class ApartmentResearchDao {
                             "\"bedsNumberMin\", \"bedsNumberMax\", \"date\") " +
                             "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            stmt.setInt(1, database.getID());
+            Integer ID = database.getID();
+            stmt.setInt(1, ID);
             stmt.setString(2, apartmentResearch.getCity());
             stmt.setDouble(3, apartmentResearch.getPriceMin());
             stmt.setDouble(4, apartmentResearch.getPriceMax());
@@ -39,7 +41,7 @@ public class ApartmentResearchDao {
             stmt.setString(8, apartmentResearch.getSorting().toString());
             stmt.setInt(9, apartmentResearch.getLocalsMin());
             stmt.setInt(10, apartmentResearch.getLocalsMax());
-            stmt.setBoolean(11, apartmentResearch.isFurnished());
+            stmt.setBoolean(11, apartmentResearch.getFurnished());
             stmt.setInt(12, apartmentResearch.getBathroomNumberMin());
             stmt.setInt(13, apartmentResearch.getBedsNumberMin());
             stmt.setInt(14, apartmentResearch.getBedsNumberMax());
@@ -47,9 +49,11 @@ public class ApartmentResearchDao {
 
             stmt.executeUpdate();
 
+            apartmentResearch.setID(ID);
+
             stmt.close();
             conn.close();
-            return Boolean.TRUE;
+            return apartmentResearch;
         } catch (SQLException se) {
             se.printStackTrace();
         } catch (Exception e) {
@@ -69,7 +73,7 @@ public class ApartmentResearchDao {
             }
         }
 
-        return Boolean.FALSE;
+        return null;
     }
 
     /**
@@ -90,24 +94,28 @@ public class ApartmentResearchDao {
             stmt.setInt(1, ID);
             ResultSet result = stmt.executeQuery();
 
-            if (result.next() && apartmentResearch == null) {
-                apartmentResearch = new ApartmentResearch();
-                apartmentResearch.setID(result.getInt("ID"));
-                apartmentResearch.setCity(result.getString("city"));
-                apartmentResearch.setPriceMin(result.getDouble("priceMin"));
-                apartmentResearch.setPriceMax(result.getDouble("priceMax"));
-                apartmentResearch.setSize(result.getDouble("size"));
-                apartmentResearch.setFavorite(result.getBoolean("favorite"));
-                apartmentResearch.setUser(userDao.findByNickname(result.getString("user")));
-                apartmentResearch.setSorting(result.getString("sorting"));
-                apartmentResearch.setLocalsMin(result.getInt("localsMin"));
-                apartmentResearch.setLocalsMax(result.getInt("localsMax"));
-                apartmentResearch.setFurnished(result.getBoolean("furnished"));
-                apartmentResearch.setBathroomNumberMin(result.getInt("bathroomNumberMin"));
-                apartmentResearch.setBedsNumberMin(result.getInt("bedsNumberMin"));
-                apartmentResearch.setBedsNumberMax(result.getInt("bedsNumberMax"));
-                apartmentResearch.setDate(Date.stringToGregorianCalendar(result.getString("date")));
-            }
+            if (!result.first()) // rs empty
+            return null;
+
+            result.first();
+
+            apartmentResearch = new ApartmentResearch();
+            apartmentResearch.setID(result.getInt("ID"));
+            apartmentResearch.setCity(result.getString("city"));
+            apartmentResearch.setPriceMin(result.getDouble("priceMin"));
+            apartmentResearch.setPriceMax(result.getDouble("priceMax"));
+            apartmentResearch.setSize(result.getDouble("size"));
+            apartmentResearch.setFavorite(result.getBoolean("favorite"));
+            apartmentResearch.setUser(userDao.findByNickname(result.getString("user")));
+            apartmentResearch.setSorting(result.getString("sorting"));
+            apartmentResearch.setLocalsMin(result.getInt("localsMin"));
+            apartmentResearch.setLocalsMax(result.getInt("localsMax"));
+            apartmentResearch.setFurnished(result.getBoolean("furnished"));
+            apartmentResearch.setBathroomNumberMin(result.getInt("bathroomNumberMin"));
+            apartmentResearch.setBedsNumberMin(result.getInt("bedsNumberMin"));
+            apartmentResearch.setBedsNumberMax(result.getInt("bedsNumberMax"));
+            apartmentResearch.setDate(Date.stringToGregorianCalendar(result.getString("date")));
+
             result.close();
             stmt.close();
             conn.close();
@@ -142,6 +150,9 @@ public class ApartmentResearchDao {
         Connection conn = null;
         try {
             conn = this.ds.getConnection();
+
+            if (findByID(ID) == null)
+                throw new EntityNotExistException();
 
             stmt = conn.prepareStatement("delete from \"public\".\"ApartmentResearch\" where \"ID\" = ?;",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);

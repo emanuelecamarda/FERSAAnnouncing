@@ -5,7 +5,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.SignupController">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundary.SignupBoundary">
     <padding><Insets bottom="40" left="40" right="40" top="40" /></padding>
     <columnConstraints>
         <ColumnConstraints halignment="RIGHT" maxWidth="Infinity" minWidth="100" prefWidth="100">
@@ -16,7 +17,8 @@
    <children>
    
        <!-- Add Header Label -->
-       <Label text="SIGN UP" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.rowSpan="1">
+       <Label text="SIGN UP" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER"
+              GridPane.rowIndex="0" GridPane.rowSpan="1">
            <font>
                <Font name="Arial" size="24" />
            </font>
@@ -50,7 +52,9 @@
    
    
        <!-- Add Submit Button -->
-       <Button fx:id="submitButton" defaultButton="true" onAction="#signup" prefHeight="40" prefWidth="100" text="Submit" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.rowSpan="1">
+       <Button fx:id="submitButton" defaultButton="true" onAction="#signup" prefHeight="40" prefWidth="100"
+               text="Submit" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER"
+               GridPane.rowIndex="7" GridPane.rowSpan="1">
            <GridPane.margin>
                <Insets bottom="20" left="0" right="0" top="20" />
            </GridPane.margin>

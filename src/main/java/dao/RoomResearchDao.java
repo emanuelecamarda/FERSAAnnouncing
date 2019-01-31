@@ -4,6 +4,7 @@ import entity.ApartmentResearch;
 import entity.Research;
 import entity.Room;
 import entity.RoomResearch;
+import exception.EntityNotExistException;
 import utils.Database;
 import utils.Date;
 
@@ -22,7 +23,7 @@ public class RoomResearchDao {
      * @param roomResearch
      * @return
      */
-    public Boolean create(RoomResearch roomResearch) {
+    public RoomResearch create(RoomResearch roomResearch) {
         PreparedStatement stmt = null;
         Connection conn = null;
         Database database = Database.getInstance();
@@ -34,7 +35,8 @@ public class RoomResearchDao {
                             "\"sorting\", \"roomersNumberMax\", \"privateBathroom\", \"onlyFemale\", \"onlyMale\", " +
                             "\"date\") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            stmt.setInt(1, database.getID());
+            Integer ID = database.getID();
+            stmt.setInt(1, ID);
             stmt.setString(2, roomResearch.getCity());
             stmt.setDouble(3, roomResearch.getPriceMin());
             stmt.setDouble(4, roomResearch.getPriceMax());
@@ -43,16 +45,18 @@ public class RoomResearchDao {
             stmt.setString(7, roomResearch.getUser().getNickname());
             stmt.setString(8, roomResearch.getSorting().toString());
             stmt.setInt(9, roomResearch.getRoomersNumberMax());
-            stmt.setBoolean(10, roomResearch.isPrivateBathroom());
-            stmt.setBoolean(11, roomResearch.isOnlyFemale());
-            stmt.setBoolean(12, roomResearch.isOnlyMale());
+            stmt.setBoolean(10, roomResearch.getPrivateBathroom());
+            stmt.setBoolean(11, roomResearch.getOnlyFemale());
+            stmt.setBoolean(12, roomResearch.getOnlyMale());
             stmt.setString(13, Date.gregorianCalendarToString(roomResearch.getDate()));
 
             stmt.executeUpdate();
 
+            roomResearch.setID(ID);
+
             stmt.close();
             conn.close();
-            return Boolean.TRUE;
+            return roomResearch;
         } catch (SQLException se) {
             se.printStackTrace();
         } catch (Exception e) {
@@ -72,7 +76,7 @@ public class RoomResearchDao {
             }
         }
 
-        return Boolean.FALSE;
+        return null;
     }
 
     /**
@@ -143,6 +147,9 @@ public class RoomResearchDao {
         Connection conn = null;
         try {
             conn = this.ds.getConnection();
+
+            if (findByID(ID) == null)
+                throw new EntityNotExistException();
 
             stmt = conn.prepareStatement("delete from \"public\".\"RoomResearch\" where \"ID\" = ?;",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);

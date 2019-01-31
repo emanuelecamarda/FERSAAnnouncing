@@ -1,17 +1,29 @@
 package entity;
 
+import utils.Date;
+
 import java.util.GregorianCalendar;
 
 public class RoomResearch extends Research {
-    private int roomersNumberMax;
-    private boolean privateBathroom;
-    private boolean onlyFemale;
-    private boolean onlyMale;
+    private Integer roomersNumberMax;
+    private Boolean privateBathroom;
+    private Boolean onlyFemale;
+    private Boolean onlyMale;
 
     public RoomResearch(String city, Double priceMin, Double priceMax, Double size, GregorianCalendar date,
-                        Boolean favorite, User user, int ID, int roomersNumberMax, boolean privateBathroom,
-                        boolean onlyFemale, boolean onlyMale) {
+                        Boolean favorite, User user, Integer ID, Integer roomersNumberMax, Boolean privateBathroom,
+                        Boolean onlyFemale, Boolean onlyMale) {
         super(city, priceMin, priceMax, size, date, favorite, user, ID);
+        this.roomersNumberMax = roomersNumberMax;
+        this.privateBathroom = privateBathroom;
+        this.onlyFemale = onlyFemale;
+        this.onlyMale = onlyMale;
+    }
+
+    public RoomResearch(String city, Double priceMin, Double priceMax, Double size, GregorianCalendar date,
+                        Boolean favorite, User user, Integer roomersNumberMax, Boolean privateBathroom,
+                        Boolean onlyFemale, Boolean onlyMale) {
+        super(city, priceMin, priceMax, size, date, favorite, user);
         this.roomersNumberMax = roomersNumberMax;
         this.privateBathroom = privateBathroom;
         this.onlyFemale = onlyFemale;
@@ -22,35 +34,46 @@ public class RoomResearch extends Research {
 
     }
 
-    public int getRoomersNumberMax() {
+    public Integer getRoomersNumberMax() {
         return roomersNumberMax;
     }
 
-    public void setRoomersNumberMax(int roomersNumberMax) {
+    public void setRoomersNumberMax(Integer roomersNumberMax) {
         this.roomersNumberMax = roomersNumberMax;
     }
 
-    public boolean isPrivateBathroom() {
+    public Boolean getPrivateBathroom() {
         return privateBathroom;
     }
 
-    public void setPrivateBathroom(boolean privateBathroom) {
+    public void setPrivateBathroom(Boolean privateBathroom) {
         this.privateBathroom = privateBathroom;
     }
 
-    public boolean isOnlyFemale() {
+    public Boolean getOnlyFemale() {
         return onlyFemale;
     }
 
-    public void setOnlyFemale(boolean onlyFemale) {
+    public void setOnlyFemale(Boolean onlyFemale) {
         this.onlyFemale = onlyFemale;
     }
 
-    public boolean isOnlyMale() {
+    public Boolean getOnlyMale() {
         return onlyMale;
     }
 
-    public void setOnlyMale(boolean onlyMale) {
+    public void setOnlyMale(Boolean onlyMale) {
         this.onlyMale = onlyMale;
+    }
+
+    @Override
+    public String toString() {
+        return "----- RoomResearch -----\n" +
+                "ID: " + this.ID +
+                "\ncity: " + this.city +
+                "\ndate: "  + Date.gregorianCalendarToString(this.date) +
+                "\nsorting: " + this.sorting +
+                "\nuser: " + this.user.getNickname() +
+                "\nsize: " + this.size + "\n";
     }
 }
