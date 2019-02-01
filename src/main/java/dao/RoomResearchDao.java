@@ -1,10 +1,12 @@
+/**
+ * Edit by EC.
+ */
+
 package dao;
 
-import entity.ApartmentResearch;
-import entity.Research;
-import entity.Room;
 import entity.RoomResearch;
 import exception.EntityNotExistException;
+import factory.ResearchFactory;
 import utils.Database;
 import utils.Date;
 
@@ -20,6 +22,7 @@ public class RoomResearchDao {
 
     /**
      * create method. Do by EC.
+     *
      * @param roomResearch
      * @return
      */
@@ -81,6 +84,7 @@ public class RoomResearchDao {
 
     /**
      * Do by EC.
+     *
      * @param ID
      * @return RoomResearch or null if not exists.
      */
@@ -98,20 +102,13 @@ public class RoomResearchDao {
             ResultSet result = stmt.executeQuery();
 
             if (result.next() && roomResearch == null) {
-                roomResearch = new RoomResearch();
-                roomResearch.setID(result.getInt("ID"));
-                roomResearch.setCity(result.getString("city"));
-                roomResearch.setPriceMin(result.getDouble("priceMin"));
-                roomResearch.setPriceMax(result.getDouble("priceMax"));
-                roomResearch.setSize(result.getDouble("size"));
-                roomResearch.setFavorite(result.getBoolean("favorite"));
-                roomResearch.setUser(userDao.findByNickname(result.getString("user")));
-                roomResearch.setSorting(result.getString("sorting"));
-                roomResearch.setRoomersNumberMax(result.getInt("roomersNumberMax"));
-                roomResearch.setPrivateBathroom(result.getBoolean("privateBathroom"));
-                roomResearch.setOnlyFemale(result.getBoolean("onlyFemale"));
-                roomResearch.setOnlyMale(result.getBoolean("onlyMale"));
-                roomResearch.setDate(Date.stringToGregorianCalendar(result.getString("date")));
+                roomResearch = (RoomResearch) ResearchFactory.getRommResearch(result.getInt("ID"),
+                        result.getString("city"), result.getDouble("priceMin"), result.getDouble("priceMax"),
+                        result.getDouble("size"), Date.stringToGregorianCalendar(result.getString("date")),
+                        result.getBoolean("favorite"), userDao.findByNickname(result.getString("user")),
+                        result.getString("sorting"), result.getInt("roomersNumberMax"),
+                        result.getBoolean("privateBathroom"), result.getBoolean("onlyFemale"),
+                        result.getBoolean("onlyMale"));
             }
             result.close();
             stmt.close();
@@ -139,6 +136,7 @@ public class RoomResearchDao {
 
     /**
      * Edit by EC.
+     *
      * @param ID
      * @return
      */

@@ -1,3 +1,7 @@
+/**
+ * Edit by EC.
+ */
+
 package utils;
 
 public class Database {

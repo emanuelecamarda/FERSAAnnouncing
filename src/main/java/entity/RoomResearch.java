@@ -11,16 +11,6 @@ public class RoomResearch extends Research {
     private Boolean onlyMale;
 
     public RoomResearch(String city, Double priceMin, Double priceMax, Double size, GregorianCalendar date,
-                        Boolean favorite, User user, Integer ID, Integer roomersNumberMax, Boolean privateBathroom,
-                        Boolean onlyFemale, Boolean onlyMale) {
-        super(city, priceMin, priceMax, size, date, favorite, user, ID);
-        this.roomersNumberMax = roomersNumberMax;
-        this.privateBathroom = privateBathroom;
-        this.onlyFemale = onlyFemale;
-        this.onlyMale = onlyMale;
-    }
-
-    public RoomResearch(String city, Double priceMin, Double priceMax, Double size, GregorianCalendar date,
                         Boolean favorite, User user, Integer roomersNumberMax, Boolean privateBathroom,
                         Boolean onlyFemale, Boolean onlyMale) {
         super(city, priceMin, priceMax, size, date, favorite, user);

@@ -3,6 +3,7 @@ package dao;
 import entity.User;
 import exception.EntityAlreadyExistException;
 import exception.EntityNotExistException;
+import factory.UserFactory;
 
 import java.sql.*;
 
@@ -37,8 +38,7 @@ public class UserDao {
             String email = rs.getString("email");
             Character gender = rs.getString("gender").toCharArray()[0];
 
-            u = new User(nicknameLoaded, nome, cognome, email, "");
-            u.setGender(gender);
+            u = UserFactory.getUser(nicknameLoaded, nome, cognome, email, "", gender);
 
             rs.close();
             stmt.close();
@@ -85,8 +85,7 @@ public class UserDao {
             ((PreparedStatement) stmt).setString(6, String.valueOf(gender));
             ((PreparedStatement) stmt).executeUpdate();
 
-            v = new User(nickname, nome, cognome, email, "");
-            v.setGender(gender);
+            v = UserFactory.getUser(nickname, nome, cognome, email, "", gender);
 
             stmt.close();
             conn.close();
@@ -134,8 +133,7 @@ public class UserDao {
             String email = rs.getString("email");
             Character gender = rs.getString("gender").toCharArray()[0];
 
-            u = new User(nicknameLoaded, nome, cognome, email, "");
-            u.setGender(gender);
+            u = UserFactory.getUser(nicknameLoaded, nome, cognome, email, "", gender);
 
             rs.close();
             stmt.close();

@@ -9,8 +9,5 @@
     - show research -- Ste
     - show annuncio  -- Ste
 - implementare le factory
-    - Research room -- Ema
-    - research apart -- Ema
-    - Users -- Ema
     - room -- Ste
     - apartm  -- Ste

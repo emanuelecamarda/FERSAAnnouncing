@@ -1,7 +1,12 @@
+/**
+ * Edit by EC.
+ */
+
 package dao;
 
 import entity.ApartmentResearch;
 import exception.EntityNotExistException;
+import factory.ResearchFactory;
 import utils.Database;
 import utils.Date;
 
@@ -99,22 +104,13 @@ public class ApartmentResearchDao {
 
             result.first();
 
-            apartmentResearch = new ApartmentResearch();
-            apartmentResearch.setID(result.getInt("ID"));
-            apartmentResearch.setCity(result.getString("city"));
-            apartmentResearch.setPriceMin(result.getDouble("priceMin"));
-            apartmentResearch.setPriceMax(result.getDouble("priceMax"));
-            apartmentResearch.setSize(result.getDouble("size"));
-            apartmentResearch.setFavorite(result.getBoolean("favorite"));
-            apartmentResearch.setUser(userDao.findByNickname(result.getString("user")));
-            apartmentResearch.setSorting(result.getString("sorting"));
-            apartmentResearch.setLocalsMin(result.getInt("localsMin"));
-            apartmentResearch.setLocalsMax(result.getInt("localsMax"));
-            apartmentResearch.setFurnished(result.getBoolean("furnished"));
-            apartmentResearch.setBathroomNumberMin(result.getInt("bathroomNumberMin"));
-            apartmentResearch.setBedsNumberMin(result.getInt("bedsNumberMin"));
-            apartmentResearch.setBedsNumberMax(result.getInt("bedsNumberMax"));
-            apartmentResearch.setDate(Date.stringToGregorianCalendar(result.getString("date")));
+            apartmentResearch = (ApartmentResearch) ResearchFactory.getApartmentResearch(result.getInt("ID"),
+                    result.getString("city"), result.getDouble("priceMin"), result.getDouble("priceMax"),
+                    result.getDouble("size"), Date.stringToGregorianCalendar(result.getString("date")),
+                    result.getBoolean("favorite"), userDao.findByNickname(result.getString("user")),
+                    result.getString("sorting"), result.getInt("localsMin"), result.getInt("localsMax"),
+                    result.getBoolean("furnished"), result.getInt("bathroomNumberMin"),
+                    result.getInt("bedsNumberMin"), result.getInt("bedsNumberMax"));
 
             result.close();
             stmt.close();

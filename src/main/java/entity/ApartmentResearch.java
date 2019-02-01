@@ -13,19 +13,6 @@ public class ApartmentResearch extends Research {
     private Integer bedsNumberMax;
 
     public ApartmentResearch(String city, Double priceMin, Double priceMax, Double size, GregorianCalendar date,
-                             Boolean favorite, User user, Integer ID, Integer localsMin, Integer localsMax,
-                             Boolean furnished, Integer bathroomNumberMin, Integer bedsNumberMin,
-                             Integer bedsNumberMax) {
-        super(city, priceMin, priceMax, size, date, favorite, user, ID);
-        this.localsMin = localsMin;
-        this.localsMax = localsMax;
-        this.furnished = furnished;
-        this.bathroomNumberMin = bathroomNumberMin;
-        this.bedsNumberMin = bedsNumberMin;
-        this.bedsNumberMax = bedsNumberMax;
-    }
-
-    public ApartmentResearch(String city, Double priceMin, Double priceMax, Double size, GregorianCalendar date,
                              Boolean favorite, User user, Integer localsMin, Integer localsMax, Boolean furnished,
                              Integer bathroomNumberMin, Integer bedsNumberMin, Integer bedsNumberMax) {
         super(city, priceMin, priceMax, size, date, favorite, user);

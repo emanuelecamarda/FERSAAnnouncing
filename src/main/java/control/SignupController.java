@@ -4,18 +4,9 @@ import dao.UserDao;
 
 public class SignupController {
 
-    private static UserDao userDao = null;
-    private static SignupController istance;
+    private UserDao userDao = new UserDao();
 
-    private SignupController(){}
-
-    public static SignupController getIstance() {
-        if (istance == null) {
-            istance = new SignupController();
-            userDao = new UserDao();
-        }
-        return istance;
-    }
+    public SignupController(){}
 
     public void signup(String nickname, String nome , String cognome , String email , String password ,
                        Character gender) {

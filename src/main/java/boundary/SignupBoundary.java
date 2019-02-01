@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 
 public class SignupBoundary {
 
-    private SignupController signupController = SignupController.getIstance();
+    private SignupController signupController = new SignupController();
 
     @FXML
     private TextField nicknameField;

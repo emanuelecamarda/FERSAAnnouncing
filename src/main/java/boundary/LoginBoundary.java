@@ -15,7 +15,7 @@ import utils.JavaFx;
 
 public class LoginBoundary {
 
-    private LoginController loginController = LoginController.getInstance();
+    private LoginController loginController = new LoginController();
 
     @FXML
     private TextField nicknameField;

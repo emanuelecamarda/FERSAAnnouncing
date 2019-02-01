@@ -6,18 +6,9 @@ import exception.EntityNotExistException;
 
 public class LoginController {
 
-    private static LoginController instance = null;
-    private static UserDao userdao = null;
+    private UserDao userdao = new UserDao();
 
-    private LoginController() {}
-
-    public static LoginController getInstance() {
-        if (instance == null) {
-            instance = new LoginController();
-            userdao = new UserDao();
-        }
-        return instance;
-    }
+    public LoginController() {}
 
     public User login(String nickname, String password) throws EntityNotExistException {
         return userdao.findByNicknameAndPassword(nickname, password);
