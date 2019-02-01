@@ -24,7 +24,7 @@ public class JavaFx {
         stage.setTitle(title);
         stage.setScene(new Scene(root, 1000, 650));
         stage.setResizable(false);
-//        stage.show();
+        stage.show();
         return loader;
     }
 }

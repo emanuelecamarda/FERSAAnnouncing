@@ -23,19 +23,14 @@ public class UserProfileBoundary {
     @FXML
     private Label genderField;
 
-    public User getUserLogged() {
-        return userLogged;
-    }
-
-    public void setUserLogged(User userLogged) {
+    public void initData(User userLogged) {
         this.userLogged = userLogged;
-    }
-
-    public void initialize() {
         nicknameField.setText(userLogged.getNickname());
         nameField.setText(userLogged.getName());
         surnameField.setText(userLogged.getSurname());
         emailField.setText(userLogged.getEmail());
         genderField.setText(userLogged.getGender().toString());
     }
+
+    public void initialize() {}
 }
