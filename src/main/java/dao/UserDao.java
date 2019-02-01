@@ -1,9 +1,7 @@
 package dao;
 
+import entity.Gender;
 import entity.User;
-import exception.EntityAlreadyExistException;
-import exception.EntityNotExistException;
-import factory.UserFactory;
 
 import java.sql.*;
 
@@ -11,24 +9,26 @@ public class UserDao {
 
     private DataSource ds = new DataSource();
 
-    public User findByNicknameAndPassword(String nickname, String password) throws EntityNotExistException {
-        Statement stmt = null;
+    public User findByNicknameAndPassword(String nickname, String password) {
+        PreparedStatement stmt = null;
         Connection conn = null;
         User u = null;
         try {
             conn = this.ds.getConnection();
 
-            if (findByNickname(nickname) == null)
-                throw new EntityNotExistException();
 
-            stmt = conn.prepareStatement("select * from \"public\".\"Users\" where \"nickname\" = ? " +
-                    "and \"password\" = ?;", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ((PreparedStatement) stmt).setString(1, nickname);
-            ((PreparedStatement) stmt).setString(2, password);
-            ResultSet rs = ((PreparedStatement) stmt).executeQuery();
+
+            stmt = conn.prepareStatement("select * from \"public\".\"Users\" " +
+                    "where \"nickname\" = ? and \"password\" = ?;", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            stmt.setString(1, nickname);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
 
             if (!rs.first()) // rs empty
                 return null;
+
+            boolean moreThanOne = rs.first() && rs.next();
+
 
             rs.first();
 
@@ -38,21 +38,23 @@ public class UserDao {
             String email = rs.getString("email");
             Character gender = rs.getString("gender").toCharArray()[0];
 
-            u = UserFactory.getUser(nicknameLoaded, nome, cognome, email, "", gender);
+
+
+            u = new User(nicknameLoaded, nome, cognome, email, "");
+            u.setGender(gender);
 
             rs.close();
             stmt.close();
             conn.close();
         } catch (SQLException se) {
             se.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
                 if (stmt != null)
                     stmt.close();
             } catch (SQLException se2) {
-                se2.printStackTrace();
             }
             try {
                 if (conn != null)
@@ -66,26 +68,44 @@ public class UserDao {
     }
 
     public User create(String nickname, String nome , String cognome , String email , String password , Character gender) {
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         Connection conn = null;
         User v = null;
         try {
             conn = this.ds.getConnection();
 
-            if (findByNickname(nickname) != null)
-                throw new EntityAlreadyExistException();
+
 
             stmt = conn.prepareStatement("insert into \"public\".\"Users\" (nickname , nome , cognome , email , password , gender) " +
                     "values (?,?,?,?,?,?);", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ((PreparedStatement) stmt).setString(1, nickname);
-            ((PreparedStatement) stmt).setString(2, nome);
-            ((PreparedStatement) stmt).setString(3, cognome);
-            ((PreparedStatement) stmt).setString(4, email);
-            ((PreparedStatement) stmt).setString(5, password);
-            ((PreparedStatement) stmt).setString(6, String.valueOf(gender));
-            ((PreparedStatement) stmt).executeUpdate();
+            stmt.setString(1, nickname);
+            stmt.setString(2, nome);
+            stmt.setString(3, cognome);
+            stmt.setString(4, email);
+            stmt.setString(5, password);
+            stmt.setString(6, String.valueOf(gender));
+            stmt.executeUpdate();
 
-            v = UserFactory.getUser(nickname, nome, cognome, email, "", gender);
+            //problema : questa query funziona ovvero inserisce nella tabella ho controllato solo che non ritorna nessun risultato
+            //ovvero rs è sempre vuoto quindi ho sempre un return null
+
+//            if (!rs.first()) // rs empty
+//                return null;
+
+            //boolean moreThanOne = rs.first() && rs.next();
+
+
+            //rs.first();
+
+//            String nome = rs.getString("nome");
+//            String cognome = rs.getString("cognome");
+//            String nicknameLoaded = rs.getString("nickname");
+//            String email = rs.getString("email");
+//            Character gender = rs.getString("gender").toCharArray()[0];
+
+
+            v = new User(nickname, nome, cognome, email, "");
+            v.setGender(gender);
 
             stmt.close();
             conn.close();
@@ -111,7 +131,7 @@ public class UserDao {
     }
 
     public User findByNickname(String nickname) {
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         Connection conn = null;
         User u = null;
         try {
@@ -119,8 +139,8 @@ public class UserDao {
 
             stmt = conn.prepareStatement("select * from \"public\".\"Users\" where \"nickname\" = ?;",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ((PreparedStatement) stmt).setString(1, nickname);
-            ResultSet rs = ((PreparedStatement) stmt).executeQuery();
+            stmt.setString(1, nickname);
+            ResultSet rs = stmt.executeQuery();
 
             if (!rs.first()) // rs empty
                 return null;
@@ -133,7 +153,8 @@ public class UserDao {
             String email = rs.getString("email");
             Character gender = rs.getString("gender").toCharArray()[0];
 
-            u = UserFactory.getUser(nicknameLoaded, nome, cognome, email, "", gender);
+            u = new User(nicknameLoaded, nome, cognome, email, "");
+            u.setGender(gender);
 
             rs.close();
             stmt.close();
@@ -159,48 +180,6 @@ public class UserDao {
         return u;
     }
 
-    /**
-     * Edit by EC.
-     * @param nickname
-     * @return
-     */
-    public Boolean delete(String nickname) {
-        Statement stmt = null;
-        Connection conn = null;
-        try {
-            conn = this.ds.getConnection();
-
-            if (findByNickname(nickname) == null)
-                throw new EntityNotExistException();
-
-            stmt = conn.prepareStatement("delete from \"public\".\"Users\" where \"nickname\" = ?;",
-                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ((PreparedStatement) stmt).setString(1, nickname);
-            ((PreparedStatement) stmt).executeUpdate();
-
-            stmt.close();
-            conn.close();
-            return Boolean.TRUE;
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null)
-                    stmt.close();
-            } catch (SQLException se2) {
-                se2.printStackTrace();
-            }
-            try {
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
-        }
-
-        return Boolean.FALSE;
-    }
-
 }
+
+
