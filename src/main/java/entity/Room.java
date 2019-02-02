@@ -20,6 +20,10 @@ public class Room extends Announce {
         this.roomers = roomers;
     }
 
+    public Room() {
+
+    }
+
     public int getRoomersNumber() {
         return roomersNumber;
     }

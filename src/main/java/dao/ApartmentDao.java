@@ -29,7 +29,7 @@ public class ApartmentDao {
 
 
 
-            a = new Apartment(locals , furnished , bathroomNumber , bedsNumber);
+            a = new Apartment();
 
             stmt.close();
             conn.close();

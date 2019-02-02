@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundary.UserProfileBoundary">
+<AnchorPane prefHeight="325.0" prefWidth="393.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boundary.UserProfileBoundary">
     <children>
-        <SplitPane dividerPositions="0.711484593837535" orientation="VERTICAL" prefHeight="359.0" prefWidth="395.0">
-            <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+      <VBox>
+         <children>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="228.0" prefWidth="393.0">
                     <children>
                         <GridPane alignment="center" hgap="10.0" vgap="10.0">
                             <padding>
@@ -24,7 +24,7 @@
                             </columnConstraints>
                             <children>
       
-                                            <!-- Add Header Label -->
+                                                  <!-- Add Header Label -->
                                 <Label text="USER PROFILE" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.rowSpan="1">
                                     <font>
                                         <Font name="Arial" size="24" />
@@ -34,15 +34,15 @@
                                     </GridPane.margin>
                                 </Label>
       
+                        
                   
-                  
-                                            <!-- Add Name Label -->
+                                                  <!-- Add Name Label -->
                                 <Label text="Nickname:  " GridPane.columnIndex="0" GridPane.rowIndex="1">
                                 </Label>
       
+                        
                   
-                  
-                                            <!-- Add Password Label -->
+                                                  <!-- Add Password Label -->
                                 <Label text="Name:  " GridPane.columnIndex="0" GridPane.rowIndex="2">
                                 </Label>
                         <Label fx:id="nicknameField" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -65,7 +65,7 @@
                         </GridPane>
                     </children>
                 </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="105.0" prefWidth="393.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="107.0" prefWidth="393.0">
                <children>
                   <GridPane prefHeight="99.0" prefWidth="393.0">
                     <columnConstraints>
@@ -105,7 +105,7 @@
                   </GridPane>
                </children>
                 </AnchorPane>
-            </items>
-        </SplitPane>
+         </children>
+      </VBox>
     </children>
 </AnchorPane>

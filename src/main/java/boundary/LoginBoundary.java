@@ -3,12 +3,14 @@ package boundary;
 import control.LoginController;
 import entity.User;
 import exception.EntityNotExistException;
+import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import utils.JavaFx;
@@ -22,6 +24,15 @@ public class LoginBoundary {
 
     @FXML
     private TextField passwordField;
+
+    @FXML
+    private Button loginButton;
+
+    @FXML
+    public void initialize() {
+        BooleanBinding booleanBind = nicknameField.textProperty().isEmpty().or(passwordField.textProperty().isEmpty());
+        loginButton.disableProperty().bind(booleanBind);
+    }
 
     @FXML
     public void login() {
@@ -53,7 +64,7 @@ public class LoginBoundary {
     @FXML
     public void changeSignup() {
         try {
-            JavaFx.loadNewScene((Stage) nicknameField.getScene().getWindow(), "/standAlone/sigup.fxml",
+            JavaFx.loadNewScene((Stage) nicknameField.getScene().getWindow(), "/standAlone/signup.fxml",
                     "Signup");
         } catch (Exception e) {
             e.printStackTrace();

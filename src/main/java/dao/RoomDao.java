@@ -30,7 +30,7 @@ public class RoomDao {
 
 
 
-            z = new Room(roomersNumber , privateBathroom , roomers);
+            z = new Room();
 
             stmt.close();
             conn.close();

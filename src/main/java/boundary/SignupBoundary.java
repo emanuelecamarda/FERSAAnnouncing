@@ -3,7 +3,8 @@ package boundary;
 import control.SignupController;
 import entity.User;
 import exception.EntityAlreadyExistException;
-import exception.EntityNotExistException;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -46,6 +47,12 @@ public class SignupBoundary {
         ObservableList<String> genders =
                 FXCollections.observableArrayList("Male", "Female");
         genderField.setItems(genders);
+        // Disable button if one textfield is empty
+        BooleanBinding booleanBind = nicknameField.textProperty().isEmpty().or(nameField.textProperty().isEmpty())
+                .or(surnameField.textProperty().isEmpty()).or(emailField.textProperty().isEmpty())
+                .or(passwordField.textProperty().isEmpty()).or(genderField.valueProperty().isNull());
+        submitButton.disableProperty().bind(booleanBind);
+
     }
 
     @FXML
