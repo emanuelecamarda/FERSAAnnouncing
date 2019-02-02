@@ -4,6 +4,14 @@
 
 package utils;
 
+import dao.ApartmentDao;
+import dao.ApartmentResearchDao;
+import dao.RoomDao;
+import dao.RoomResearchDao;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Database {
 
     private static Database instance;
@@ -18,7 +26,7 @@ public class Database {
     public static Database getInstance(){
         if(instance == null){
             instance = new Database();
-            countID = 0;
+            countID = getMaxID();
         }
         return instance;
     }
@@ -34,5 +42,25 @@ public class Database {
 
     public void increaseID() {
         countID++;
+    }
+
+    public static Integer getMaxID() {
+        Integer ID = 0;
+        List<Integer> maxIDs = new ArrayList<>();
+        RoomResearchDao roomResearchDao = new RoomResearchDao();
+        ApartmentResearchDao apartmentResearchDao = new ApartmentResearchDao();
+        RoomDao roomDao = new RoomDao();
+        ApartmentDao apartmentDao = new ApartmentDao();
+
+        maxIDs.add(roomResearchDao.getMaxID());
+        maxIDs.add(apartmentResearchDao.getMaxID());
+        maxIDs.add(roomDao.getMaxID());
+        maxIDs.add(apartmentDao.getMaxID());
+
+        for (Integer i : maxIDs) {
+            if (i > ID)
+                ID = i;
+        }
+        return ID;
     }
 }
