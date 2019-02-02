@@ -48,6 +48,10 @@ public class LoginBoundary {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void changeSignup() {
 
     }
 }
