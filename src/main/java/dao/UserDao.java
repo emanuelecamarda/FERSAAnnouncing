@@ -2,6 +2,7 @@ package dao;
 
 import entity.Gender;
 import entity.User;
+import exception.EntityAlreadyExistException;
 import exception.EntityNotExistException;
 import factory.UserFactory;
 
@@ -68,14 +69,16 @@ public class UserDao {
         return u;
     }
 
-    public User create(String nickname, String nome , String cognome , String email , String password , Character gender) {
+    public User create(String nickname, String nome , String cognome , String email , String password ,
+                       Character gender) throws EntityAlreadyExistException{
         PreparedStatement stmt = null;
         Connection conn = null;
         User v = null;
         try {
             conn = this.ds.getConnection();
 
-
+            if (findByNickname(nickname) != null)
+                throw new EntityAlreadyExistException();
 
             stmt = conn.prepareStatement("insert into \"public\".\"Users\" (nickname , nome , cognome , email , password , gender) " +
                     "values (?,?,?,?,?,?);", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);

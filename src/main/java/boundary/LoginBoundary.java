@@ -52,6 +52,11 @@ public class LoginBoundary {
 
     @FXML
     public void changeSignup() {
-
+        try {
+            JavaFx.loadNewScene((Stage) nicknameField.getScene().getWindow(), "/standAlone/sigup.fxml",
+                    "Signup");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
