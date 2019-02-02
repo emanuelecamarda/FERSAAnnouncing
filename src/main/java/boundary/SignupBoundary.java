@@ -1,9 +1,12 @@
+/**
+ * Edit by EC
+ */
+
 package boundary;
 
 import control.SignupController;
 import entity.User;
 import exception.EntityAlreadyExistException;
-import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

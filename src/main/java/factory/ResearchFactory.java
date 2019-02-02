@@ -18,11 +18,11 @@ public class ResearchFactory {
         return null;
     }
 
-    public static Research getApartmentResearch(Integer ID, String city, Double priceMin, Double priceMax, Double size,
-                                                GregorianCalendar date, Boolean favorite, User user, String sorting,
-                                                Integer localsMin, Integer localsMax, Boolean furnished,
-                                                Integer bathroomNumberMin, Integer bedsNumberMin,
-                                                Integer bedsNumberMax) {
+    public static ApartmentResearch getApartmentResearch(Integer ID, String city, Double priceMin, Double priceMax, Double size,
+                                                         GregorianCalendar date, Boolean favorite, User user, String sorting,
+                                                         Integer localsMin, Integer localsMax, Boolean furnished,
+                                                         Integer bathroomNumberMin, Integer bedsNumberMin,
+                                                         Integer bedsNumberMax) {
         ApartmentResearch apartmentResearch = new ApartmentResearch(city, priceMin, priceMax, size, date, favorite,
                 user, localsMin, localsMax, furnished, bathroomNumberMin, bedsNumberMin, bedsNumberMax);
         apartmentResearch.setSorting(sorting);

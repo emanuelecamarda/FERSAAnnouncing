@@ -1,3 +1,7 @@
+/**
+ * Edit by EC
+ */
+
 package boundary;
 
 import entity.Sorting;
@@ -33,11 +37,18 @@ public class ApartmentResearchBoundary {
         sortingField.setItems(sortings);
         // Disable button if necessary field is empty
         BooleanBinding booleanBind = cityField.textProperty().isEmpty().or(priceMinField.textProperty().isEmpty())
-                .or(priceMaxField.textProperty().isEmpty()).or(sizeField.textProperty().isEmpty());
+                .or(priceMaxField.textProperty().isEmpty()).or(sizeField.textProperty().isEmpty())
+                .or(sortingField.valueProperty().isNull());
         button.disableProperty().bind(booleanBind);
     }
 
     public void initData(User userLogged) {
         this.userLogged = userLogged;
+    }
+
+    public void newApartmentResearch() {
+
+        //TODO gestire gli input e richiamare il controllore per effettuare una nuova ricerca. In seguito cambiare scena
+
     }
 }

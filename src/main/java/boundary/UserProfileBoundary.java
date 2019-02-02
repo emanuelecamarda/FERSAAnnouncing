@@ -1,7 +1,9 @@
+/**
+ * Edit by EC
+ */
+
 package boundary;
 
-import entity.Apartment;
-import entity.ApartmentResearch;
 import entity.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
