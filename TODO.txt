@@ -1,5 +1,4 @@
 - Finire CRUD Room e Apartment -- Ste
-- inizializzazione count di Database  -- Ema
 - creare thread per gestione annunci vecchi
 - finire di creare le interfacce
     - favorite -- Ema

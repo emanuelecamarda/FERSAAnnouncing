@@ -2,6 +2,8 @@ package dao;
 
 import entity.Gender;
 import entity.User;
+import exception.EntityNotExistException;
+import factory.UserFactory;
 
 import java.sql.*;
 
@@ -32,16 +34,15 @@ public class UserDao {
 
             rs.first();
 
-            String nome = rs.getString("nome");
-            String cognome = rs.getString("cognome");
+            String name = rs.getString("nome");
+            String surname = rs.getString("cognome");
             String nicknameLoaded = rs.getString("nickname");
             String email = rs.getString("email");
             Character gender = rs.getString("gender").toCharArray()[0];
 
 
 
-            u = new User(nicknameLoaded, nome, cognome, email, "");
-            u.setGender(gender);
+            u = UserFactory.getUser(nicknameLoaded, name, surname, email, "", gender);
 
             rs.close();
             stmt.close();
@@ -86,26 +87,7 @@ public class UserDao {
             stmt.setString(6, String.valueOf(gender));
             stmt.executeUpdate();
 
-            //problema : questa query funziona ovvero inserisce nella tabella ho controllato solo che non ritorna nessun risultato
-            //ovvero rs è sempre vuoto quindi ho sempre un return null
-
-//            if (!rs.first()) // rs empty
-//                return null;
-
-            //boolean moreThanOne = rs.first() && rs.next();
-
-
-            //rs.first();
-
-//            String nome = rs.getString("nome");
-//            String cognome = rs.getString("cognome");
-//            String nicknameLoaded = rs.getString("nickname");
-//            String email = rs.getString("email");
-//            Character gender = rs.getString("gender").toCharArray()[0];
-
-
-            v = new User(nickname, nome, cognome, email, "");
-            v.setGender(gender);
+            v = UserFactory.getUser(nickname, nome, cognome, email, "", gender);
 
             stmt.close();
             conn.close();
@@ -180,7 +162,49 @@ public class UserDao {
         return u;
     }
 
+    /**
+     * Edit by EC.
+     *
+     * @param nickname
+     * @return
+     */
+    public Boolean delete(String nickname) {
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        try {
+            conn = this.ds.getConnection();
+
+            if (findByNickname(nickname) == null)
+                throw new EntityNotExistException();
+
+            stmt = conn.prepareStatement("delete from \"public\".\"Users\" where \"nickname\" = ?;",
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            stmt.setString(1, nickname);
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+            return Boolean.TRUE;
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException se2) {
+                se2.printStackTrace();
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+
+        return Boolean.FALSE;
+    }
 
 }
-
-
