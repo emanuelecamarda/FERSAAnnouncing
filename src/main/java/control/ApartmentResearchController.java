@@ -8,10 +8,12 @@ import dao.ApartmentDao;
 import dao.ApartmentResearchDao;
 import entity.Apartment;
 import entity.ApartmentResearch;
+import entity.Sorting;
 import entity.User;
 import exception.CreationFailedException;
 import factory.ResearchFactory;
 
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class ApartmentResearchController {
     private ApartmentResearchDao apartmentResearchDao = new ApartmentResearchDao();
     private ApartmentDao apartmentDao = new ApartmentDao();
 
-    public List<Apartment> newApartmentResearch(Integer ID, String city, Double priceMin, Double priceMax, Double size,
+    public List<Apartment> newApartmentResearch(String city, Double priceMin, Double priceMax, Double size,
                                                 Boolean favorite, User user, String sorting,
                                                 Integer localsMin, Integer localsMax, Boolean furnished,
                                                 Integer bathroomNumberMin, Integer bedsNumberMin,
@@ -37,6 +39,10 @@ public class ApartmentResearchController {
             throw new CreationFailedException();
 
         List<Apartment> apartments = apartmentDao.findByCondition(apartmentResearch);
+        if (apartmentResearch.getSorting().equals(Sorting.moreRecent))
+            Collections.sort(apartments, Collections.reverseOrder());
+        if (apartmentResearch.getSorting().equals(Sorting.lessRecent))
+            Collections.sort(apartments);
         return apartments;
     }
 }

@@ -3,9 +3,11 @@
 - finire di creare le interfacce
     - favorite -- Ema
     - recent -- Ema
-    - new research -- Ema
     - show research -- Ste
     - show annuncio  -- Ste
 - implementare le factory
     - room -- Ste
     - apartm  -- Ste
+
+
+- implementare logout e "ritorna al profilo"

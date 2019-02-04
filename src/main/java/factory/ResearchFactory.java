@@ -30,10 +30,10 @@ public class ResearchFactory {
         return apartmentResearch;
     }
 
-    public static Research getRommResearch(Integer ID, String city, Double priceMin, Double priceMax, Double size,
-                                           GregorianCalendar date, Boolean favorite, User user, String sorting,
-                                           Integer roomersNumberMax, Boolean privateBathroom, Boolean onlyFemale,
-                                           Boolean onlyMale) {
+    public static RoomResearch getRoomResearch(Integer ID, String city, Double priceMin, Double priceMax, Double size,
+                                               GregorianCalendar date, Boolean favorite, User user, String sorting,
+                                               Integer roomersNumberMax, Boolean privateBathroom, Boolean onlyFemale,
+                                               Boolean onlyMale) {
         RoomResearch roomResearch = new RoomResearch(city, priceMin, priceMax, size, date, favorite, user,
                 roomersNumberMax, privateBathroom, onlyFemale, onlyMale);
         roomResearch.setSorting(sorting);

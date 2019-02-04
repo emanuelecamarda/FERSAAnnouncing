@@ -2,7 +2,7 @@ package entity;
 
 import java.util.GregorianCalendar;
 
-public abstract class Announce {
+public abstract class Announce implements Comparable {
     protected int ID;
     protected String city;
     protected String address;
@@ -75,5 +75,18 @@ public abstract class Announce {
 
     public void setDate(GregorianCalendar date) {
         this.date = date;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.date.compareTo(((Announce) o).getDate());
     }
 }

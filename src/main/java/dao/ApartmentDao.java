@@ -2,7 +2,6 @@ package dao;
 
 import entity.Apartment;
 import entity.ApartmentResearch;
-import entity.Room;
 import entity.Sorting;
 import exception.EntityNotExistException;
 import factory.ApartmentFactory;
@@ -11,7 +10,6 @@ import utils.Date;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.locks.Condition;
 
 public class ApartmentDao {
 
@@ -209,8 +207,8 @@ public class ApartmentDao {
         List<Apartment> apartments = new ArrayList<>();
         int count = 6;
 
-        String query = "select * from \"public\".\"Apartment\" where \"city\" = ? and \"price\" >= ? " +
-                "and \"price\" <= ? and \"size\" >= ? and \"furnished\" = ?";
+        String query = "select * from \"public\".\"Apartment\" where \"available\" = true and \"city\" = ? " +
+                "and \"price\" >= ? and \"price\" <= ? and \"size\" >= ? and \"furnished\" = ?";
         if (apartmentResearch.getLocalsMin() != null)
             query += " and \"locals\" >= ?";
         if (apartmentResearch.getLocalsMax() != null)
@@ -311,6 +309,10 @@ public class ApartmentDao {
         return apartments;
     }
 
+    /**
+     * Edit by EC.
+     * @return
+     */
     public List<Apartment> findAll() {
         Statement stmt = null;
         Connection conn = null;

@@ -102,7 +102,7 @@ public class RoomResearchDao {
             ResultSet result = stmt.executeQuery();
 
             if (result.next() && roomResearch == null) {
-                roomResearch = (RoomResearch) ResearchFactory.getRommResearch(result.getInt("ID"),
+                roomResearch = (RoomResearch) ResearchFactory.getRoomResearch(result.getInt("ID"),
                         result.getString("city"), result.getDouble("priceMin"), result.getDouble("priceMax"),
                         result.getDouble("size"), Date.stringToGregorianCalendar(result.getString("date")),
                         result.getBoolean("favorite"), userDao.findByNickname(result.getString("user")),
