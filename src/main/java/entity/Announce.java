@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.GregorianCalendar;
+
 public abstract class Announce {
     protected int ID;
     protected String city;
@@ -8,8 +10,10 @@ public abstract class Announce {
     protected String description;
     protected double size;
     protected boolean available;
+    protected GregorianCalendar date;
+    protected User user;
 
-    public Announce(int ID , String city , String address , Double price , String description , double size , boolean available) {
+    public Announce(int ID , String city , String address , Double price , String description , double size , boolean available, GregorianCalendar date, User user) {
          this.ID = ID;
          this.city = city;
          this.address = address;
@@ -17,6 +21,8 @@ public abstract class Announce {
          this.description = description;
          this.size = size;
          this.available = available;
+         this.date = date;
+         this.user = user;
 
     }
 
@@ -62,4 +68,12 @@ public abstract class Announce {
 
     public boolean getavailable() {return  available;}
     public void  setAvailable(boolean available) {this.available = available;}
+
+    public GregorianCalendar getDate() {
+        return date;
+    }
+
+    public void setDate(GregorianCalendar date) {
+        this.date = date;
+    }
 }

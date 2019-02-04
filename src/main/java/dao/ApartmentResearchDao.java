@@ -29,12 +29,40 @@ public class ApartmentResearchDao {
         try {
             conn = this.ds.getConnection();
 
-            stmt = conn.prepareStatement("insert into \"public\".\"ApartmentResearch\" " +
-                            "(\"ID\", \"city\", \"priceMin\", \"priceMax\", \"size\", \"favorite\", \"user\", " +
-                            "\"sorting\", \"localsMin\", \"localsMax\", \"furnished\", \"bathroomNumberMin\", " +
-                            "\"bedsNumberMin\", \"bedsNumberMax\", \"date\") " +
-                            "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
-                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            Integer count = 0;
+            String query = "insert into \"public\".\"ApartmentResearch\" " +
+                    "(\"ID\", \"city\", \"priceMin\", \"priceMax\", \"size\", \"favorite\", \"user\", " +
+                    "\"sorting\", \"furnished\", \"date\"";
+
+            if (apartmentResearch.getLocalsMin() != null) {
+                query += ", \"localsMin\"";
+                count++;
+            }
+            if (apartmentResearch.getLocalsMax() != null) {
+                query += ", \"localsMax\"";
+                count++;
+            }
+            if (apartmentResearch.getBathroomNumberMin() != null) {
+                query += ", \"bathroomNumberMin\"";
+                count++;
+            }
+            if (apartmentResearch.getBedsNumberMin() != null) {
+                query += ", \"bedsNumberMin\"";
+                count++;
+            }
+            if (apartmentResearch.getBedsNumberMax() != null) {
+                query += ", \"bedsNumberMax\"";
+                count++;
+            }
+            query += ") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
+            for (int i = 0; i < count; i++) {
+                query += ", ?";
+            }
+            query += ");";
+            count = 1;
+
+
+            stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             Integer ID = database.getID();
             stmt.setInt(1, ID);
             stmt.setString(2, apartmentResearch.getCity());
@@ -44,13 +72,28 @@ public class ApartmentResearchDao {
             stmt.setBoolean(6, apartmentResearch.getFavorite());
             stmt.setString(7, apartmentResearch.getUser().getNickname());
             stmt.setString(8, apartmentResearch.getSorting().toString());
-            stmt.setInt(9, apartmentResearch.getLocalsMin());
-            stmt.setInt(10, apartmentResearch.getLocalsMax());
-            stmt.setBoolean(11, apartmentResearch.getFurnished());
-            stmt.setInt(12, apartmentResearch.getBathroomNumberMin());
-            stmt.setInt(13, apartmentResearch.getBedsNumberMin());
-            stmt.setInt(14, apartmentResearch.getBedsNumberMax());
-            stmt.setString(15, Date.gregorianCalendarToString(apartmentResearch.getDate()));
+            stmt.setBoolean(9, apartmentResearch.getFurnished());
+            stmt.setString(10, Date.gregorianCalendarToString(apartmentResearch.getDate()));
+            if (apartmentResearch.getLocalsMin() != null) {
+                stmt.setInt(10 + count, apartmentResearch.getLocalsMin());
+                count++;
+            }
+            if (apartmentResearch.getLocalsMax() != null) {
+                stmt.setInt(10 + count, apartmentResearch.getLocalsMax());
+                count++;
+            }
+            if (apartmentResearch.getBathroomNumberMin() != null) {
+                stmt.setInt(10 + count, apartmentResearch.getBathroomNumberMin());
+                count++;
+            }
+            if (apartmentResearch.getBedsNumberMin() != null) {
+                stmt.setInt(10 + count, apartmentResearch.getBedsNumberMin());
+                count++;
+            }
+            if (apartmentResearch.getBedsNumberMax() != null) {
+                stmt.setInt(10 + count, apartmentResearch.getBedsNumberMax());
+                count++;
+            }
 
             stmt.executeUpdate();
 

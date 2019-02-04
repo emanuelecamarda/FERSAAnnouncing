@@ -1,3 +1,4 @@
+import dao.ApartmentDao;
 import dao.ApartmentResearchDao;
 import dao.RoomResearchDao;
 import dao.UserDao;
@@ -36,6 +37,9 @@ public class Test {
             roomResearch.setSorting("moreRecent");
             roomResearch = roomResearchDao.create(roomResearch);
             System.out.println(roomResearchDao.findByID(roomResearch.getID()));
+
+            ApartmentDao apartmentDao = new ApartmentDao();
+            System.out.println(apartmentDao.findAll());
 
             apartmentResearchDao.delete(apartmentResearch.getID());
             roomResearchDao.delete(roomResearch.getID());

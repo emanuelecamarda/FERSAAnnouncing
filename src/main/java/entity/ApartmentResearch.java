@@ -82,7 +82,6 @@ public class ApartmentResearch extends Research {
                 "\ncity: " + this.city +
                 "\ndate: "  + Date.gregorianCalendarToString(this.date) +
                 "\nsorting: " + this.sorting +
-                "\nuser: " + this.user.getNickname() +
-                "\nsize: " + this.size + "\n";
+                "\nuser: " + this.user.getNickname() + "\n";
     }
 }

@@ -1,5 +1,8 @@
 package entity;
 
+import utils.Date;
+
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Room extends Announce {
@@ -7,8 +10,8 @@ public class Room extends Announce {
     private boolean privateBathroom;
     private List[] roomers;
 
-    public Room(int ID, String city, String address, Double price, String description, double size, boolean available, int roomersNumber, boolean privateBathroom, List[] roomers) {
-        super(ID, city, address, price, description, size, available);
+    public Room(int ID, String city, String address, Double price, String description, double size, boolean available, GregorianCalendar date, User user, int roomersNumber, boolean privateBathroom, List[] roomers) {
+        super(ID, city, address, price, description, size, available, date, user);
         this.roomersNumber = roomersNumber;
         this.privateBathroom = privateBathroom;
         this.roomers = roomers;
@@ -46,5 +49,16 @@ public class Room extends Announce {
 
     public void setRoomers(List[] roomers) {
         this.roomers = roomers;
+    }
+
+    @Override
+    public String toString() {
+        return "----- Room -----\n" +
+                "ID: " + this.ID +
+                "\ncity: " + this.city +
+                "\ndate: "  + Date.gregorianCalendarToString(this.date) +
+                "\nuser: " + this.user.getNickname() +
+                "\nsize: " + this.size +
+                "\nprice: " + this.price + "\n";
     }
 }

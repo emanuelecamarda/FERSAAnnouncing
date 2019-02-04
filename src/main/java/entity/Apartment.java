@@ -1,5 +1,9 @@
 package entity;
 
+import utils.Date;
+
+import java.util.GregorianCalendar;
+
 public class Apartment extends Announce {
     private int locals;
     private boolean furnished;
@@ -17,8 +21,8 @@ public class Apartment extends Announce {
 
     }*/
 
-    public Apartment(int ID, String city, String address, Double price, String description, double size, boolean available, int locals, boolean furnished, int bathroomNumber, int bedsNumber) {
-        super(ID, city, address, price, description, size, available);
+    public Apartment(int ID, String city, String address, Double price, String description, double size, boolean available, GregorianCalendar date, User user, int locals, boolean furnished, int bathroomNumber, int bedsNumber) {
+        super(ID, city, address, price, description, size, available, date, user);
         this.locals = locals;
         this.furnished = furnished;
         this.bathroomNumber = bathroomNumber;
@@ -80,6 +84,17 @@ public class Apartment extends Announce {
 
     public void setBedsNumber(int bedsNumber) {
         this.bedsNumber = bedsNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "----- Apartment -----\n" +
+                "ID: " + this.ID +
+                "\ncity: " + this.city +
+                "\ndate: "  + Date.gregorianCalendarToString(this.date) +
+                "\nuser: " + this.user.getNickname() +
+                "\nsize: " + this.size +
+                "\nprice: " + this.price + "\n";
     }
 }
 
