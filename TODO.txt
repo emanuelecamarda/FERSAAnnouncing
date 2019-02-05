@@ -11,3 +11,5 @@
 
 
 - implementare logout e "ritorna al profilo"
+- vedere i pattern
+- dividere i test con junit

@@ -71,6 +71,19 @@ public class RoomResearchBoundary {
             Integer roomersNumberMax = JavaFx.integerTextFieldCheck(roomersNumberMaxField, errorField, "Error! Roomers Number's Max must be a integer " +
                     "number");
 
+            if (priceMin > priceMax) {
+                errorField.setText("Price Max must be greater then Price Min");
+                priceMinField.clear();
+                priceMaxField.clear();
+                throw new InvalidInputException();
+            }
+            if (onlyMaleCheck.isSelected() && onlyFemaleCheck.isSelected()) {
+                errorField.setText("Select only one between \"Only Male\" and \"Only Female\"");
+                onlyFemaleCheck.setSelected(false);
+                onlyMaleCheck.setSelected(false);
+                throw new InvalidInputException();
+            }
+
             List<Room> rooms = roomResearchController.newRoomResearch(cityField.getText(), priceMin, priceMax, size, favoriteCheck.isSelected(), userLogged, sortingField.getValue().toString(), privateBathroomCheck.isSelected(), roomersNumberMax, onlyFemaleCheck.isSelected(), onlyMaleCheck.isSelected());
 
             System.out.println(rooms);

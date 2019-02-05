@@ -3,6 +3,7 @@ package dao;
 import entity.Apartment;
 import entity.ApartmentResearch;
 import entity.Sorting;
+import entity.User;
 import exception.EntityNotExistException;
 import factory.ApartmentFactory;
 import utils.Date;

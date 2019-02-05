@@ -74,4 +74,25 @@ public class UserProfileBoundary {
             e.printStackTrace();
         }
     }
+
+    public void changeFavorite() {
+        try {
+            Stage stage = (Stage) nicknameField.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(JavaFx.class.getResource("/standAlone/favorite.fxml"));
+            Parent root = loader.load();
+            FavoriteBoundary favoriteBoundary = loader.getController();
+            favoriteBoundary.initData(userLogged);
+            stage.setTitle("Room Research");
+            stage.setScene(new Scene(root, 1000, 650));
+            stage.setResizable(false);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeRecent() {
+
+    }
+
 }

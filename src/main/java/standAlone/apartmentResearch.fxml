@@ -71,7 +71,7 @@
             </AnchorPane>
             <AnchorPane prefHeight="47.0" prefWidth="600.0">
                <children>
-                  <Label fx:id="errorField" alignment="CENTER" contentDisplay="CENTER" textFill="#f80101" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="5.0">
+                  <Label fx:id="errorField" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" prefHeight="19.0" prefWidth="627.0" textFill="#f80101" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="5.0">
                      <font>
                         <Font size="15.0" />
                      </font>

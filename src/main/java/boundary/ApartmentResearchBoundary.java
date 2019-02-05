@@ -91,6 +91,29 @@ public class ApartmentResearchBoundary {
             Integer bedsNumberMax = JavaFx.integerTextFieldCheck(bedsNumberMaxField, errorField, "Error! Beds Max Number must be a " +
                     "integer number");
 
+            if (priceMin > priceMax) {
+                errorField.setText("Price Max must be greater then Price Min!");
+                priceMinField.clear();
+                priceMaxField.clear();
+                throw new InvalidInputException();
+            }
+            if (localsMin != null && localsMax != null) {
+                if (localsMin > localsMax) {
+                    errorField.setText("Locals Max must be greater then Locals Min!");
+                    localsMinField.clear();
+                    localsMaxField.clear();
+                    throw new InvalidInputException();
+                }
+            }
+            if (bedsNumberMin != null && bedsNumberMax != null) {
+                if (bedsNumberMin > bedsNumberMax) {
+                    errorField.setText("Beds Number Max must be greater then Beds Number Min!");
+                    bedsNumberMinField.clear();
+                    bedsNumberMaxField.clear();
+                    throw new InvalidInputException();
+                }
+            }
+
             List<Apartment> apartments = apartmentResearchController.newApartmentResearch(cityField.getText(), priceMin, priceMax, size, favoriteCheck.isSelected(), userLogged, sortingField.getValue().toString(), localsMin, localsMax, furnishedCheck.isSelected(), bathrommNumber, bedsNumberMin, bedsNumberMax);
 
             System.out.println(apartments);
