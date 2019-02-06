@@ -1,9 +1,8 @@
 package dao;
 
-import entity.Apartment;
+import entity.ApartmentAnnounce;
 import entity.ApartmentResearch;
 import entity.Sorting;
-import entity.User;
 import exception.EntityNotExistException;
 import factory.ApartmentFactory;
 import utils.Date;
@@ -17,10 +16,10 @@ public class ApartmentDao {
     private DataSource ds = new DataSource();
     private UserDao userDao = new UserDao();
 
-    public Apartment create(int locals, boolean furnished , int bathroomNumber , int bedsNumber) {
+    public synchronized ApartmentAnnounce create(int locals, boolean furnished , int bathroomNumber , int bedsNumber) {
         PreparedStatement stmt = null;
         Connection conn = null;
-        Apartment a = null;
+        ApartmentAnnounce a = null;
         try {
             conn = this.ds.getConnection();
 
@@ -36,7 +35,7 @@ public class ApartmentDao {
 
 
 
-            a = new Apartment();
+            a = new ApartmentAnnounce();
 
             stmt.close();
             conn.close();
@@ -61,10 +60,10 @@ public class ApartmentDao {
         return a;
     }
 
-    public Apartment findByID(Integer ID) {
+    public ApartmentAnnounce findByID(Integer ID) {
         PreparedStatement stmt = null;
         Connection conn = null;
-        Apartment apartment = null;
+        ApartmentAnnounce apartmentAnnounce = null;
 
         try {
             conn = this.ds.getConnection();
@@ -112,14 +111,16 @@ public class ApartmentDao {
             }
         }
 
-        return apartment;
+        return apartmentAnnounce;
     }
 
-    public Boolean delete(Integer ID) {
+    public synchronized Boolean delete(Integer ID) {
         PreparedStatement stmt = null;
         Connection conn = null;
         try {
             conn = this.ds.getConnection();
+            conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            conn.setAutoCommit(false);
 
             if (findByID(ID) == null)
                 throw new EntityNotExistException();
@@ -202,10 +203,10 @@ public class ApartmentDao {
      * @param apartmentResearch
      * @return
      */
-    public List<Apartment> findByCondition(ApartmentResearch apartmentResearch) {
+    public List<ApartmentAnnounce> findByCondition(ApartmentResearch apartmentResearch) {
         PreparedStatement stmt = null;
         Connection conn = null;
-        List<Apartment> apartments = new ArrayList<Apartment>();
+        List<ApartmentAnnounce> apartmentAnnounces = new ArrayList<ApartmentAnnounce>();
         int count = 6;
 
         String query = "select * from \"public\".\"Apartment\" where \"available\" = true and \"city\" = ? " +
@@ -268,7 +269,7 @@ public class ApartmentDao {
 
             result.first();
 
-            apartments.add((Apartment) ApartmentFactory.getApartment(result.getInt("ID"), result.getString("city"),
+            apartmentAnnounces.add((ApartmentAnnounce) ApartmentFactory.getApartment(result.getInt("ID"), result.getString("city"),
                     result.getString("address"), result.getDouble("price"), result.getString("description"),
                     result.getDouble("size"), result.getBoolean("available"),
                     Date.stringToGregorianCalendar(result.getString("date")),
@@ -277,7 +278,7 @@ public class ApartmentDao {
                     result.getInt("bedsNumber")));
 
             while (result.next()) {
-                apartments.add((Apartment) ApartmentFactory.getApartment(result.getInt("ID"), result.getString("city"),
+                apartmentAnnounces.add((ApartmentAnnounce) ApartmentFactory.getApartment(result.getInt("ID"), result.getString("city"),
                         result.getString("address"), result.getDouble("price"), result.getString("description"),
                         result.getDouble("size"), result.getBoolean("available"),
                         Date.stringToGregorianCalendar(result.getString("date")),
@@ -307,17 +308,17 @@ public class ApartmentDao {
             }
         }
 
-        return apartments;
+        return apartmentAnnounces;
     }
 
     /**
      * Edit by EC.
      * @return
      */
-    public List<Apartment> findAll() {
+    public List<ApartmentAnnounce> findAll() {
         Statement stmt = null;
         Connection conn = null;
-        List<Apartment> apartments = new ArrayList<>();
+        List<ApartmentAnnounce> apartmentAnnounces = new ArrayList<>();
 
         try {
             conn = this.ds.getConnection();
@@ -331,7 +332,7 @@ public class ApartmentDao {
 
             result.first();
 
-            apartments.add((Apartment) ApartmentFactory.getApartment(result.getInt("ID"), result.getString("city"),
+            apartmentAnnounces.add((ApartmentAnnounce) ApartmentFactory.getApartment(result.getInt("ID"), result.getString("city"),
                     result.getString("address"), result.getDouble("price"), result.getString("description"),
                     result.getDouble("size"), result.getBoolean("available"),
                     Date.stringToGregorianCalendar(result.getString("date")),
@@ -340,7 +341,7 @@ public class ApartmentDao {
                     result.getInt("bedsNumber")));
 
             while (result.next()) {
-                apartments.add((Apartment) ApartmentFactory.getApartment(result.getInt("ID"), result.getString("city"),
+                apartmentAnnounces.add((ApartmentAnnounce) ApartmentFactory.getApartment(result.getInt("ID"), result.getString("city"),
                         result.getString("address"), result.getDouble("price"), result.getString("description"),
                         result.getDouble("size"), result.getBoolean("available"),
                         Date.stringToGregorianCalendar(result.getString("date")),
@@ -370,7 +371,7 @@ public class ApartmentDao {
             }
         }
 
-        return apartments;
+        return apartmentAnnounces;
     }
 
 }

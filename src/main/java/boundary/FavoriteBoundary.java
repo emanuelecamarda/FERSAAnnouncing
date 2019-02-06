@@ -53,9 +53,9 @@ public class FavoriteBoundary {
         List<String> list = new ArrayList<>();
         for (Research r : this.favoriteResearches) {
             if (r.getClass().equals(ApartmentResearch.class))
-                list.add("Apartment Research ID: " + r.getID());
+                list.add("ApartmentAnnounce Research ID: " + r.getID());
             else
-                list.add("Room Research ID: " + r.getID());
+                list.add("RoomAnnounce Research ID: " + r.getID());
         }
         listView.setItems(FXCollections.observableArrayList(list));
         listView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {

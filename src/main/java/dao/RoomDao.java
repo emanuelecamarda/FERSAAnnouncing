@@ -2,9 +2,7 @@ package dao;
 
 import entity.*;
 import exception.EntityNotExistException;
-import factory.ApartmentFactory;
 import factory.RoomFactory;
-import utils.Date;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,10 +13,10 @@ public class RoomDao {
     private DataSource ds = new DataSource();
     private UserDao userDao = new UserDao();
 
-    public Room create(int roomersNumber, boolean privateBathroom , Array roomers) {
+    public synchronized RoomAnnounce create(int roomersNumber, boolean privateBathroom , Array roomers) {
         PreparedStatement stmt = null;
         Connection conn = null;
-        Room z = null;
+        RoomAnnounce z = null;
         try {
             conn = this.ds.getConnection();
 
@@ -33,7 +31,7 @@ public class RoomDao {
 
 
 
-            z = new Room();
+            z = new RoomAnnounce();
 
             stmt.close();
             conn.close();
@@ -110,7 +108,7 @@ public class RoomDao {
         return roomDao;
     }
 
-    public Boolean delete(Integer ID) {
+    public synchronized Boolean delete(Integer ID) {
         PreparedStatement stmt = null;
         Connection conn = null;
         try {
@@ -197,10 +195,10 @@ public class RoomDao {
      * @param roomResearch
      * @return
      */
-    public List<Room> findByCondition(RoomResearch roomResearch) {
+    public List<RoomAnnounce> findByCondition(RoomResearch roomResearch) {
         PreparedStatement stmt = null;
         Connection conn = null;
-        List<Room> rooms = new ArrayList<Room>();
+        List<RoomAnnounce> roomAnnounces = new ArrayList<RoomAnnounce>();
 
         String query = "select * from \"public\".\"Room\" where \"available\" = true and \"city\" = ? " +
                 "and \"price\" >= ? and \"price\" <= ? and \"size\" >= ? and \"privateBathroom\" = ?";
@@ -236,7 +234,7 @@ public class RoomDao {
 
             result.first();
 
-            rooms.add((Room) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
+            roomAnnounces.add((RoomAnnounce) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
                     result.getString("address"), result.getDouble("price"), result.getString("description"),
                     result.getDouble("size"), result.getBoolean("available"),
                     utils.Date.stringToGregorianCalendar(result.getString("date")),
@@ -244,7 +242,7 @@ public class RoomDao {
                     result.getBoolean("privateBathroom"), null));
 
             while (result.next()) {
-                rooms.add((Room) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
+                roomAnnounces.add((RoomAnnounce) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
                         result.getString("address"), result.getDouble("price"), result.getString("description"),
                         result.getDouble("size"), result.getBoolean("available"),
                         utils.Date.stringToGregorianCalendar(result.getString("date")),
@@ -273,17 +271,17 @@ public class RoomDao {
             }
         }
 
-        return rooms;
+        return roomAnnounces;
     }
 
     /**
      * Edit by EC.
      * @return
      */
-    public List<Room> findAll() {
+    public List<RoomAnnounce> findAll() {
         Statement stmt = null;
         Connection conn = null;
-        List<Room> rooms = new ArrayList<Room>();
+        List<RoomAnnounce> roomAnnounces = new ArrayList<RoomAnnounce>();
 
         try {
             conn = this.ds.getConnection();
@@ -297,7 +295,7 @@ public class RoomDao {
 
             result.first();
 
-            rooms.add((Room) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
+            roomAnnounces.add((RoomAnnounce) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
                     result.getString("address"), result.getDouble("price"), result.getString("description"),
                     result.getDouble("size"), result.getBoolean("available"),
                     utils.Date.stringToGregorianCalendar(result.getString("date")),
@@ -305,7 +303,7 @@ public class RoomDao {
                     result.getBoolean("privateBathroom"), null));
 
             while (result.next()) {
-                rooms.add((Room) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
+                roomAnnounces.add((RoomAnnounce) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
                         result.getString("address"), result.getDouble("price"), result.getString("description"),
                         result.getDouble("size"), result.getBoolean("available"),
                         utils.Date.stringToGregorianCalendar(result.getString("date")),
@@ -334,7 +332,7 @@ public class RoomDao {
             }
         }
 
-        return rooms;
+        return roomAnnounces;
     }
 
 

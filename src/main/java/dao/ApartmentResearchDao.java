@@ -4,19 +4,15 @@
 
 package dao;
 
-import entity.Apartment;
 import entity.ApartmentResearch;
-import entity.Research;
 import entity.User;
 import exception.EntityNotExistException;
-import factory.ApartmentFactory;
 import factory.ResearchFactory;
 import utils.Database;
 import utils.Date;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class ApartmentResearchDao {
@@ -29,7 +25,7 @@ public class ApartmentResearchDao {
      * @param apartmentResearch
      * @return
      */
-    public ApartmentResearch create(ApartmentResearch apartmentResearch) {
+    public synchronized ApartmentResearch create(ApartmentResearch apartmentResearch) {
         PreparedStatement stmt = null;
         Connection conn = null;
         Database database = Database.getInstance();
@@ -191,7 +187,7 @@ public class ApartmentResearchDao {
      * @param ID
      * @return
      */
-    public Boolean delete(Integer ID) throws EntityNotExistException {
+    public synchronized Boolean delete(Integer ID) throws EntityNotExistException {
         PreparedStatement stmt = null;
         Connection conn = null;
         try {
@@ -354,6 +350,69 @@ public class ApartmentResearchDao {
             stmt = conn.prepareStatement("select * from \"public\".\"ApartmentResearch\" where \"user\" = ?;",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ((PreparedStatement) stmt).setString(1, user.getNickname());
+            ResultSet result = ((PreparedStatement) stmt).executeQuery();
+
+            if (!result.first()) // rs empty
+                return null;
+
+            result.first();
+
+            apartmentResearches.add(ResearchFactory.getApartmentResearch(result.getInt("ID"),
+                    result.getString("city"), result.getDouble("priceMin"), result.getDouble("priceMax"),
+                    result.getDouble("size"), Date.stringToGregorianCalendar(result.getString("date")),
+                    result.getBoolean("favorite"), userDao.findByNickname(result.getString("user")),
+                    result.getString("sorting"), result.getInt("localsMin"), result.getInt("localsMax"),
+                    result.getBoolean("furnished"), result.getInt("bathroomNumberMin"),
+                    result.getInt("bedsNumberMin"), result.getInt("bedsNumberMax")));
+
+            while (result.next()) {
+                apartmentResearches.add(ResearchFactory.getApartmentResearch(result.getInt("ID"),
+                        result.getString("city"), result.getDouble("priceMin"), result.getDouble("priceMax"),
+                        result.getDouble("size"), Date.stringToGregorianCalendar(result.getString("date")),
+                        result.getBoolean("favorite"), userDao.findByNickname(result.getString("user")),
+                        result.getString("sorting"), result.getInt("localsMin"), result.getInt("localsMax"),
+                        result.getBoolean("furnished"), result.getInt("bathroomNumberMin"),
+                        result.getInt("bedsNumberMin"), result.getInt("bedsNumberMax")));
+            }
+
+            result.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException se2) {
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+
+        return apartmentResearches;
+    }
+
+    /**
+     * Edit by EC.
+     * @return
+     */
+    public List<ApartmentResearch> findAll() {
+        Statement stmt = null;
+        Connection conn = null;
+        List<ApartmentResearch> apartmentResearches = new ArrayList<>();
+
+        try {
+            conn = this.ds.getConnection();
+
+            stmt = conn.prepareStatement("select * from \"public\".\"ApartmentResearch\";",
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet result = ((PreparedStatement) stmt).executeQuery();
 
             if (!result.first()) // rs empty

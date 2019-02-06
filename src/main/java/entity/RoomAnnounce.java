@@ -5,25 +5,25 @@ import utils.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class Room extends Announce {
+public class RoomAnnounce extends Announce {
     private int roomersNumber;
     private boolean privateBathroom;
     private List[] roomers;
 
-    public Room(int ID, String city, String address, Double price, String description, double size, boolean available, GregorianCalendar date, User user, int roomersNumber, boolean privateBathroom, List[] roomers) {
+    public RoomAnnounce(int ID, String city, String address, Double price, String description, double size, boolean available, GregorianCalendar date, User user, int roomersNumber, boolean privateBathroom, List[] roomers) {
         super(ID, city, address, price, description, size, available, date, user);
         this.roomersNumber = roomersNumber;
         this.privateBathroom = privateBathroom;
         this.roomers = roomers;
     }
 
-    public Room(int roomersNumber, boolean privateBathroom, List[] roomers) {
+    public RoomAnnounce(int roomersNumber, boolean privateBathroom, List[] roomers) {
         this.roomersNumber = roomersNumber;
         this.privateBathroom = privateBathroom;
         this.roomers = roomers;
     }
 
-    public Room() {
+    public RoomAnnounce() {
 
     }
 
@@ -53,7 +53,7 @@ public class Room extends Announce {
 
     @Override
     public String toString() {
-        return "----- Room -----\n" +
+        return "----- RoomAnnounce -----\n" +
                 "ID: " + this.ID +
                 "\ncity: " + this.city +
                 "\ndate: "  + Date.gregorianCalendarToString(this.date) +

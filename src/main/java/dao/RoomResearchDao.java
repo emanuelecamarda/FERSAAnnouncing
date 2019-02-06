@@ -26,7 +26,7 @@ public class RoomResearchDao {
      * @param roomResearch
      * @return
      */
-    public RoomResearch create(RoomResearch roomResearch) {
+    public synchronized RoomResearch create(RoomResearch roomResearch) {
         PreparedStatement stmt = null;
         Connection conn = null;
         Database database = Database.getInstance();
@@ -140,7 +140,7 @@ public class RoomResearchDao {
      * @param ID
      * @return
      */
-    public Boolean delete(Integer ID) throws EntityNotExistException {
+    public synchronized Boolean delete(Integer ID) throws EntityNotExistException {
         PreparedStatement stmt = null;
         Connection conn = null;
         try {
@@ -304,6 +304,70 @@ public class RoomResearchDao {
             stmt = conn.prepareStatement("select * from \"public\".\"RoomResearch\" where \"user\" = ?;",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ((PreparedStatement) stmt).setString(1, user.getNickname());
+            ResultSet result = ((PreparedStatement) stmt).executeQuery();
+
+            if (!result.first()) // rs empty
+                return null;
+
+            result.first();
+
+            roomResearches.add(ResearchFactory.getRoomResearch(result.getInt("ID"),
+                    result.getString("city"), result.getDouble("priceMin"), result.getDouble("priceMax"),
+                    result.getDouble("size"), Date.stringToGregorianCalendar(result.getString("date")),
+                    result.getBoolean("favorite"), userDao.findByNickname(result.getString("user")),
+                    result.getString("sorting"), result.getInt("roomersNumberMax"),
+                    result.getBoolean("privateBathroom"), result.getBoolean("onlyFemale"),
+                    result.getBoolean("onlyMale")));
+
+
+            while (result.next()) {
+                roomResearches.add(ResearchFactory.getRoomResearch(result.getInt("ID"),
+                        result.getString("city"), result.getDouble("priceMin"), result.getDouble("priceMax"),
+                        result.getDouble("size"), Date.stringToGregorianCalendar(result.getString("date")),
+                        result.getBoolean("favorite"), userDao.findByNickname(result.getString("user")),
+                        result.getString("sorting"), result.getInt("roomersNumberMax"),
+                        result.getBoolean("privateBathroom"), result.getBoolean("onlyFemale"),
+                        result.getBoolean("onlyMale")));
+            }
+
+            result.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException se2) {
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+
+        return roomResearches;
+    }
+
+    /**
+     * Edit by EC.
+     * @return
+     */
+    public List<RoomResearch> findAll() {
+        Statement stmt = null;
+        Connection conn = null;
+        List<RoomResearch> roomResearches = new ArrayList<>();
+
+        try {
+            conn = this.ds.getConnection();
+
+            stmt = conn.prepareStatement("select * from \"public\".\"RoomResearch\";",
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet result = ((PreparedStatement) stmt).executeQuery();
 
             if (!result.first()) // rs empty

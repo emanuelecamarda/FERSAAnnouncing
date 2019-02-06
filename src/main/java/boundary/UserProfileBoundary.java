@@ -50,7 +50,7 @@ public class UserProfileBoundary {
             Parent root = loader.load();
             ApartmentResearchBoundary apartmentResearchBoundary = loader.getController();
             apartmentResearchBoundary.initData(userLogged);
-            stage.setTitle("Apartment Research");
+            stage.setTitle("ApartmentAnnounce Research");
             stage.setScene(new Scene(root, 1000, 650));
             stage.setResizable(false);
             stage.show();
@@ -66,7 +66,7 @@ public class UserProfileBoundary {
             Parent root = loader.load();
             RoomResearchBoundary roomResearchBoundary = loader.getController();
             roomResearchBoundary.initData(userLogged);
-            stage.setTitle("Room Research");
+            stage.setTitle("RoomAnnounce Research");
             stage.setScene(new Scene(root, 1000, 650));
             stage.setResizable(false);
             stage.show();
@@ -82,7 +82,7 @@ public class UserProfileBoundary {
             Parent root = loader.load();
             FavoriteBoundary favoriteBoundary = loader.getController();
             favoriteBoundary.initData(userLogged);
-            stage.setTitle("Room Research");
+            stage.setTitle("RoomAnnounce Research");
             stage.setScene(new Scene(root, 1000, 650));
             stage.setResizable(false);
             stage.show();
@@ -92,7 +92,7 @@ public class UserProfileBoundary {
     }
 
     public void changeRecent() {
-
+        //TODO
     }
 
 }

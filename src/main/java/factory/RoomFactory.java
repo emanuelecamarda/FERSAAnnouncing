@@ -1,7 +1,7 @@
 package factory;
 
 import entity.Announce;
-import entity.Room;
+import entity.RoomAnnounce;
 import entity.User;
 
 import java.util.GregorianCalendar;
@@ -14,7 +14,7 @@ public class RoomFactory {
     public static Announce getRoom (int ID, String city, String address, Double price, String description, double size, boolean available,
                                     GregorianCalendar date, User user, int roomersNumber, boolean privateBathroom, List[] roomers){
 
-        Room room = new Room(ID ,city, address, price, description, size, available, date, user, roomersNumber, privateBathroom, roomers);
-        return room;
+        RoomAnnounce roomAnnounce = new RoomAnnounce(ID ,city, address, price, description, size, available, date, user, roomersNumber, privateBathroom, roomers);
+        return roomAnnounce;
     }
 }

@@ -69,7 +69,7 @@ public class UserDao {
         return u;
     }
 
-    public User create(String nickname, String nome , String cognome , String email , String password ,
+    public synchronized User create(String nickname, String nome , String cognome , String email , String password ,
                        Character gender) throws EntityAlreadyExistException{
         PreparedStatement stmt = null;
         Connection conn = null;
@@ -171,7 +171,7 @@ public class UserDao {
      * @param nickname
      * @return
      */
-    public Boolean delete(String nickname) {
+    public synchronized Boolean delete(String nickname) {
         PreparedStatement stmt = null;
         Connection conn = null;
         try {

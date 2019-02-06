@@ -6,16 +6,11 @@ package boundary;
 
 import bean.ApartmentResearchBean;
 import control.ApartmentResearchController;
-import dao.ApartmentResearchDao;
-import entity.Apartment;
 import entity.Sorting;
 import entity.User;
-import exception.CreationFailedException;
 import exception.EntityNotExistException;
 import exception.InvalidInputException;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,7 +19,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.util.converter.IntegerStringConverter;
 import utils.JavaFx;
 
 import java.io.IOException;

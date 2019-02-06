@@ -1,14 +1,9 @@
 package boundary;
 
-import bean.ApartmentResearchBean;
 import bean.RoomResearchBean;
-import control.ApartmentResearchController;
 import control.RoomResearchController;
-import entity.Apartment;
-import entity.Room;
 import entity.Sorting;
 import entity.User;
-import exception.CreationFailedException;
 import exception.EntityNotExistException;
 import exception.InvalidInputException;
 import javafx.beans.binding.BooleanBinding;

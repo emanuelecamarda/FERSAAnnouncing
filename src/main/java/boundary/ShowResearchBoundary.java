@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import utils.JavaFx;
@@ -43,10 +42,10 @@ public class ShowResearchBoundary {
         }
         List<String> list = new ArrayList<>();
         for (Announce r : announces) {
-            if (r.getClass().equals(Apartment.class))
-                list.add("Apartment ID: " + r.getID());
+            if (r.getClass().equals(ApartmentAnnounce.class))
+                list.add("ApartmentAnnounce ID: " + r.getID());
             else
-                list.add("Room ID: " + r.getID());
+                list.add("RoomAnnounce ID: " + r.getID());
         }
         announceList.setItems(FXCollections.observableArrayList(list));
 
