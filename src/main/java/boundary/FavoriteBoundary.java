@@ -8,6 +8,7 @@ import bean.RoomResearchBean;
 import control.DeleteResearchController;
 import control.FavoriteController;
 import entity.*;
+import exception.EntityNotExistException;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -121,6 +122,7 @@ public class FavoriteBoundary {
         otherField2.setText("");
         otherLabel3.setText("");
         otherField3.setText("");
+        listView.refresh();
     }
 
     public void changeShowResearch() {
@@ -167,6 +169,10 @@ public class FavoriteBoundary {
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
+        } catch (EntityNotExistException e) {
+            JavaFx.newAlert(Alert.AlertType.INFORMATION, "Result", "No Announce Founded!");
+            clearAll();
+            return;
         }
     }
 
@@ -180,6 +186,7 @@ public class FavoriteBoundary {
             return;
         } else {
             JavaFx.newAlert(Alert.AlertType.ERROR, "Error!", "Error in deleting research!");
+            clearAll();
             return;
         }
     }

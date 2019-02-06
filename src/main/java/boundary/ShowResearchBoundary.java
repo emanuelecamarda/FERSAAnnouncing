@@ -3,6 +3,7 @@ package boundary;
 import bean.ResearchBean;
 import control.ShowResearchController;
 import entity.*;
+import exception.EntityNotExistException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -10,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import utils.JavaFx;
@@ -31,11 +33,14 @@ public class ShowResearchBoundary {
 
     public void initialize(){}
 
-    public void initData(ResearchBean researchBean , User loggedUser){
+    public void initData(ResearchBean researchBean , User loggedUser) throws EntityNotExistException {
 
         this.researchBean = researchBean;
         this.loggedUser = loggedUser;
         List<Announce> announces = showResearchController.showCurrentResearch(researchBean, loggedUser);
+        if (announces.isEmpty()) {
+            throw new EntityNotExistException();
+        }
         List<String> list = new ArrayList<>();
         for (Announce r : announces) {
             if (r.getClass().equals(Apartment.class))

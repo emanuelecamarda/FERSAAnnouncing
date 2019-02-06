@@ -9,6 +9,7 @@ import control.DeleteResearchController;
 import control.FavoriteController;
 import control.RecentController;
 import entity.*;
+import exception.EntityNotExistException;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -127,6 +128,7 @@ public class RecentBoundary {
         try {
             Research selectedResearch = recentResearches.get(listView.getSelectionModel().getSelectedIndex());
             if (selectedResearch.getClass().equals(ApartmentResearch.class)) {
+                selectedResearch = (ApartmentResearch) selectedResearch;
                 ApartmentResearchBean apartmentResearchBean = new ApartmentResearchBean(selectedResearch.getCity(),
                         selectedResearch.getPriceMin(), selectedResearch.getPriceMax(), selectedResearch.getSize(),
                         selectedResearch.getFavorite(), selectedResearch.getSorting(),
@@ -146,7 +148,6 @@ public class RecentBoundary {
                 stage.setResizable(false);
                 stage.show();
             } else {
-                selectedResearch = (RoomResearch) selectedResearch;
                 RoomResearchBean roomResearchBean = new RoomResearchBean(selectedResearch.getCity(),
                         selectedResearch.getPriceMin(), selectedResearch.getPriceMax(), selectedResearch.getSize(),
                         selectedResearch.getFavorite(), selectedResearch.getSorting(),
@@ -167,6 +168,10 @@ public class RecentBoundary {
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
+        } catch (EntityNotExistException e) {
+            JavaFx.newAlert(Alert.AlertType.INFORMATION, "Result", "No Announce Founded!");
+            clearAll();
+            return;
         }
     }
 

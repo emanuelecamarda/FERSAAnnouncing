@@ -9,6 +9,7 @@ import entity.Room;
 import entity.Sorting;
 import entity.User;
 import exception.CreationFailedException;
+import exception.EntityNotExistException;
 import exception.InvalidInputException;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
@@ -109,6 +110,10 @@ public class RoomResearchBoundary {
             return;
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (EntityNotExistException e) {
+            JavaFx.newAlert(Alert.AlertType.INFORMATION, "Result", "No Announce Founded!");
+            clearAll();
+            return;
         }
 
     }

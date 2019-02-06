@@ -122,7 +122,7 @@ public abstract class Research {
             this.sorting = Sorting.lessBig;
         if (sorting.equals("moreRecent"))
             this.sorting = Sorting.moreRecent;
-        if (sorting == "lessRecent")
+        if (sorting.equals("lessRecent"))
             this.sorting = Sorting.lessRecent;
     }
 }

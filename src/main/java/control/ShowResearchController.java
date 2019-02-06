@@ -30,12 +30,14 @@ public class ShowResearchController {
         if (researchBean.getClass().equals(ApartmentResearchBean.class)){
 
             ApartmentResearch research = ResearchFactory.getApartmentResearch(null , researchBean.getCity() , researchBean.getPriceMin() , researchBean.getPriceMax() , researchBean.getSize() , gregorianCalendar , researchBean.getFavorite() , loggedUser ,researchBean.getSorting().toString() , ((ApartmentResearchBean) researchBean).getLocalsMin() , ((ApartmentResearchBean) researchBean).getLocalsMax() , ((ApartmentResearchBean) researchBean).getFurnished() , ((ApartmentResearchBean) researchBean).getBathroomNumberMin() , ((ApartmentResearchBean) researchBean).getBedsNumberMin() , ((ApartmentResearchBean) researchBean).getBedsNumberMax() );
-            announces.addAll(apartmentDao.findByCondition(research));
+            if (apartmentDao.findByCondition(research) != null)
+                announces.addAll(apartmentDao.findByCondition(research));
         }
         else {
 
             RoomResearch research = ResearchFactory.getRoomResearch(null , researchBean.getCity() , researchBean.getPriceMin() , researchBean.getPriceMax() , researchBean.getSize() , gregorianCalendar , researchBean.getFavorite() , loggedUser , researchBean.getSorting().toString() , ((RoomResearchBean) researchBean).getRoomersNumberMax() , ((RoomResearchBean) researchBean).getPrivateBathroom() ,((RoomResearchBean) researchBean).getOnlyFemale() , ((RoomResearchBean) researchBean).getOnlyMale() );
-            announces.addAll(roomDao.findByCondition(research));
+            if (roomDao.findByCondition(research) != null)
+                announces.addAll(roomDao.findByCondition(research));
         }
         return announces;
 
