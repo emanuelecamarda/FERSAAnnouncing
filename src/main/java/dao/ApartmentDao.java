@@ -205,7 +205,7 @@ public class ApartmentDao {
     public List<Apartment> findByCondition(ApartmentResearch apartmentResearch) {
         PreparedStatement stmt = null;
         Connection conn = null;
-        List<Apartment> apartments = new ArrayList<>();
+        List<Apartment> apartments = new ArrayList<Apartment>();
         int count = 6;
 
         String query = "select * from \"public\".\"Apartment\" where \"available\" = true and \"city\" = ? " +

@@ -19,7 +19,7 @@ public class FavoriteController {
     private RoomResearchDao roomResearchDao = new RoomResearchDao();
 
     public List<Research> findFavoriteResearches(User user) {
-        List<Research> researches = new ArrayList<>();
+        List<Research> researches = new ArrayList<Research>();
         researches.addAll(apartmentResearchDao.findFavorite(user));
         researches.addAll(roomResearchDao.findFavorite(user));
         return researches;

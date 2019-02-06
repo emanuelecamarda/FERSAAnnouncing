@@ -1,13 +1,18 @@
 package control;
 
+import bean.ApartmentResearchBean;
+import bean.ResearchBean;
+import bean.RoomResearchBean;
 import dao.ApartmentDao;
 import dao.ApartmentResearchDao;
 import dao.RoomDao;
 import dao.RoomResearchDao;
-import entity.Announce;
-import entity.Research;
+import entity.*;
+import factory.ResearchFactory;
+import factory.RoomFactory;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ShowResearchController {
@@ -17,10 +22,24 @@ public class ShowResearchController {
     private ApartmentResearchDao apartmentResearchDao = new ApartmentResearchDao();
     private ApartmentDao apartmentDao = new ApartmentDao();
 
-    public List<Announce> showCurrentResearch(Research research){
+    public List<Announce> showCurrentResearch(ResearchBean researchBean , User loggedUser){
 
-        List<Announce> currentAnnounce = new ArrayList<Announce>();
-        currentAnnounce.findByCondition(research);
+        List<Announce> announces = new ArrayList<Announce>();
+        GregorianCalendar gregorianCalendar = new GregorianCalendar();
+
+        if (researchBean.getClass().equals(ApartmentResearchBean.class)){
+
+            ApartmentResearch research = ResearchFactory.getApartmentResearch(null , researchBean.getCity() , researchBean.getPriceMin() , researchBean.getPriceMax() , researchBean.getSize() , gregorianCalendar , researchBean.getFavorite() , loggedUser ,researchBean.getSorting().toString() , ((ApartmentResearchBean) researchBean).getLocalsMin() , ((ApartmentResearchBean) researchBean).getLocalsMax() , ((ApartmentResearchBean) researchBean).getFurnished() , ((ApartmentResearchBean) researchBean).getBathroomNumberMin() , ((ApartmentResearchBean) researchBean).getBedsNumberMin() , ((ApartmentResearchBean) researchBean).getBedsNumberMax() );
+            announces.addAll(apartmentDao.findByCondition(research));
+        }
+        else {
+
+            RoomResearch research = ResearchFactory.getRoomResearch(null , researchBean.getCity() , researchBean.getPriceMin() , researchBean.getPriceMax() , researchBean.getSize() , gregorianCalendar , researchBean.getFavorite() , loggedUser , researchBean.getSorting().toString() , ((RoomResearchBean) researchBean).getRoomersNumberMax() , ((RoomResearchBean) researchBean).getPrivateBathroom() ,((RoomResearchBean) researchBean).getOnlyFemale() , ((RoomResearchBean) researchBean).getOnlyMale() );
+            announces.addAll(roomDao.findByCondition(research));
+        }
+        return announces;
+
+
     }
 
 

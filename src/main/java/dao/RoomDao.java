@@ -200,7 +200,7 @@ public class RoomDao {
     public List<Room> findByCondition(RoomResearch roomResearch) {
         PreparedStatement stmt = null;
         Connection conn = null;
-        List<Room> rooms = new ArrayList<>();
+        List<Room> rooms = new ArrayList<Room>();
 
         String query = "select * from \"public\".\"Room\" where \"available\" = true and \"city\" = ? " +
                 "and \"price\" >= ? and \"price\" <= ? and \"size\" >= ? and \"privateBathroom\" = ?";
@@ -283,7 +283,7 @@ public class RoomDao {
     public List<Room> findAll() {
         Statement stmt = null;
         Connection conn = null;
-        List<Room> rooms = new ArrayList<>();
+        List<Room> rooms = new ArrayList<Room>();
 
         try {
             conn = this.ds.getConnection();
