@@ -1,5 +1,7 @@
 package boundary;
 
+import bean.ApartmentResearchBean;
+import bean.RoomResearchBean;
 import control.ApartmentResearchController;
 import control.RoomResearchController;
 import entity.Apartment;
@@ -12,9 +14,14 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import utils.JavaFx;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -84,27 +91,24 @@ public class RoomResearchBoundary {
                 throw new InvalidInputException();
             }
 
-            List<Room> rooms = roomResearchController.newRoomResearch(cityField.getText(), priceMin, priceMax, size, favoriteCheck.isSelected(), userLogged, sortingField.getValue().toString(), privateBathroomCheck.isSelected(), roomersNumberMax, onlyFemaleCheck.isSelected(), onlyMaleCheck.isSelected());
+            RoomResearchBean roomResearchBean = new RoomResearchBean(cityField.getText(), priceMin,
+                    priceMax, size, favoriteCheck.isSelected(),sortingField.getValue(), roomersNumberMax,
+                    privateBathroomCheck.isSelected(), onlyFemaleCheck.isSelected(), onlyMaleCheck.isSelected());
 
-            System.out.println(rooms);
-            // TODO cambio di scena "vista della ricerca"
-//            Stage stage = (Stage) cityField.getScene().getWindow();
-//            FXMLLoader loader = new FXMLLoader(JavaFx.class.getResource("/standAlone/userProfile.fxml"));
-//            Parent root = loader.load();
-//            UserProfileBoundary userProfileBoundary = loader.getController();
-//            userProfileBoundary.initData(u);
-//            stage.setTitle("User Profile");
-//            stage.setScene(new Scene(root, 1000, 650));
-//            stage.setResizable(false);
-//            stage.show();
+            Stage stage = (Stage) cityField.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(JavaFx.class.getResource("/standAlone/showResearch.fxml"));
+            Parent root = null;
+            root = loader.load();
+            ShowResearchBoundary showResearchBoundary = loader.getController();
+            showResearchBoundary.initData(roomResearchBean, userLogged);
+            stage.setTitle("Show Research");
+            stage.setScene(new Scene(root, 1000, 650));
+            stage.setResizable(false);
+            stage.show();
         } catch (InvalidInputException iie) {
             return;
-        } catch (CreationFailedException cfe) {
-            cfe.printStackTrace();
-            JavaFx.newAlert(Alert.AlertType.ERROR, "Error!", "Error during research!");
-            clearAll();
-//        } catch (IOException e) {
-//            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }

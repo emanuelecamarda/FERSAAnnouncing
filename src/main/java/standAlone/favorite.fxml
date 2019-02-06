@@ -180,8 +180,8 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="researchButton" mnemonicParsing="false" text="Research Selected" GridPane.halignment="CENTER" />
-                        <Button fx:id="deleteButton" mnemonicParsing="false" text="Delete Selected" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                        <Button fx:id="researchButton" mnemonicParsing="false" onAction="#changeShowResearch" text="Research Selected" GridPane.halignment="CENTER" />
+                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteResearch" text="Delete Selected" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                      </children>
                   </GridPane>
                </children>

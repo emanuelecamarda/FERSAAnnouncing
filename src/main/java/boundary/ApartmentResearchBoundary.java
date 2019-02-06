@@ -119,15 +119,10 @@ public class ApartmentResearchBoundary {
                    priceMax, size, favoriteCheck.isSelected(),sortingField.getValue(), localsMin, localsMax,
                    furnishedCheck.isSelected(), bathroomNumber, bedsNumberMin, bedsNumberMax);
 
-            // TODO cambio di scena "vista della ricerca"
             Stage stage = (Stage) cityField.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(JavaFx.class.getResource("/standAlone/showResearch.fxml"));
             Parent root = null;
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            root = loader.load();
             ShowResearchBoundary showResearchBoundary = loader.getController();
             showResearchBoundary.initData(apartmentResearchBean, userLogged);
             stage.setTitle("Show Research");
@@ -136,12 +131,8 @@ public class ApartmentResearchBoundary {
             stage.show();
         } catch (InvalidInputException iie) {
             return;
-        } catch (CreationFailedException cfe) {
-            cfe.printStackTrace();
-            JavaFx.newAlert(Alert.AlertType.ERROR, "Error!", "Error during research!");
-            clearAll();
-//        } catch (IOException e) {
-//            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }

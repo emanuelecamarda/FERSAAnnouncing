@@ -7,6 +7,7 @@ import bean.ApartmentResearchBean;
 import bean.RoomResearchBean;
 import control.DeleteResearchController;
 import control.FavoriteController;
+import control.RecentController;
 import entity.*;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
@@ -28,19 +29,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavoriteBoundary {
+public class RecentBoundary {
 
     private User userLogged;
-    private List<Research> favoriteResearches;
-    private FavoriteController favoriteController = new FavoriteController();
-    private DeleteResearchController deleteResearchController = new DeleteResearchController();
+    private List<Research> recentResearches;
+    private RecentController recentController = new RecentController();
 
     @FXML private Label IDField, cityField, priceMinField, priceMaxField, sizeField, sortingField, dateField,
             otherLabel1, otherField1, otherLabel2, otherField2, otherLabel3, otherField3;
 
     @FXML private ListView<String> listView;
 
-    @FXML private Button researchButton, deleteButton;
+    @FXML private Button researchButton, userProfileButton;
 
     public void initialize() {
         clearAll();
@@ -48,9 +48,9 @@ public class FavoriteBoundary {
 
     public void initData(User userLogged) {
         this.userLogged = userLogged;
-        this.favoriteResearches = favoriteController.findFavoriteResearches(userLogged);
+        this.recentResearches = recentController.recentResearch(userLogged);
         List<String> list = new ArrayList<>();
-        for (Research r : this.favoriteResearches) {
+        for (Research r : this.recentResearches) {
             if (r.getClass().equals(ApartmentResearch.class))
                 list.add("Apartment Research ID: " + r.getID());
             else
@@ -60,7 +60,7 @@ public class FavoriteBoundary {
         listView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                Research research = favoriteResearches.get(t1.intValue());
+                Research research = recentResearches.get(t1.intValue());
                 IDField.setText(String.valueOf(research.getID()));
                 cityField.setText(research.getCity());
                 priceMinField.setText(research.getPriceMin().toString());
@@ -104,7 +104,7 @@ public class FavoriteBoundary {
 
         BooleanBinding booleanBind = listView.getSelectionModel().selectedItemProperty().isNull();
         researchButton.disableProperty().bind(booleanBind);
-        deleteButton.disableProperty().bind(booleanBind);
+        userProfileButton.disableProperty().bind(booleanBind);
     }
 
     public void clearAll() {
@@ -125,7 +125,7 @@ public class FavoriteBoundary {
 
     public void changeShowResearch() {
         try {
-            Research selectedResearch = favoriteResearches.get(listView.getSelectionModel().getSelectedIndex());
+            Research selectedResearch = recentResearches.get(listView.getSelectionModel().getSelectedIndex());
             if (selectedResearch.getClass().equals(ApartmentResearch.class)) {
                 ApartmentResearchBean apartmentResearchBean = new ApartmentResearchBean(selectedResearch.getCity(),
                         selectedResearch.getPriceMin(), selectedResearch.getPriceMax(), selectedResearch.getSize(),
@@ -167,20 +167,6 @@ public class FavoriteBoundary {
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
-        }
-    }
-
-    public void deleteResearch() {
-        Research selectedResearch = favoriteResearches.get(listView.getSelectionModel().getSelectedIndex());
-        if (deleteResearchController.deleteResearch(selectedResearch)) {
-            JavaFx.newAlert(Alert.AlertType.INFORMATION, "Research deleted",
-                    "Research successfully deleted!");
-            this.favoriteResearches.remove(listView.getSelectionModel().getSelectedIndex());
-            listView.getItems().remove(listView.getSelectionModel().getSelectedIndex());
-            return;
-        } else {
-            JavaFx.newAlert(Alert.AlertType.ERROR, "Error!", "Error in deleting research!");
-            return;
         }
     }
 
