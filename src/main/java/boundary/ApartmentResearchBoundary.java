@@ -4,6 +4,7 @@
 
 package boundary;
 
+import bean.ApartmentResearchBean;
 import control.ApartmentResearchController;
 import dao.ApartmentResearchDao;
 import entity.Apartment;
@@ -84,7 +85,7 @@ public class ApartmentResearchBoundary {
                     "number");
             Integer localsMax = JavaFx.integerTextFieldCheck(localsMaxField, errorField, "Error! Locals Max must be a integer " +
                     "number");
-            Integer bathrommNumber = JavaFx.integerTextFieldCheck(bathroomNumberField, errorField, "Error! Bathroom Number must be a " +
+            Integer bathroomNumber = JavaFx.integerTextFieldCheck(bathroomNumberField, errorField, "Error! Bathroom Number must be a " +
                     "integer number");
             Integer bedsNumberMin = JavaFx.integerTextFieldCheck(bedsNumberMinField, errorField, "Error! Beds Min Number must be a " +
                     "integer number");
@@ -114,19 +115,25 @@ public class ApartmentResearchBoundary {
                 }
             }
 
-            List<Apartment> apartments = apartmentResearchController.newApartmentResearch(cityField.getText(), priceMin, priceMax, size, favoriteCheck.isSelected(), userLogged, sortingField.getValue().toString(), localsMin, localsMax, furnishedCheck.isSelected(), bathrommNumber, bedsNumberMin, bedsNumberMax);
+           ApartmentResearchBean apartmentResearchBean = new ApartmentResearchBean(cityField.getText(), priceMin,
+                   priceMax, size, favoriteCheck.isSelected(),sortingField.getValue(), localsMin, localsMax,
+                   furnishedCheck.isSelected(), bathroomNumber, bedsNumberMin, bedsNumberMax);
 
-            System.out.println(apartments);
             // TODO cambio di scena "vista della ricerca"
-//            Stage stage = (Stage) cityField.getScene().getWindow();
-//            FXMLLoader loader = new FXMLLoader(JavaFx.class.getResource("/standAlone/userProfile.fxml"));
-//            Parent root = loader.load();
-//            UserProfileBoundary userProfileBoundary = loader.getController();
-//            userProfileBoundary.initData(u);
-//            stage.setTitle("User Profile");
-//            stage.setScene(new Scene(root, 1000, 650));
-//            stage.setResizable(false);
-//            stage.show();
+            Stage stage = (Stage) cityField.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(JavaFx.class.getResource("/standAlone/showResearch.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ShowResearchBoundary showResearchBoundary = loader.getController();
+            showResearchBoundary.initData(apartmentResearchBean, userLogged);
+            stage.setTitle("Show Research");
+            stage.setScene(new Scene(root, 1000, 650));
+            stage.setResizable(false);
+            stage.show();
         } catch (InvalidInputException iie) {
             return;
         } catch (CreationFailedException cfe) {
