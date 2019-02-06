@@ -11,8 +11,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import utils.Date;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class FavoriteBoundary {
     @FXML private Label IDField, cityField, priceMinField, priceMaxField, sizeField, sortingField, dateField,
             otherLabel1, otherField1, otherLabel2, otherField2, otherLabel3, otherField3;
 
-    @FXML private ChoiceBox<String> choiceBox;
+    @FXML private ListView<String> listView;
 
     @FXML private Button researchButton, deleteButton;
 
@@ -45,8 +45,8 @@ public class FavoriteBoundary {
             else
                 list.add("Room Research ID: " + r.getID());
         }
-        choiceBox.setItems(FXCollections.observableArrayList(list));
-        choiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+        listView.setItems(FXCollections.observableArrayList(list));
+        listView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 Research research = favoriteResearches.get(t1.intValue());
@@ -91,7 +91,7 @@ public class FavoriteBoundary {
             }
         });
 
-        BooleanBinding booleanBind = choiceBox.valueProperty().isNull();
+        BooleanBinding booleanBind = listView.getSelectionModel().selectedItemProperty().isNull();
         researchButton.disableProperty().bind(booleanBind);
         deleteButton.disableProperty().bind(booleanBind);
     }
