@@ -4,6 +4,7 @@ import bean.RoomResearchBean;
 import control.RoomResearchController;
 import entity.Sorting;
 import entity.User;
+import exception.CreationFailedException;
 import exception.EntityNotExistException;
 import exception.InvalidInputException;
 import javafx.beans.binding.BooleanBinding;
@@ -91,6 +92,8 @@ public class RoomResearchBoundary {
                     priceMax, size, favoriteCheck.isSelected(),sortingField.getValue(), roomersNumberMax,
                     privateBathroomCheck.isSelected(), onlyFemaleCheck.isSelected(), onlyMaleCheck.isSelected());
 
+            roomResearchController.newRoomResearch(roomResearchBean, userLogged);
+
             Stage stage = (Stage) cityField.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(JavaFx.class.getResource("/standAlone/showResearch.fxml"));
             Parent root = null;
@@ -107,6 +110,11 @@ public class RoomResearchBoundary {
             e.printStackTrace();
         } catch (EntityNotExistException e) {
             JavaFx.newAlert(Alert.AlertType.INFORMATION, "Result", "No Announce Founded!");
+            clearAll();
+            return;
+        } catch (CreationFailedException e) {
+            JavaFx.newAlert(Alert.AlertType.ERROR, "Creation Failed",
+                    "Error during creation of new research!");
             clearAll();
             return;
         }

@@ -1,5 +1,7 @@
 package control;
 
+import bean.ApartmentResearchBean;
+import bean.RoomResearchBean;
 import dao.RoomDao;
 import dao.RoomResearchDao;
 import entity.*;
@@ -15,37 +17,20 @@ public class RoomResearchController {
     private RoomResearchDao roomResearchDao = new RoomResearchDao();
     private RoomDao roomDao = new RoomDao();
 
-    public List<RoomAnnounce> newRoomResearch(String city, Double priceMin, Double priceMax, Double size, Boolean favorite,
-                                              User user, String sorting, Boolean privateBathroom, Integer roomersNumberMax,
-                                              Boolean onlyFemale, Boolean onlyMale) throws CreationFailedException {
+    public void newRoomResearch(RoomResearchBean roomResearchBean, User userLogged) throws CreationFailedException {
         // create a new istance of RoomResearch
         GregorianCalendar date = new GregorianCalendar();
-        RoomResearch roomResearch = ResearchFactory.getRoomResearch(null, city, priceMin, priceMax,
-                size, date, favorite, user, sorting, roomersNumberMax, privateBathroom, onlyFemale, onlyMale);
+        RoomResearch roomResearch = ResearchFactory.getRoomResearch(null, roomResearchBean.getCity(),
+                roomResearchBean.getPriceMin(), roomResearchBean.getPriceMax(), roomResearchBean.getSize(), date,
+                roomResearchBean.getFavorite(), userLogged, String.valueOf(roomResearchBean.getSorting()),
+                roomResearchBean.getRoomersNumberMax(), roomResearchBean.getPrivateBathroom(),
+                roomResearchBean.getOnlyFemale(), roomResearchBean.getOnlyMale());
 
         // save the new research on DB
         RoomResearch savedResearch = roomResearchDao.create(roomResearch);
         if (savedResearch == null)
             throw new CreationFailedException();
 
-        List<RoomAnnounce> roomAnnounces = roomDao.findByCondition(roomResearch);
-        if (roomResearch.getOnlyFemale()) {
-            for (RoomAnnounce roomAnnounce : roomAnnounces) {
-                if (roomAnnounce.getUser().getGender().equals(Gender.male))
-                    roomAnnounces.remove(roomAnnounce);
-            }
-        }
-        if (roomResearch.getOnlyMale()) {
-            for (RoomAnnounce roomAnnounce : roomAnnounces) {
-                if (roomAnnounce.getUser().getGender().equals(Gender.female))
-                    roomAnnounces.remove(roomAnnounce);
-            }
-        }
-
-        if (roomResearch.getSorting().equals(Sorting.moreRecent))
-            Collections.sort(roomAnnounces, Collections.reverseOrder());
-        if (roomResearch.getSorting().equals(Sorting.lessRecent))
-            Collections.sort(roomAnnounces);
-        return roomAnnounces;
+        return;
     }
 }

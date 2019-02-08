@@ -8,6 +8,7 @@ import bean.ApartmentResearchBean;
 import control.ApartmentResearchController;
 import entity.Sorting;
 import entity.User;
+import exception.CreationFailedException;
 import exception.EntityNotExistException;
 import exception.InvalidInputException;
 import javafx.beans.binding.BooleanBinding;
@@ -110,9 +111,11 @@ public class ApartmentResearchBoundary {
                 }
             }
 
-           ApartmentResearchBean apartmentResearchBean = new ApartmentResearchBean(cityField.getText(), priceMin,
+            ApartmentResearchBean apartmentResearchBean = new ApartmentResearchBean(cityField.getText(), priceMin,
                    priceMax, size, favoriteCheck.isSelected(),sortingField.getValue(), localsMin, localsMax,
                    furnishedCheck.isSelected(), bathroomNumber, bedsNumberMin, bedsNumberMax);
+
+            apartmentResearchController.newApartmentResearch(apartmentResearchBean, userLogged);
 
             Stage stage = (Stage) cityField.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(JavaFx.class.getResource("/standAlone/showResearch.fxml"));
@@ -130,6 +133,11 @@ public class ApartmentResearchBoundary {
             e.printStackTrace();
         } catch (EntityNotExistException e) {
            JavaFx.newAlert(Alert.AlertType.INFORMATION, "Result", "No Announce Founded!");
+           clearAll();
+           return;
+       } catch (CreationFailedException e) {
+           JavaFx.newAlert(Alert.AlertType.ERROR, "Creation Failed",
+                   "Error during creation of new research!");
            clearAll();
            return;
        }
