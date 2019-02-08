@@ -181,7 +181,7 @@
                             </rowConstraints>
                             <children>
                                 <Button fx:id="researchButton" mnemonicParsing="false" onAction="#changeShowResearch" text="Research Selected" GridPane.halignment="CENTER" />
-                                <Button fx:id="userProfileButton" mnemonicParsing="false" onAction="#deleteResearch" text="User Profile" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                                <Button fx:id="userProfileButton" mnemonicParsing="false" onAction="#changeUserProfile" text="User Profile" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                             </children>
                         </GridPane>
                     </children>

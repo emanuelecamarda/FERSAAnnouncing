@@ -36,7 +36,7 @@ public class ApartmentResearchBoundary {
 
     @FXML private CheckBox favoriteCheck, furnishedCheck;
 
-    @FXML private Button button;
+    @FXML private Button buttonResearch, buttonUserProfile;
 
     @FXML private Label errorField;
 
@@ -49,7 +49,7 @@ public class ApartmentResearchBoundary {
         BooleanBinding booleanBind = cityField.textProperty().isEmpty().or(priceMinField.textProperty().isEmpty())
                 .or(priceMaxField.textProperty().isEmpty()).or(sizeField.textProperty().isEmpty())
                 .or(sortingField.valueProperty().isNull());
-        button.disableProperty().bind(booleanBind);
+        buttonResearch.disableProperty().bind(booleanBind);
     }
 
     public void initData(User userLogged) {
@@ -134,5 +134,21 @@ public class ApartmentResearchBoundary {
            return;
        }
 
+    }
+
+    public void changeUserProfile() {
+        try {
+            Stage stage = (Stage) cityField.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(JavaFx.class.getResource("/standAlone/userProfile.fxml"));
+            Parent root = loader.load();
+            UserProfileBoundary userProfileBoundary = loader.getController();
+            userProfileBoundary.initData(userLogged);
+            stage.setTitle("User Profile");
+            stage.setScene(new Scene(root, 1000, 650));
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

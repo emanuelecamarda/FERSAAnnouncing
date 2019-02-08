@@ -175,6 +175,7 @@
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -182,6 +183,7 @@
                      <children>
                         <Button fx:id="researchButton" mnemonicParsing="false" onAction="#changeShowResearch" text="Research Selected" GridPane.halignment="CENTER" />
                         <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteResearch" text="Delete Selected" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                        <Button fx:id="UserProfileButton" mnemonicParsing="false" onAction="#changeUserProfile" text="User Profile" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
                      </children>
                   </GridPane>
                </children>

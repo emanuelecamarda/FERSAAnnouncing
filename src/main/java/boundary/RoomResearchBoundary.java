@@ -33,7 +33,7 @@ public class RoomResearchBoundary {
 
     @FXML private CheckBox favoriteCheck, onlyFemaleCheck, onlyMaleCheck, privateBathroomCheck;
 
-    @FXML private Button button;
+    @FXML private Button buttonResearch;
 
     @FXML private Label errorField;
 
@@ -42,11 +42,11 @@ public class RoomResearchBoundary {
         List<Sorting> list = Arrays.asList(array);
         ObservableList<Sorting> sortings = FXCollections.observableArrayList(list);
         sortingField.setItems(sortings);
-        // Disable button if necessary field is empty
+        // Disable buttonResearch if necessary field is empty
         BooleanBinding booleanBind = (priceMinField.textProperty().isEmpty())
                 .or(priceMaxField.textProperty().isEmpty()).or(sizeField.textProperty().isEmpty())
                 .or(sortingField.valueProperty().isNull()).or(cityField.textProperty().isEmpty());
-        button.disableProperty().bind(booleanBind);
+        buttonResearch.disableProperty().bind(booleanBind);
     }
 
     public void initData(User userLogged) {
@@ -110,6 +110,21 @@ public class RoomResearchBoundary {
             clearAll();
             return;
         }
+    }
 
+    public void changeUserProfile() {
+        try {
+            Stage stage = (Stage) priceMinField.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(JavaFx.class.getResource("/standAlone/userProfile.fxml"));
+            Parent root = loader.load();
+            UserProfileBoundary userProfileBoundary = loader.getController();
+            userProfileBoundary.initData(userLogged);
+            stage.setTitle("User Profile");
+            stage.setScene(new Scene(root, 1000, 650));
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

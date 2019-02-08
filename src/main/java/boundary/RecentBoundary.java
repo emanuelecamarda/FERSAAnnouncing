@@ -175,4 +175,19 @@ public class RecentBoundary {
         }
     }
 
+    public void changeUserProfile() {
+        try {
+            Stage stage = (Stage) cityField.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(JavaFx.class.getResource("/standAlone/userProfile.fxml"));
+            Parent root = loader.load();
+            UserProfileBoundary userProfileBoundary = loader.getController();
+            userProfileBoundary.initData(userLogged);
+            stage.setTitle("User Profile");
+            stage.setScene(new Scene(root, 1000, 650));
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
