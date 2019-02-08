@@ -6,7 +6,7 @@ package boundary;
 import bean.ApartmentResearchBean;
 import bean.RoomResearchBean;
 import control.DeleteResearchController;
-import control.FavoriteController;
+import control.FavoriteFacadeController;
 import entity.*;
 import exception.EntityNotExistException;
 import javafx.beans.binding.BooleanBinding;
@@ -33,7 +33,7 @@ public class FavoriteBoundary {
 
     private User userLogged;
     private List<Research> favoriteResearches;
-    private FavoriteController favoriteController = new FavoriteController();
+    private FavoriteFacadeController favoriteFacadeController = new FavoriteFacadeController();
     private DeleteResearchController deleteResearchController = new DeleteResearchController();
 
     @FXML private Label IDField, cityField, priceMinField, priceMaxField, sizeField, sortingField, dateField,
@@ -49,7 +49,7 @@ public class FavoriteBoundary {
 
     public void initData(User userLogged) {
         this.userLogged = userLogged;
-        this.favoriteResearches = favoriteController.findFavoriteResearches(userLogged);
+        this.favoriteResearches = favoriteFacadeController.findFavoriteResearches(userLogged);
         List<String> list = new ArrayList<>();
         for (Research r : this.favoriteResearches) {
             if (r.getClass().equals(ApartmentResearch.class))

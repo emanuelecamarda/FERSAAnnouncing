@@ -15,7 +15,6 @@ import java.util.List;
 public class RoomResearchController {
 
     private RoomResearchDao roomResearchDao = new RoomResearchDao();
-    private RoomDao roomDao = new RoomDao();
 
     public void newRoomResearch(RoomResearchBean roomResearchBean, User userLogged) throws CreationFailedException {
         // create a new istance of RoomResearch
@@ -32,5 +31,13 @@ public class RoomResearchController {
             throw new CreationFailedException();
 
         return;
+    }
+
+    public List<RoomResearch> findFavorite(User user) {
+        return roomResearchDao.findFavorite(user);
+    }
+
+    public List<RoomResearch> findRecent(User user) {
+        return roomResearchDao.findRecent(user);
     }
 }

@@ -5,8 +5,7 @@
     - showRes - ste
     - showSingl -ste
 - vedere i pattern  ?????
-        Facade      - FavoriteController
-                    - RecentController
+
         Observer:   - aggiungere attributo identifico appartamento a RoomAnnounce
                     - aggiungere attributo stanza affittata a user
                     - observer controlla se viene affittata una stanza lo comunica alle RoomAnnounce di

@@ -9,15 +9,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class RecentController {
+public class RecentFacadeController {
 
-    private ApartmentResearchDao apartmentResearchDao = new ApartmentResearchDao();
-    private RoomResearchDao roomResearchDao = new RoomResearchDao();
+    private ApartmentResearchController apartmentResearchController = new ApartmentResearchController();
+    private RoomResearchController roomResearchController= new RoomResearchController();
 
     public List<Research> recentResearch(User user) {
         List<Research> researches = new ArrayList<>();
-        researches.addAll(apartmentResearchDao.findRecent(user));
-        researches.addAll(roomResearchDao.findRecent(user));
+        researches.addAll(apartmentResearchController.findRecent(user));
+        researches.addAll(roomResearchController.findRecent(user));
         Collections.sort(researches, Collections.reverseOrder());
         return researches;
     }

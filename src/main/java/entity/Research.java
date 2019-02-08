@@ -5,7 +5,7 @@ import com.sun.xml.internal.bind.v2.model.core.ID;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public abstract class Research {
+public abstract class Research implements Comparable {
     protected String city;
     protected Double priceMin;
     protected Double priceMax;
@@ -124,5 +124,10 @@ public abstract class Research {
             this.sorting = Sorting.moreRecent;
         if (sorting.equals("lessRecent"))
             this.sorting = Sorting.lessRecent;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.date.compareTo(((Research) o).getDate());
     }
 }

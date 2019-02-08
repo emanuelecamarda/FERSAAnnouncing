@@ -7,10 +7,7 @@ package control;
 import bean.ApartmentResearchBean;
 import dao.ApartmentDao;
 import dao.ApartmentResearchDao;
-import entity.ApartmentAnnounce;
-import entity.ApartmentResearch;
-import entity.Sorting;
-import entity.User;
+import entity.*;
 import exception.CreationFailedException;
 import factory.ResearchFactory;
 
@@ -21,7 +18,6 @@ import java.util.List;
 public class ApartmentResearchController {
 
     private ApartmentResearchDao apartmentResearchDao = new ApartmentResearchDao();
-    private ApartmentDao apartmentDao = new ApartmentDao();
 
     public void newApartmentResearch(ApartmentResearchBean apartmentResearchBean, User userLogged)
             throws CreationFailedException {
@@ -41,5 +37,13 @@ public class ApartmentResearchController {
             throw new CreationFailedException();
 
         return;
+    }
+
+    public List<ApartmentResearch> findFavorite(User user) {
+        return apartmentResearchDao.findFavorite(user);
+    }
+
+    public List<ApartmentResearch> findRecent(User user) {
+        return apartmentResearchDao.findRecent(user);
     }
 }
