@@ -5,6 +5,7 @@ import entity.ApartmentResearch;
 import entity.Sorting;
 import exception.EntityNotExistException;
 import factory.ApartmentFactory;
+import utils.Database;
 import utils.Date;
 
 import java.sql.*;
@@ -16,21 +17,33 @@ public class ApartmentDao {
     private DataSource ds = new DataSource();
     private UserDao userDao = new UserDao();
 
-    public synchronized ApartmentAnnounce create(int locals, boolean furnished , int bathroomNumber , int bedsNumber) {
+    public synchronized ApartmentAnnounce create(ApartmentAnnounce apartmentAnnounce/*int locals, boolean furnished , int bathroomNumber , int bedsNumber*/) {
         PreparedStatement stmt = null;
         Connection conn = null;
         ApartmentAnnounce a = null;
+        Database database = Database.getInstance();
         try {
             conn = this.ds.getConnection();
 
 
 
-            stmt = conn.prepareStatement("insert into \"public\".\"ApartmentDao\" (locals , furnished , bathroomNumber , bedsNumber) " +
-                    "values (?,?,?,?);", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            stmt.setInt(1, locals);
-            stmt.setBoolean(2, furnished);
-            stmt.setInt(3 , bathroomNumber);
-            stmt.setInt(4,bedsNumber);
+            stmt = conn.prepareStatement("insert into \"public\".\"ApartmentDao\" (\"ID\", \"city\", \"address\", \"price\", \"description\", \"size\", \"available\", \"date\", \"user\" , \"locals\" , \"furnished\" , \"bathroomNumber\" , \"bedsNumber\") " +
+                    "values (?,?,?,?,?,?,?,?,?,?,?,?,?);", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+            Integer ID = database.getID();
+            stmt.setInt(1, ID);
+            stmt.setString(2, apartmentAnnounce.getCity());
+            stmt.setString(3 , apartmentAnnounce.getAddress());
+            stmt.setDouble(4,apartmentAnnounce.getprice());
+            stmt.setString(5 , apartmentAnnounce.getDescription());
+            stmt.setDouble(6 , apartmentAnnounce.getSize());
+            stmt.setBoolean(7 , apartmentAnnounce.getavailable());
+            stmt.setString(8, Date.gregorianCalendarToString(apartmentAnnounce.getDate()));
+            stmt.setString(9, apartmentAnnounce.getUser().getNickname());
+            stmt.setInt(10 , apartmentAnnounce.getLocals());
+            stmt.setBoolean(11 , apartmentAnnounce.isFurnished());
+            stmt.setInt(12 , apartmentAnnounce.getBathroomNumber());
+            stmt.setInt(13 , apartmentAnnounce.getBedsNumber());
             stmt.executeUpdate();
 
 

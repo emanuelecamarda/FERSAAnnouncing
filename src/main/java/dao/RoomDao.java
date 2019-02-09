@@ -1,8 +1,11 @@
 package dao;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import entity.*;
 import exception.EntityNotExistException;
 import factory.RoomFactory;
+import utils.Database;
+import utils.Date;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,23 +13,37 @@ import java.util.List;
 
 public class RoomDao {
 
+
     private DataSource ds = new DataSource();
     private UserDao userDao = new UserDao();
 
-    public synchronized RoomAnnounce create(int roomersNumber, boolean privateBathroom , Array roomers) {
+    public synchronized RoomAnnounce create(RoomAnnounce roomAnnounce/*int roomersNumber, boolean privateBathroom , Array roomers*/) {
         PreparedStatement stmt = null;
         Connection conn = null;
         RoomAnnounce z = null;
+        Database database = Database.getInstance();
         try {
             conn = this.ds.getConnection();
 
 
 
-            stmt = conn.prepareStatement("insert into \"public\".\"Room\" (roomersNumber , privateBathroom , roomers) " +
-                    "values (?,?,?);", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            stmt.setInt(1, roomersNumber);
-            stmt.setBoolean(2, privateBathroom);
-            //stmt.set
+            stmt = conn.prepareStatement("insert into \"public\".\"Room\" "+" (\"ID\", \"city\", \"address\", \"price\", \"description\", \"size\", \"available\", \"date\", \"user\" , \"roomersNumber\" , \"privateBathroom\" , \"roomers\") " +
+                    "values (?,?,?,?,?,?,?,?,?,?,?,?);", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+            Integer ID = database.getID();
+            stmt.setInt(1, ID);
+            stmt.setString(2, roomAnnounce.getCity());
+            stmt.setString(3 , roomAnnounce.getAddress());
+            stmt.setDouble(4,roomAnnounce.getprice());
+            stmt.setString(5,roomAnnounce.getDescription());
+            stmt.setDouble(6 , roomAnnounce.getSize());
+            stmt.setBoolean(7 , roomAnnounce.getavailable());
+            stmt.setString(8, Date.gregorianCalendarToString(roomAnnounce.getDate()));
+            stmt.setString(9, roomAnnounce.getUser().getNickname());
+            stmt.setInt(10 , roomAnnounce.getRoomersNumber());
+            stmt.setBoolean(11 , roomAnnounce.isPrivateBathroom());
+            //stmt.setArray(12 , roomAnnounce.getRoomers());
+
             stmt.executeUpdate();
 
 
@@ -56,10 +73,10 @@ public class RoomDao {
         return z;
     }
 
-    public RoomDao findByID(Integer ID) {
+    public RoomAnnounce findByID(Integer ID) {
         PreparedStatement stmt = null;
         Connection conn = null;
-        RoomDao roomDao = null;
+        RoomAnnounce roomAnnounce = null;
 
         try {
             conn = this.ds.getConnection();
@@ -105,7 +122,7 @@ public class RoomDao {
             }
         }
 
-        return roomDao;
+        return roomAnnounce;
     }
 
     public synchronized Boolean delete(Integer ID) {
