@@ -1,12 +1,7 @@
-import dao.ApartmentDao;
-import dao.ApartmentResearchDao;
-import dao.RoomResearchDao;
-import dao.UserDao;
-import entity.ApartmentAnnounce;
-import entity.ApartmentResearch;
-import entity.RoomResearch;
-import entity.User;
+import dao.*;
+import entity.*;
 import factory.ApartmentFactory;
+import factory.RoomFactory;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -102,8 +97,76 @@ public class CreationDatabase {
             ApartmentDao apartmentDao = new ApartmentDao();
             date = new GregorianCalendar();
             ApartmentAnnounce apartmentAnnounce = (ApartmentAnnounce) ApartmentFactory.getApartment(1, "Roma",
-                    "Via delle Marmore", 250.0, "An apartment", 15.0, Boolean.TRUE, date,
+                    "Via delle Marmore", 650.0, "An apartment", 55.0, Boolean.TRUE, date,
                     locator, 3, Boolean.TRUE, 1, 4);
+            apartmentAnnounce = apartmentDao.create(apartmentAnnounce);
+
+            date.add(Calendar.DAY_OF_YEAR, -1);
+            apartmentAnnounce = (ApartmentAnnounce) ApartmentFactory.getApartment(1, "Roma",
+                    "Via delle Robinie", 850.0, "An apartment", 75.0, Boolean.FALSE, date,
+                    locator, 3, Boolean.TRUE, 1, 4);
+            apartmentAnnounce = apartmentDao.create(apartmentAnnounce);
+
+            date.add(Calendar.DAY_OF_YEAR, -2);
+            apartmentAnnounce = (ApartmentAnnounce) ApartmentFactory.getApartment(1, "Roma",
+                    "Via delle More", 600.0, "An apartment", 48.0, Boolean.TRUE, date,
+                    locator, 3, Boolean.TRUE, 1, 4);
+            apartmentAnnounce = apartmentDao.create(apartmentAnnounce);
+
+            date.add(Calendar.DAY_OF_YEAR, -5);
+            apartmentAnnounce = (ApartmentAnnounce) ApartmentFactory.getApartment(1, "Roma",
+                    "Via delle Mele", 700.0, "An apartment", 65.0, Boolean.FALSE, date,
+                    locator, 3, Boolean.TRUE, 1, 4);
+            apartmentAnnounce = apartmentDao.create(apartmentAnnounce);
+
+            date.add(Calendar.DAY_OF_YEAR, 0);
+            apartmentAnnounce = (ApartmentAnnounce) ApartmentFactory.getApartment(1, "Roma",
+                    "Via delle Pesche", 500.0, "An apartment", 50.0, Boolean.TRUE, date,
+                    locator, 3, Boolean.TRUE, 1, 4);
+            apartmentAnnounce = apartmentDao.create(apartmentAnnounce);
+
+            date.add(Calendar.DAY_OF_YEAR, -1);
+            apartmentAnnounce = (ApartmentAnnounce) ApartmentFactory.getApartment(1, "Roma",
+                    "Via delle Robinie", 720.0, "An apartment", 88.0, Boolean.TRUE, date,
+                    locator, 3, Boolean.TRUE, 1, 4);
+            apartmentAnnounce = apartmentDao.create(apartmentAnnounce);
+
+            RoomDao roomDao = new RoomDao();
+            date = new GregorianCalendar();
+            RoomAnnounce roomAnnounce = (RoomAnnounce) RoomFactory.getRoom(1, "Roma", "Via dei Gelsi",
+                    350.0,"A Room", 18.0, Boolean.TRUE, date, locator, 2,
+                    Boolean.FALSE, null);
+            roomAnnounce = roomDao.create(roomAnnounce);
+
+            date.add(Calendar.DAY_OF_YEAR, -1);
+            roomAnnounce = (RoomAnnounce) RoomFactory.getRoom(1, "Roma", "Via dei Frassini",
+                    400.0,"A Room", 25.0, Boolean.TRUE, date, locator, 2,
+                    Boolean.FALSE,null);
+            roomAnnounce = roomDao.create(roomAnnounce);
+
+            date.add(Calendar.DAY_OF_YEAR, -3);
+            roomAnnounce = (RoomAnnounce) RoomFactory.getRoom(1, "Roma", "Via dei Gelsomini",
+                    500.0,"A Room", 28.0, Boolean.TRUE, date, locator, 2,
+                    Boolean.FALSE,null);
+            roomAnnounce = roomDao.create(roomAnnounce);
+
+            date.add(Calendar.DAY_OF_YEAR, 0);
+            roomAnnounce = (RoomAnnounce) RoomFactory.getRoom(1, "Roma", "Via dei Fabbri",
+                    250.0,"A Room", 19.0, Boolean.TRUE, date, locator, 2,
+                    Boolean.FALSE,null);
+            roomAnnounce = roomDao.create(roomAnnounce);
+
+            date.add(Calendar.DAY_OF_YEAR, -2);
+            roomAnnounce = (RoomAnnounce) RoomFactory.getRoom(1, "Roma", "Via dei Colombi",
+                    300.0,"A Room", 15.0, Boolean.FALSE, date, locator, 2,
+                    Boolean.FALSE,null);
+            roomAnnounce = roomDao.create(roomAnnounce);
+
+            date.add(Calendar.DAY_OF_YEAR, -1);
+            roomAnnounce = (RoomAnnounce) RoomFactory.getRoom(1, "Roma", "Via dei Frati",
+                    450.0,"A Room", 22.0, Boolean.FALSE, date, locator, 2,
+                    Boolean.FALSE,null);
+            roomAnnounce = roomDao.create(roomAnnounce);
 
 
         } catch (Exception e) {

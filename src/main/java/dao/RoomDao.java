@@ -27,8 +27,8 @@ public class RoomDao {
 
 
 
-            stmt = conn.prepareStatement("insert into \"public\".\"Room\" "+" (\"ID\", \"city\", \"address\", \"price\", \"description\", \"size\", \"available\", \"date\", \"user\" , \"roomersNumber\" , \"privateBathroom\" , \"roomers\") " +
-                    "values (?,?,?,?,?,?,?,?,?,?,?,?);", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            stmt = conn.prepareStatement("insert into \"public\".\"Room\" "+" (\"ID\", \"city\", \"address\", \"price\", \"description\", \"size\", \"available\", \"date\", \"user\" , \"roomersNumber\" , \"privateBathroom\") " +
+                    "values (?,?,?,?,?,?,?,?,?,?,?);", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
             Integer ID = database.getID();
             stmt.setInt(1, ID);

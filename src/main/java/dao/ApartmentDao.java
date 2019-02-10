@@ -27,7 +27,7 @@ public class ApartmentDao {
 
 
 
-            stmt = conn.prepareStatement("insert into \"public\".\"ApartmentDao\" (\"ID\", \"city\", \"address\", \"price\", \"description\", \"size\", \"available\", \"date\", \"user\" , \"locals\" , \"furnished\" , \"bathroomNumber\" , \"bedsNumber\") " +
+            stmt = conn.prepareStatement("insert into \"public\".\"Apartment\" (\"ID\", \"city\", \"address\", \"price\", \"description\", \"size\", \"available\", \"date\", \"user\" , \"locals\" , \"furnished\" , \"bathroomNumber\" , \"bedsNumber\") " +
                     "values (?,?,?,?,?,?,?,?,?,?,?,?,?);", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
             Integer ID = database.getID();
