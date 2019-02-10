@@ -84,4 +84,21 @@ public class ApartmentResearch extends Research {
                 "\nsorting: " + this.sorting +
                 "\nuser: " + this.user.getNickname() + "\n";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return this.city.equals(((ApartmentResearch) o).getCity()) &&
+                this.priceMin.equals(((ApartmentResearch) o).priceMin) &&
+                this.priceMax.equals(((ApartmentResearch) o).getPriceMax()) &&
+                this.size.equals(((ApartmentResearch) o).getSize()) &&
+                Date.gregorianCalendarToString(this.date).equals(Date.gregorianCalendarToString(((ApartmentResearch) o).date)) &&
+                this.furnished.equals(((ApartmentResearch) o).getFavorite()) &&
+                this.user.equals(((ApartmentResearch) o).getUser()) &&
+                (this.localsMin == ((ApartmentResearch) o).getLocalsMin()) &&
+                (this.localsMax == ((ApartmentResearch) o).getLocalsMax()) &&
+                this.furnished.equals(((ApartmentResearch) o).getFurnished()) &&
+                (this.bathroomNumberMin  == ((ApartmentResearch) o).getBathroomNumberMin()) &&
+                (this.bedsNumberMin  == ((ApartmentResearch) o).getBedsNumberMin()) &&
+                (this.bedsNumberMax  == ((ApartmentResearch) o).getBedsNumberMax());
+    }
 }

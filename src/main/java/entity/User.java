@@ -19,6 +19,10 @@ public class User {
         this.password = password;
     }
 
+    public User() {
+
+    }
+
     public String getNickname() {
         return nickname;
     }
@@ -83,6 +87,16 @@ public class User {
     @Override
     public String toString() {
         return "----- User -----\nname: " + this.name + "\nsurname: " + this.surname + "\n";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        o = (User) o;
+        return this.nickname.equals(((User) o).getNickname()) &&
+                this.name.equals(((User) o).getName()) &&
+                this.surname.equals(((User) o).getSurname()) &&
+                this.email.equals(((User) o).getEmail()) &&
+                this.gender.equals(((User) o).getGender());
     }
 }
 

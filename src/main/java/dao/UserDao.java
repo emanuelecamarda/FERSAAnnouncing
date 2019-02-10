@@ -80,8 +80,9 @@ public class UserDao {
             if (findByNickname(nickname) != null)
                 throw new EntityAlreadyExistException();
 
-            stmt = conn.prepareStatement("insert into \"public\".\"Users\" (nickname , nome , cognome , email , password , gender) " +
-                    "values (?,?,?,?,?,?);", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            stmt = conn.prepareStatement("insert into \"public\".\"Users\" (\"nickname\" , \"nome\" , \"cognome\" , " +
+                    "\"email\" , \"password\" , \"gender\") values (?,?,?,?,?,?);",
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             stmt.setString(1, nickname);
             stmt.setString(2, nome);
             stmt.setString(3, cognome);
@@ -96,7 +97,7 @@ public class UserDao {
             conn.close();
         } catch (SQLException se) {
             se.printStackTrace();
-        } catch (Exception e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             try {
