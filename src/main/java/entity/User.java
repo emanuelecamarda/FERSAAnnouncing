@@ -91,7 +91,6 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        o = (User) o;
         return this.nickname.equals(((User) o).getNickname()) &&
                 this.name.equals(((User) o).getName()) &&
                 this.surname.equals(((User) o).getSurname()) &&
