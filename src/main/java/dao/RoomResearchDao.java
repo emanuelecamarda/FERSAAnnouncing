@@ -4,6 +4,7 @@
 
 package dao;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import entity.RoomResearch;
 import entity.User;
 import exception.EntityNotExistException;
@@ -33,11 +34,23 @@ public class RoomResearchDao {
         try {
             conn = this.ds.getConnection();
 
-            stmt = conn.prepareStatement("insert into \"public\".\"RoomResearch\" " +
-                            "(\"ID\", \"city\", \"priceMin\", \"priceMax\", \"size\", \"favorite\", \"user\", " +
-                            "\"sorting\", \"roomersNumberMax\", \"privateBathroom\", \"onlyFemale\", \"onlyMale\", " +
-                            "\"date\") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
-                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String query = "insert into \"public\".\"RoomResearch\" " +
+                    "(\"ID\", \"city\", \"priceMin\", \"priceMax\", \"size\", \"favorite\", \"user\", " +
+                    "\"sorting\", \"privateBathroom\", \"onlyFemale\", \"onlyMale\", " +
+                    "\"date\"";
+
+            if (roomResearch.getRoomersNumberMax() != null)
+                query += ", \"roomersNumberMax\"";
+
+
+            query += ") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
+
+            if (roomResearch.getRoomersNumberMax() != null)
+                query += ", ?";
+
+            query += ");";
+
+            stmt = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             Integer ID = database.getID();
             stmt.setInt(1, ID);
             stmt.setString(2, roomResearch.getCity());
@@ -47,11 +60,12 @@ public class RoomResearchDao {
             stmt.setBoolean(6, roomResearch.getFavorite());
             stmt.setString(7, roomResearch.getUser().getNickname());
             stmt.setString(8, roomResearch.getSorting().toString());
-            stmt.setInt(9, roomResearch.getRoomersNumberMax());
-            stmt.setBoolean(10, roomResearch.getPrivateBathroom());
-            stmt.setBoolean(11, roomResearch.getOnlyFemale());
-            stmt.setBoolean(12, roomResearch.getOnlyMale());
-            stmt.setString(13, Date.gregorianCalendarToString(roomResearch.getDate()));
+            stmt.setBoolean(9, roomResearch.getPrivateBathroom());
+            stmt.setBoolean(10, roomResearch.getOnlyFemale());
+            stmt.setBoolean(11, roomResearch.getOnlyMale());
+            stmt.setString(12, Date.gregorianCalendarToString(roomResearch.getDate()));
+            if (roomResearch.getRoomersNumberMax() != null)
+                stmt.setInt(13, roomResearch.getRoomersNumberMax());
 
             stmt.executeUpdate();
 

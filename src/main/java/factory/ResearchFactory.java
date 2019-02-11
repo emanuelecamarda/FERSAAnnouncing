@@ -37,8 +37,8 @@ public class ResearchFactory {
                                                @NotNull Double priceMax, @NotNull Double size,
                                                @NotNull GregorianCalendar date, @NotNull Boolean favorite,
                                                @NotNull User user, @NotNull String sorting,
-                                               Integer roomersNumberMax, Boolean privateBathroom, Boolean onlyFemale,
-                                               Boolean onlyMale) {
+                                               Integer roomersNumberMax, @NotNull Boolean privateBathroom,
+                                               @NotNull Boolean onlyFemale, @NotNull Boolean onlyMale) {
         if (onlyFemale.equals(Boolean.TRUE) && onlyMale.equals(Boolean.TRUE))
             return null;
         RoomResearch roomResearch = new RoomResearch(city, priceMin, priceMax, size, date, favorite, user,

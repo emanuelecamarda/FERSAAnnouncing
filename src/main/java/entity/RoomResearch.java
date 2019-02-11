@@ -65,4 +65,19 @@ public class RoomResearch extends Research {
                 "\nsorting: " + this.sorting +
                 "\nuser: " + this.user.getNickname() + "\n";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return this.city.equals(((RoomResearch) o).getCity()) &&
+                this.priceMin.equals(((RoomResearch) o).priceMin) &&
+                this.priceMax.equals(((RoomResearch) o).getPriceMax()) &&
+                this.size.equals(((RoomResearch) o).getSize()) &&
+                Date.gregorianCalendarToString(this.date).equals(Date.gregorianCalendarToString(((RoomResearch) o).date)) &&
+                this.favorite.equals(((RoomResearch) o).getFavorite()) &&
+                this.user.equals(((RoomResearch) o).getUser()) &&
+                (this.roomersNumberMax == ((RoomResearch) o).getRoomersNumberMax()) &&
+                this.privateBathroom.equals(((RoomResearch) o).getPrivateBathroom()) &&
+                this.onlyFemale.equals(((RoomResearch) o).getOnlyFemale()) &&
+                this.onlyMale.equals(((RoomResearch) o).getOnlyMale());
+    }
 }

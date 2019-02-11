@@ -92,7 +92,7 @@ public class ApartmentResearch extends Research {
                 this.priceMax.equals(((ApartmentResearch) o).getPriceMax()) &&
                 this.size.equals(((ApartmentResearch) o).getSize()) &&
                 Date.gregorianCalendarToString(this.date).equals(Date.gregorianCalendarToString(((ApartmentResearch) o).date)) &&
-                this.furnished.equals(((ApartmentResearch) o).getFavorite()) &&
+                this.favorite.equals(((ApartmentResearch) o).getFavorite()) &&
                 this.user.equals(((ApartmentResearch) o).getUser()) &&
                 (this.localsMin == ((ApartmentResearch) o).getLocalsMin()) &&
                 (this.localsMax == ((ApartmentResearch) o).getLocalsMax()) &&
