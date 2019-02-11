@@ -10,6 +10,7 @@ public class User {
     private String password;
     private Gender gender;
     private List<Research> favorite;
+    private RoomAnnounce roomRented; // Observed state
 
     public User(String nickname, String name, String surname, String email, String password) {
         this.nickname = nickname;
@@ -17,10 +18,22 @@ public class User {
         this.surname = surname;
         this.email = email;
         this.password = password;
+        this.roomRented= null;
     }
 
     public User() {
 
+    }
+
+    public RoomAnnounce getRoomRented() {
+        return roomRented;
+    }
+
+    public void setRoomRented(RoomAnnounce roomRented) {
+        this.roomRented = roomRented;
+        if (roomRented == null) {
+
+        }
     }
 
     public String getNickname() {

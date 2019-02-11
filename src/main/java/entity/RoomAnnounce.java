@@ -1,30 +1,51 @@
 package entity;
 
+import control.RoomersStateController;
 import utils.Date;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 public class RoomAnnounce extends Announce {
     private int roomersNumber;
     private boolean privateBathroom;
-    private List[] roomers;
+    private List<User> roomers;
+    private Integer apartmentID;
 
-    public RoomAnnounce(int ID, String city, String address, Double price, String description, double size, boolean available, GregorianCalendar date, User user, int roomersNumber, boolean privateBathroom, List[] roomers) {
+    public RoomAnnounce(int ID, String city, String address, Double price, String description, double size,
+                        boolean available, GregorianCalendar date, User user, int roomersNumber,
+                        boolean privateBathroom, Integer apartmentID) {
         super(ID, city, address, price, description, size, available, date, user);
         this.roomersNumber = roomersNumber;
         this.privateBathroom = privateBathroom;
-        this.roomers = roomers;
+        this.roomers = new ArrayList<>();
+        this.apartmentID = apartmentID;
     }
 
-    public RoomAnnounce(int roomersNumber, boolean privateBathroom, List[] roomers) {
+    public RoomAnnounce(int roomersNumber, boolean privateBathroom, Integer apartmentID) {
         this.roomersNumber = roomersNumber;
         this.privateBathroom = privateBathroom;
-        this.roomers = roomers;
+        this.roomers = new ArrayList<>();
+        this.apartmentID = apartmentID;
     }
 
     public RoomAnnounce() {
 
+    }
+
+    @Override
+    public void setAvailable(boolean available) {
+        this.available = available;
+        this.notifyObservers();
+    }
+
+    public Integer getApartmentID() {
+        return apartmentID;
+    }
+
+    public void setApartmentID(Integer apartmentID) {
+        this.apartmentID = apartmentID;
     }
 
     public int getRoomersNumber() {
@@ -43,11 +64,11 @@ public class RoomAnnounce extends Announce {
         this.privateBathroom = privateBathroom;
     }
 
-    public List[] getRoomers() {
+    public List<User> getRoomers() {
         return roomers;
     }
 
-    public void setRoomers(List[] roomers) {
+    public void setRoomers(List<User> roomers) {
         this.roomers = roomers;
     }
 

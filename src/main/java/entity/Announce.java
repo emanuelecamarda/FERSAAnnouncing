@@ -2,14 +2,14 @@ package entity;
 
 import java.util.GregorianCalendar;
 
-public abstract class Announce implements Comparable {
+public abstract class Announce extends Subject implements Comparable {
     protected int ID;
     protected String city;
     protected String address;
     protected Double price;
     protected String description;
     protected double size;
-    protected boolean available;
+    protected boolean available; // Observable state
     protected GregorianCalendar date;
     protected User user;
 

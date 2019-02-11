@@ -7,10 +7,13 @@ import exception.EntityNotExistException;
 import factory.UserFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDao {
 
     private DataSource ds = new DataSource();
+    private RoomDao roomDao = new RoomDao();
 
     public User findByNicknameAndPassword(String nickname, String password) {
         PreparedStatement stmt = null;
@@ -209,6 +212,68 @@ public class UserDao {
         }
 
         return Boolean.FALSE;
+    }
+
+    public List<User> findByRoomRented(Integer roomID) {
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        List<User> users = new ArrayList<>();
+        try {
+            conn = this.ds.getConnection();
+
+            stmt = conn.prepareStatement("select * from \"public\".\"Users\" where \"roomRented\" = ?;",
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            stmt.setInt(1, roomID);
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.first()) // rs empty
+                return null;
+
+            rs.first();
+
+            String nome = rs.getString("nome");
+            String cognome = rs.getString("cognome");
+            String nicknameLoaded = rs.getString("nickname");
+            String email = rs.getString("email");
+            Character gender = rs.getString("gender").toCharArray()[0];
+            User user = new User(nicknameLoaded, nome, cognome, email, "");
+            user.setGender(gender);
+            user.setRoomRented(roomDao.findByID(roomID));
+            users.add(user);
+            while (rs.next()) {
+                nome = rs.getString("nome");
+                cognome = rs.getString("cognome");
+                nicknameLoaded = rs.getString("nickname");
+                email = rs.getString("email");
+                gender = rs.getString("gender").toCharArray()[0];
+                user = new User(nicknameLoaded, nome, cognome, email, "");
+                user.setGender(gender);
+                user.setRoomRented(roomDao.findByID(roomID));
+                users.add(user);
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException se2) {
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+
+        return users;
     }
 
 }

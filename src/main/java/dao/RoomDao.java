@@ -27,8 +27,10 @@ public class RoomDao {
 
 
 
-            stmt = conn.prepareStatement("insert into \"public\".\"Room\" "+" (\"ID\", \"city\", \"address\", \"price\", \"description\", \"size\", \"available\", \"date\", \"user\" , \"roomersNumber\" , \"privateBathroom\") " +
-                    "values (?,?,?,?,?,?,?,?,?,?,?);", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            stmt = conn.prepareStatement("insert into \"public\".\"Room\" "+" (\"ID\", \"city\", \"address\", " +
+                    "\"price\", \"description\", \"size\", \"available\", \"date\", \"user\" , \"roomersNumber\" , " +
+                    "\"privateBathroom\", \"apartmentID\") " +
+                    "values (?,?,?,?,?,?,?,?,?,?,?,?);", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
             Integer ID = database.getID();
             stmt.setInt(1, ID);
@@ -42,13 +44,15 @@ public class RoomDao {
             stmt.setString(9, roomAnnounce.getUser().getNickname());
             stmt.setInt(10 , roomAnnounce.getRoomersNumber());
             stmt.setBoolean(11 , roomAnnounce.isPrivateBathroom());
-            //stmt.setArray(12 , roomAnnounce.getRoomers());
+            stmt.setInt(12, roomAnnounce.getApartmentID());
 
             stmt.executeUpdate();
 
-
-
-            z = new RoomAnnounce();
+            z = roomAnnounce;
+            roomAnnounce.setID(ID);
+            roomAnnounce.setRoomers(findRoomers(roomAnnounce));
+            for (ConcreteRoomAnnounceObserver o : findByApartmentID(roomAnnounce))
+                roomAnnounce.attach(o);
 
             stmt.close();
             conn.close();
@@ -91,15 +95,16 @@ public class RoomDao {
 
             result.first();
 
-            result.getInt("ID");
-            result.getString("city");
-            result.getString("address");
-            result.getDouble("price");
-            result.getString("description");
-            result.getDouble("size");
-            result.getBoolean("available");
-            result.getInt("roomersNumber");
-            result.getBoolean("privateBathroom");
+            roomAnnounce = (RoomAnnounce) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
+                    result.getString("address"), result.getDouble("price"), result.getString("description"),
+                    result.getDouble("size"), result.getBoolean("available"),
+                    Date.stringToGregorianCalendar(result.getString("date")),
+                    userDao.findByNickname(result.getString("user")), result.getInt("roomersNumber"),
+                    result.getBoolean("privateBathroom"), result.getInt("apartmentID"));
+
+            roomAnnounce.setRoomers(findRoomers(roomAnnounce));
+            for (ConcreteRoomAnnounceObserver o : findByApartmentID(roomAnnounce))
+                roomAnnounce.attach(o);
 
             result.close();
             stmt.close();
@@ -251,20 +256,29 @@ public class RoomDao {
 
             result.first();
 
-            roomAnnounces.add((RoomAnnounce) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
+            RoomAnnounce roomAnnounce = (RoomAnnounce) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
                     result.getString("address"), result.getDouble("price"), result.getString("description"),
                     result.getDouble("size"), result.getBoolean("available"),
                     utils.Date.stringToGregorianCalendar(result.getString("date")),
                     userDao.findByNickname(result.getString("user")), result.getInt("roomersNumber"),
-                    result.getBoolean("privateBathroom"), null));
+                    result.getBoolean("privateBathroom"), null);
+            roomAnnounce.setRoomers(findRoomers(roomAnnounce));
+            roomAnnounces.add(roomAnnounce);
+            for (ConcreteRoomAnnounceObserver o : findByApartmentID(roomAnnounce))
+                roomAnnounce.attach(o);
+
 
             while (result.next()) {
-                roomAnnounces.add((RoomAnnounce) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
+                roomAnnounce = (RoomAnnounce) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
                         result.getString("address"), result.getDouble("price"), result.getString("description"),
                         result.getDouble("size"), result.getBoolean("available"),
                         utils.Date.stringToGregorianCalendar(result.getString("date")),
                         userDao.findByNickname(result.getString("user")), result.getInt("roomersNumber"),
-                        result.getBoolean("privateBathroom"), null));
+                        result.getBoolean("privateBathroom"), null);
+                roomAnnounce.setRoomers(findRoomers(roomAnnounce));
+                roomAnnounces.add(roomAnnounce);
+                for (ConcreteRoomAnnounceObserver o : findByApartmentID(roomAnnounce))
+                    roomAnnounce.attach(o);
             }
 
             result.close();
@@ -312,20 +326,28 @@ public class RoomDao {
 
             result.first();
 
-            roomAnnounces.add((RoomAnnounce) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
+            RoomAnnounce roomAnnounce = (RoomAnnounce) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
                     result.getString("address"), result.getDouble("price"), result.getString("description"),
                     result.getDouble("size"), result.getBoolean("available"),
                     utils.Date.stringToGregorianCalendar(result.getString("date")),
                     userDao.findByNickname(result.getString("user")), result.getInt("roomersNumber"),
-                    result.getBoolean("privateBathroom"), null));
+                    result.getBoolean("privateBathroom"), null);
+            roomAnnounce.setRoomers(findRoomers(roomAnnounce));
+            roomAnnounces.add(roomAnnounce);
+            for (ConcreteRoomAnnounceObserver o : findByApartmentID(roomAnnounce))
+                roomAnnounce.attach(o);
 
             while (result.next()) {
-                roomAnnounces.add((RoomAnnounce) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
+                roomAnnounce = (RoomAnnounce) RoomFactory.getRoom(result.getInt("ID"), result.getString("city"),
                         result.getString("address"), result.getDouble("price"), result.getString("description"),
                         result.getDouble("size"), result.getBoolean("available"),
                         utils.Date.stringToGregorianCalendar(result.getString("date")),
                         userDao.findByNickname(result.getString("user")), result.getInt("roomersNumber"),
-                        result.getBoolean("privateBathroom"), null));
+                        result.getBoolean("privateBathroom"), null);
+                roomAnnounce.setRoomers(findRoomers(roomAnnounce));
+                roomAnnounces.add(roomAnnounce);
+                for (ConcreteRoomAnnounceObserver observer : findByApartmentID(roomAnnounce))
+                    roomAnnounce.attach(observer);
             }
 
             result.close();
@@ -352,6 +374,136 @@ public class RoomDao {
         return roomAnnounces;
     }
 
+    /**
+     * edit by EC.
+     * @param roomAnnounce
+     * @return
+     */
+    public List<User> findRoomers(RoomAnnounce roomAnnounce) {
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        List<User> roomers = new ArrayList<>();
 
+        try {
+            conn = this.ds.getConnection();
 
+            stmt = conn.prepareStatement("select * from \"public\".\"RoomDao\" where \"apartmentID\" = ? " +
+                            "and \"available\" = false;",
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            stmt.setInt(1, roomAnnounce.getApartmentID());
+            ResultSet result = stmt.executeQuery();
+
+            if (!result.first()) // rs empty
+                return roomers;
+
+            result.first();
+            roomers.addAll(userDao.findByRoomRented(result.getInt("ID")));
+            while (result.next())
+                roomers.addAll(userDao.findByRoomRented(result.getInt("ID")));
+
+            result.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException se2) {
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+
+        return roomers;
+    }
+
+    public List<ConcreteRoomAnnounceObserver> findByApartmentID(RoomAnnounce roomAnnounce) {
+        PreparedStatement stmt = null;
+        Connection conn = null;
+        List<ConcreteRoomAnnounceObserver> list = null;
+
+        try {
+            conn = this.ds.getConnection();
+
+            stmt = conn.prepareStatement("select * from \"public\".\"RoomDao\" where \"apartmentID\" = ?;",
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            stmt.setInt(1, roomAnnounce.getApartmentID());
+            ResultSet result = stmt.executeQuery();
+
+            if (!result.first()) // rs empty
+                return null;
+
+            list = new ArrayList<>();
+            result.first();
+            list.add(new ConcreteRoomAnnounceObserver(roomAnnounce, result.getInt("ID")));
+
+            while (result.next()) {
+                list.add(new ConcreteRoomAnnounceObserver(roomAnnounce, result.getInt("ID")));
+            }
+
+            result.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException se2) {
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+
+        return list;
+    }
+
+    public void addRoomersNumber(RoomAnnounce roomAnnounce, Integer a) {
+        PreparedStatement stmt = null;
+        Connection conn = null;
+
+        try {
+            conn = this.ds.getConnection();
+
+            stmt = conn.prepareStatement("update \"public\".\"RoomDao\" set \"roomersNumber\" = ? where \"ID\" = ?;",
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            stmt.setInt(1, roomAnnounce.getRoomersNumber() + a);
+            stmt.setInt(2, roomAnnounce.getID());
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException se2) {
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
 }
