@@ -14,6 +14,9 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 
+/**
+ * Edit by EC.
+ */
 @RunWith(value = Parameterized.class)
 public class ApartmentResearchDaoTest {
 

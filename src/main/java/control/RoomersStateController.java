@@ -1,11 +1,6 @@
 package control;
 
 import dao.RoomDao;
-import entity.ConcreteRoomAnnounceObserver;
-import entity.RoomAnnounce;
-import sun.awt.SunHints;
-
-import java.util.List;
 
 public class RoomersStateController {
 

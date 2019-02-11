@@ -17,6 +17,9 @@ import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Edit by EC.
+ */
 @RunWith(value = Parameterized.class)
 public class RoomResearchDaoTest {
 
