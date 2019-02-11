@@ -48,7 +48,7 @@ public class ApartmentDao {
 
 
 
-            a = new ApartmentAnnounce();
+            /*a = new ApartmentAnnounce();
 
             stmt.close();
             conn.close();
@@ -70,7 +70,30 @@ public class ApartmentDao {
             }
         }
 
-        return a;
+        return a;*/
+            stmt.close();
+            conn.close();
+            return apartmentAnnounce;
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException se2) {
+                se2.printStackTrace();
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+
+        return null;
     }
 
     public ApartmentAnnounce findByID(Integer ID) {
@@ -127,7 +150,7 @@ public class ApartmentDao {
         return apartmentAnnounce;
     }
 
-    public synchronized Boolean delete(Integer ID) {
+    public synchronized Boolean delete(Integer ID)throws EntityNotExistException {
         PreparedStatement stmt = null;
         Connection conn = null;
         try {
