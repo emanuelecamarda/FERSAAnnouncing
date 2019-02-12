@@ -18,4 +18,11 @@ public class RoomFactory {
                 user, roomersNumber, privateBathroom, apartmentID);
         return roomAnnounce;
     }
+
+    public static RoomAnnounce getRoomAnnounce (int ID, String city, String address, Double price, String description, double size, boolean available,
+                                    GregorianCalendar date, User user, int roomersNumber, boolean privateBathroom, List[] roomers){
+
+        RoomAnnounce roomAnnounce = new RoomAnnounce(ID ,city, address, price, description, size, available, date, user, roomersNumber, privateBathroom, roomers);
+        return roomAnnounce;
+    }
 }

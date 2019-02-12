@@ -130,7 +130,7 @@ public class RoomDao {
         return roomAnnounce;
     }
 
-    public synchronized Boolean delete(Integer ID) {
+    public synchronized Boolean delete(Integer ID)throws EntityNotExistException {
         PreparedStatement stmt = null;
         Connection conn = null;
         try {

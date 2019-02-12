@@ -18,4 +18,13 @@ public class ApartmentFactory {
         return apartmentAnnounce;
     }
 
+    public static ApartmentAnnounce getApartmentAnnounce(int ID , String city , String address , Double price , String description , double size , boolean available , GregorianCalendar date, User user, int locals ,
+                                                         boolean furnished , int bathroomNumber , int bedsNumber) {
+
+        ApartmentAnnounce apartmentAnnounce = new ApartmentAnnounce(ID, city, address, price, description, size, available, date, user, locals, furnished, bathroomNumber,
+                bedsNumber);
+        return apartmentAnnounce;
+
+    }
+
 }
