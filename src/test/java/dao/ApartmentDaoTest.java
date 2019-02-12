@@ -8,6 +8,7 @@ import entity.User;
 import exception.EntityAlreadyExistException;
 import exception.EntityNotExistException;
 import factory.ApartmentFactory;
+import factory.ResearchFactory;
 import factory.UserFactory;
 import org.junit.After;
 import org.junit.Assume;
@@ -26,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(value = Parameterized.class)
 public class ApartmentDaoTest {
 
-    enum Type {CREATE, OTHER, FAVORITE}
+    enum Type {CREATE, OTHER, CONDITION}
 
     private ApartmentDaoTest.Type type;
     private ApartmentAnnounce apartmentAnnounce;
@@ -41,35 +42,79 @@ public class ApartmentDaoTest {
     public static Collection<Object[]> GetTestParameters() {
         return Arrays.asList(new Object[][] {
                 // {Type ,ID, city, address, price, description, size, available, date, user ,locals ,furnished ,bathroomNumber ,bedsNumber }
-                {Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 1,
-                        Boolean.TRUE, 3, 2},
-                {Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 1,
-                        Boolean.TRUE, 3, 2},
-                {Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 1,
-                        Boolean.TRUE, null, 2},
-                {Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 1,
-                        Boolean.TRUE, 3, null},
-                {Type.OTHER, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 1,
-                        Boolean.TRUE, 3, 2},
-                {Type.OTHER, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 1,
-                        Boolean.TRUE, 3, 2},
-                {Type.FAVORITE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 1,
-                        Boolean.TRUE, 3, 2},
 
+                // {Type, city, priceMin, priceMax, size, date, favorite, sorting, localsMin, localsMax, furnished,
+                // bathroomMin, bedsNumberMin, bedsNumberMax,
+                // city, address, price, description, size, available, date, locals ,furnished ,bathroomNumber ,bedsNumber}
+                {Type.CREATE, "Roma", 200.0, 800.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "moreBig", 1, 3,
+                        Boolean.TRUE, 1, 2, 5,
+                        "Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), 1,
+                        Boolean.TRUE, 3, 2},
+                {Type.OTHER, "Roma", 200.0, 800.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "moreBig", 1, 3,
+                        Boolean.TRUE, 1, 2, 5,
+                        "Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), 1,
+                        Boolean.TRUE, 3, 2},
+                {Type.CONDITION, "Roma", 200.0, 800.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "moreBig", 1, 3,
+                        Boolean.TRUE, 1, 2, 5,
+                        "Roma", "via ", 600.0, "una descrizione", 60 ,Boolean.TRUE,new GregorianCalendar(), 2,
+                        Boolean.TRUE, 2, 4},
+                {Type.CONDITION, "Roma", 200.0, 800.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "lessBig", 1, 3,
+                        Boolean.TRUE, 1, 2, 5,
+                        "Roma", "via ", 600.0, "una descrizione", 60 ,Boolean.TRUE,new GregorianCalendar(), 2,
+                        Boolean.TRUE, 2, 4},
+                {Type.CONDITION, "Roma", 200.0, 800.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "moreExpensive", 1, 3,
+                        Boolean.TRUE, 1, 2, 5,
+                        "Roma", "via ", 600.0, "una descrizione", 60 ,Boolean.TRUE,new GregorianCalendar(), 2,
+                        Boolean.TRUE, 2, 4},
+                {Type.CONDITION, "Roma", 200.0, 800.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "lessExpensive", 1, 3,
+                        Boolean.TRUE, 1, 2, 5,
+                        "Roma", "via ", 600.0, "una descrizione", 60 ,Boolean.TRUE,new GregorianCalendar(), 2,
+                        Boolean.TRUE, 2, 4},
+                {Type.CONDITION, "Roma", 200.0, 800.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "moreRecent", null, 3,
+                        Boolean.TRUE, 1, 2, 5,
+                        "Roma", "via ", 600.0, "una descrizione", 60 ,Boolean.TRUE,new GregorianCalendar(), 2,
+                        Boolean.TRUE, 2, 4},
+                {Type.CONDITION, "Roma", 200.0, 800.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "moreRecent", 1, null,
+                        Boolean.TRUE, 1, 2, 5,
+                        "Roma", "via ", 600.0, "una descrizione", 60 ,Boolean.TRUE,new GregorianCalendar(), 2,
+                        Boolean.TRUE, 2, 4},
+                {Type.CONDITION, "Roma", 200.0, 800.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "moreRecent", 1, 3,
+                        Boolean.TRUE, null, 2, 5,
+                        "Roma", "via ", 600.0, "una descrizione", 60 ,Boolean.TRUE,new GregorianCalendar(), 2,
+                        Boolean.TRUE, 2, 4},
+                {Type.CONDITION, "Roma", 200.0, 800.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "moreRecent", 1, 3,
+                        Boolean.TRUE, 1, null, 5,
+                        "Roma", "via ", 600.0, "una descrizione", 60 ,Boolean.TRUE,new GregorianCalendar(), 2,
+                        Boolean.TRUE, 2, 4},
+                {Type.CONDITION, "Roma", 200.0, 800.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "moreRecent", 1, 3,
+                        Boolean.TRUE, 1, 2, null,
+                        "Roma", "via ", 600.0, "una descrizione", 60 ,Boolean.TRUE,new GregorianCalendar(), 2,
+                        Boolean.TRUE, 2, 4},
         });
     }
 
-    public ApartmentDaoTest(Type type ,int ID, String city, String address, Double price, String description, double size,
-                            boolean available, GregorianCalendar date, User user, int locals, boolean furnished,
-                            int bathroomNumber, int bedsNumber){
 
-        this.apartmentDao=new ApartmentDao();
-        this.type = type;
+    public ApartmentDaoTest(Type type, String city, Double priceMin, Double priceMax, Double size,
+                                    GregorianCalendar date, Boolean favorite, String sorting, Integer localsMin,
+                                    Integer localsMax, Boolean furnished, Integer bathroomNumberMin,
+                                    Integer bedsNumberMin, Integer bedsNumberMax,
+                            String cityAp, String address, Double price, String description, double sizeAp,
+                            boolean available, GregorianCalendar dateAp, Integer locals, boolean furnishedAp,
+                            Integer bathroomNumber, Integer bedsNumber) {
+
+        this.apartmentDao = new ApartmentDao();
         this.userDao = new UserDao();
         this.user = UserFactory.getUser("nickname", "name", "surname",
                 "email@gmail.com","password", 'f');
-        this.apartmentAnnounce = ApartmentFactory.getApartmentAnnounce(ID ,city ,address , price , description , size , available , date , this.user ,locals , furnished , bathroomNumber ,
-                bedsNumber);
+        if (type == Type.CONDITION) {
+            this.apartmentResearch = ResearchFactory.getApartmentResearch(null, city, priceMin, priceMax, size,
+                    date, favorite, this.user, sorting, localsMin, localsMax, furnished, bathroomNumberMin,
+                    bedsNumberMin, bedsNumberMax);
+            this.apartmentResearchDao = new ApartmentResearchDao();
+        }
+        this.apartmentAnnounce = ApartmentFactory.getApartmentAnnounce(1 ,cityAp ,address , price , description ,
+                sizeAp , available , dateAp , this.user ,locals , furnishedAp , bathroomNumber , bedsNumber);
+        this.type = type;
     }
 
     @Before
@@ -123,18 +168,22 @@ public class ApartmentDaoTest {
         assertEquals(apartmentDao.findByID(apartmentAnnounceCreate.getID()), null);
     }
 
+    /**
+     * Insert an apartment that verify the research and assert if this apartment was return by the findByCondition
+     * Edit by EC.
+     */
     @Test
     public void findByCondition(){
-        Assume.assumeTrue(type == ApartmentDaoTest.Type.OTHER);
+        Assume.assumeTrue(type == Type.CONDITION);
         ApartmentAnnounce apartmentAnnounceCreate = apartmentDao.create(apartmentAnnounce);
-        ApartmentResearch apartmentResearchCreate = apartmentResearchDao.create(apartmentResearch);
-        List<ApartmentAnnounce> ApartmentAnnounceList = apartmentDao.findByCondition(apartmentResearch);
+        List<ApartmentAnnounce> apartmentAnnounceList = apartmentDao.findByCondition(apartmentResearch);
         try {
             apartmentDao.delete(apartmentAnnounceCreate.getID());
         } catch (EntityNotExistException e) {
             e.printStackTrace();
         }
-        assertEquals(ApartmentAnnounceList, apartmentResearch);
+        boolean check = apartmentAnnounceList.contains(apartmentAnnounceCreate);
+        assertEquals(true, check);
 
     }
 

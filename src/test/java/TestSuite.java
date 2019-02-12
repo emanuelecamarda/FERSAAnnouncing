@@ -1,3 +1,4 @@
+import dao.ApartmentDaoTest;
 import dao.ApartmentResearchDaoTest;
 import dao.RoomResearchDaoTest;
 import dao.UserDaoTest;
@@ -9,6 +10,7 @@ import org.junit.runners.Suite;
         ApartmentResearchDaoTest.class,
         RoomResearchDaoTest.class,
         UserDaoTest.class,
+        ApartmentDaoTest.class,
 })
 public class TestSuite {
 }

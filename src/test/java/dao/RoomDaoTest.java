@@ -41,35 +41,35 @@ public class RoomDaoTest {
     @Parameterized.Parameters
     public static Collection<Object[]> GetTestParameters() {
         return Arrays.asList(new Object[][] {
-                // {Type ,ID, city, address, price, description, size, available, date, user , roomersNumber, privateBathroom, roomers }
-                {ApartmentDaoTest.Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 3
-                        ,Boolean.TRUE ,"a,b,c"},
-                {ApartmentDaoTest.Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 3,
-                        Boolean.TRUE, "d,d,c"},
-                {ApartmentDaoTest.Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 0,
-                        Boolean.TRUE, ""},
-                {ApartmentDaoTest.Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 1,
-                        Boolean.TRUE, "a"},
-                {ApartmentDaoTest.Type.OTHER, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 0,
-                        Boolean.TRUE, ""},
-                {ApartmentDaoTest.Type.OTHER, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 2,
-                        Boolean.TRUE, "d,v"},
-                {ApartmentDaoTest.Type.FAVORITE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 0,
-                        Boolean.TRUE, ""},
+                // {Type ,ID, city, address, price, description, size, available, date, user , roomersNumber, privateBathroom, apartmentID }
+                {Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 3
+                        ,Boolean.TRUE ,5},
+                {Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 3,
+                        Boolean.TRUE, 5},
+                {Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 0,
+                        Boolean.TRUE, 5},
+                {Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 1,
+                        Boolean.TRUE, 5},
+                {Type.OTHER, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 0,
+                        Boolean.TRUE, 5},
+                {Type.OTHER, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 2,
+                        Boolean.TRUE, 5},
+                {Type.FAVORITE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 0,
+                        Boolean.TRUE, 5},
 
         });
     }
 
     public RoomDaoTest(RoomDaoTest.Type type , int ID, String city, String address, Double price, String description, double size,
                             boolean available, GregorianCalendar date, User user, int roomersNumber,
-                            boolean privateBathroom, List[] roomers){
+                            boolean privateBathroom, Integer apatmentID){
 
         this.roomDao=new RoomDao();
         this.type = type;
         this.userDao = new UserDao();
         this.user = UserFactory.getUser("nickname", "name", "surname",
                 "email@gmail.com","password", 'f');
-        this.roomAnnounce = RoomFactory.getRoomAnnounce(ID, city, address, price, description, size, available, date, this.user, roomersNumber, privateBathroom, roomers);
+        this.roomAnnounce = RoomFactory.getRoomAnnounce(ID, city, address, price, description, size, available, date, this.user, roomersNumber, privateBathroom, apatmentID);
     }
 
     @Before

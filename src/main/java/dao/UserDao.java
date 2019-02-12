@@ -13,7 +13,7 @@ import java.util.List;
 public class UserDao {
 
     private DataSource ds = new DataSource();
-    private RoomDao roomDao = new RoomDao();
+    private RoomDao roomDao;
 
     public User findByNicknameAndPassword(String nickname, String password) {
         PreparedStatement stmt = null;
@@ -218,6 +218,7 @@ public class UserDao {
         PreparedStatement stmt = null;
         Connection conn = null;
         List<User> users = new ArrayList<>();
+        roomDao = new RoomDao();
         try {
             conn = this.ds.getConnection();
 

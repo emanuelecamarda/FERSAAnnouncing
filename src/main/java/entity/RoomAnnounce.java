@@ -82,4 +82,14 @@ public class RoomAnnounce extends Announce {
                 "\nsize: " + this.size +
                 "\nprice: " + this.price + "\n";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return this.city.equals(((RoomAnnounce) o).getCity()) &&
+                this.price.equals(((RoomAnnounce) o).price) &&
+                this.size == (((RoomAnnounce) o).getSize()) &&
+                Date.gregorianCalendarToString(this.date).equals(Date.gregorianCalendarToString(((RoomAnnounce) o).date)) &&
+                this.user.equals(((RoomAnnounce) o).getUser()) &&
+                (this.privateBathroom == ((RoomAnnounce) o).isPrivateBathroom());
+    }
 }

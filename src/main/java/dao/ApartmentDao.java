@@ -27,7 +27,9 @@ public class ApartmentDao {
 
 
 
-            stmt = conn.prepareStatement("insert into \"public\".\"Apartment\" (\"ID\", \"city\", \"address\", \"price\", \"description\", \"size\", \"available\", \"date\", \"user\" , \"locals\" , \"furnished\" , \"bathroomNumber\" , \"bedsNumber\") " +
+            stmt = conn.prepareStatement("insert into \"public\".\"Apartment\" (\"ID\", \"city\", \"address\", " +
+                    "\"price\", \"description\", \"size\", \"available\", \"date\", \"user\" , \"locals\" , " +
+                    "\"furnished\" , \"bathroomNumber\" , \"bedsNumber\") " +
                     "values (?,?,?,?,?,?,?,?,?,?,?,?,?);", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
             Integer ID = database.getID();
@@ -41,36 +43,13 @@ public class ApartmentDao {
             stmt.setString(8, Date.gregorianCalendarToString(apartmentAnnounce.getDate()));
             stmt.setString(9, apartmentAnnounce.getUser().getNickname());
             stmt.setInt(10 , apartmentAnnounce.getLocals());
-            stmt.setBoolean(11 , apartmentAnnounce.isFurnished());
+            stmt.setBoolean(11 , apartmentAnnounce.getFurnished());
             stmt.setInt(12 , apartmentAnnounce.getBathroomNumber());
             stmt.setInt(13 , apartmentAnnounce.getBedsNumber());
             stmt.executeUpdate();
 
+            apartmentAnnounce.setID(ID);
 
-
-            /*a = new ApartmentAnnounce();
-
-            stmt.close();
-            conn.close();
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null)
-                    stmt.close();
-            } catch (SQLException se2) {
-            }
-            try {
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
-        }
-
-        return a;*/
             stmt.close();
             conn.close();
             return apartmentAnnounce;
@@ -114,17 +93,13 @@ public class ApartmentDao {
 
             result.first();
 
-                    result.getInt("ID");
-                    result.getString("city");
-                    result.getString("address");
-                    result.getDouble("price");
-                    result.getString("description");
-                    result.getDouble("size");
-                    result.getBoolean("available");
-                    result.getInt("locals");
-                    result.getBoolean("furnished");
-                    result.getInt("bathroomNumbers");
-                    result.getInt("bedsNumber");
+            apartmentAnnounce = (ApartmentAnnounce) ApartmentFactory.getApartment(result.getInt("ID"), result.getString("city"),
+                    result.getString("address"), result.getDouble("price"), result.getString("description"),
+                    result.getDouble("size"), result.getBoolean("available"),
+                    Date.stringToGregorianCalendar(result.getString("date")),
+                    userDao.findByNickname(result.getString("user")), result.getInt("locals"),
+                    result.getBoolean("furnished"), result.getInt("bathroomNumber"),
+                    result.getInt("bedsNumber"));
 
             result.close();
             stmt.close();
@@ -155,13 +130,11 @@ public class ApartmentDao {
         Connection conn = null;
         try {
             conn = this.ds.getConnection();
-            conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-            conn.setAutoCommit(false);
 
             if (findByID(ID) == null)
                 throw new EntityNotExistException();
 
-            stmt = conn.prepareStatement("delete from \"public\".\"ApartmentDao\" where \"ID\" = ?;",
+            stmt = conn.prepareStatement("delete from \"public\".\"Apartment\" where \"ID\" = ?;",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             stmt.setInt(1, ID);
             stmt.executeUpdate();
@@ -171,7 +144,7 @@ public class ApartmentDao {
             return Boolean.TRUE;
         } catch (SQLException se) {
             se.printStackTrace();
-        } catch (Exception e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             try {

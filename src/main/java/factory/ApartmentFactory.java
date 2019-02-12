@@ -1,5 +1,6 @@
 package factory;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import entity.Announce;
 import entity.ApartmentAnnounce;
 import entity.User;
@@ -10,16 +11,16 @@ public class ApartmentFactory {
 
     private ApartmentFactory(){}
 
-    public static Announce getApartment (int ID , String city , String address , Double price , String description , double size , boolean available , GregorianCalendar date, User user, int locals ,
-                                         boolean furnished , int bathroomNumber , int bedsNumber){
+    public static Announce getApartment (int ID , String city , String address , Double price , String description , double size , boolean available , GregorianCalendar date, User user, Integer locals ,
+                                         boolean furnished , Integer bathroomNumber , Integer bedsNumber){
 
         ApartmentAnnounce apartmentAnnounce = new ApartmentAnnounce(ID ,city ,address , price , description , size , available , date , user ,locals , furnished , bathroomNumber ,
                                              bedsNumber);
         return apartmentAnnounce;
     }
 
-    public static ApartmentAnnounce getApartmentAnnounce(int ID , String city , String address , Double price , String description , double size , boolean available , GregorianCalendar date, User user, int locals ,
-                                                         boolean furnished , int bathroomNumber , int bedsNumber) {
+    public static ApartmentAnnounce getApartmentAnnounce(Integer ID, String city , String address , Double price , String description , Double size , Boolean available , GregorianCalendar date, User user, Integer locals ,
+                                                         Boolean furnished , Integer bathroomNumber , Integer bedsNumber) {
 
         ApartmentAnnounce apartmentAnnounce = new ApartmentAnnounce(ID, city, address, price, description, size, available, date, user, locals, furnished, bathroomNumber,
                 bedsNumber);
