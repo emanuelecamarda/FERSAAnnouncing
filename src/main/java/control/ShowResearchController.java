@@ -51,13 +51,13 @@ public class ShowResearchController {
                     ((RoomResearchBean) researchBean).getOnlyFemale(), ((RoomResearchBean) researchBean).getOnlyMale());
             if (roomDao.findByCondition(research) != null)
                 announces.addAll(roomDao.findByCondition(research));
-            if (research.getOnlyFemale()) {
+            if (research.getOnlyFemale() && announces != null) {
                 for (Announce announce : announces) {
                     if (announce.getUser().getGender().equals(Gender.male))
                         announces.remove(announce);
                 }
             }
-            if (research.getOnlyMale()) {
+            if (research.getOnlyMale() && announces != null) {
                 for (Announce announce : announces) {
                     if (announce.getUser().getGender().equals(Gender.female))
                         announces.remove(announce);

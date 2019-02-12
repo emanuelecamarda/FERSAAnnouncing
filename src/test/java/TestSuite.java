@@ -1,7 +1,4 @@
-import dao.ApartmentDaoTest;
-import dao.ApartmentResearchDaoTest;
-import dao.RoomResearchDaoTest;
-import dao.UserDaoTest;
+import dao.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -11,6 +8,7 @@ import org.junit.runners.Suite;
         RoomResearchDaoTest.class,
         UserDaoTest.class,
         ApartmentDaoTest.class,
+        RoomDaoTest.class,
 })
 public class TestSuite {
 }

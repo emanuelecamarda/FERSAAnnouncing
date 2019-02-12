@@ -82,7 +82,7 @@ public class UserProfileBoundary {
             Parent root = loader.load();
             FavoriteBoundary favoriteBoundary = loader.getController();
             favoriteBoundary.initData(userLogged);
-            stage.setTitle("RoomAnnounce Research");
+            stage.setTitle("Favorite");
             stage.setScene(new Scene(root, 1000, 650));
             stage.setResizable(false);
             stage.show();
@@ -92,7 +92,19 @@ public class UserProfileBoundary {
     }
 
     public void changeRecent() {
-        //TODO
+        try {
+            Stage stage = (Stage) nicknameField.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(JavaFx.class.getResource("/standAlone/recent.fxml"));
+            Parent root = loader.load();
+            RecentBoundary recentBoundary = loader.getController();
+            recentBoundary.initData(userLogged);
+            stage.setTitle("Recent");
+            stage.setScene(new Scene(root, 1000, 650));
+            stage.setResizable(false);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

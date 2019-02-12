@@ -85,7 +85,7 @@ public class RoomDao {
         try {
             conn = this.ds.getConnection();
 
-            stmt = conn.prepareStatement("select * from \"public\".\"RoomDao\" where \"ID\" = ?;",
+            stmt = conn.prepareStatement("select * from \"public\".\"Room\" where \"ID\" = ?;",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             stmt.setInt(1, ID);
             ResultSet result = stmt.executeQuery();
@@ -139,7 +139,7 @@ public class RoomDao {
             if (findByID(ID) == null)
                 throw new EntityNotExistException();
 
-            stmt = conn.prepareStatement("delete from \"public\".\"RoomDao\" where \"ID\" = ?;",
+            stmt = conn.prepareStatement("delete from \"public\".\"Room\" where \"ID\" = ?;",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             stmt.setInt(1, ID);
             stmt.executeUpdate();
@@ -220,7 +220,7 @@ public class RoomDao {
     public List<RoomAnnounce> findByCondition(RoomResearch roomResearch) {
         PreparedStatement stmt = null;
         Connection conn = null;
-        List<RoomAnnounce> roomAnnounces = new ArrayList<RoomAnnounce>();
+        List<RoomAnnounce> roomAnnounces = new ArrayList<>();
 
         String query = "select * from \"public\".\"Room\" where \"available\" = true and \"city\" = ? " +
                 "and \"price\" >= ? and \"price\" <= ? and \"size\" >= ? and \"privateBathroom\" = ?";
@@ -261,7 +261,7 @@ public class RoomDao {
                     result.getDouble("size"), result.getBoolean("available"),
                     utils.Date.stringToGregorianCalendar(result.getString("date")),
                     userDao.findByNickname(result.getString("user")), result.getInt("roomersNumber"),
-                    result.getBoolean("privateBathroom"), null);
+                    result.getBoolean("privateBathroom"), result.getInt("apartmentID"));
             roomAnnounce.setRoomers(findRoomers(roomAnnounce));
             roomAnnounces.add(roomAnnounce);
             for (ConcreteRoomAnnounceObserver o : findByApartmentID(roomAnnounce))
@@ -277,8 +277,10 @@ public class RoomDao {
                         result.getBoolean("privateBathroom"), null);
                 roomAnnounce.setRoomers(findRoomers(roomAnnounce));
                 roomAnnounces.add(roomAnnounce);
-                for (ConcreteRoomAnnounceObserver o : findByApartmentID(roomAnnounce))
-                    roomAnnounce.attach(o);
+                if (findByApartmentID(roomAnnounce) != null) {
+                    for (ConcreteRoomAnnounceObserver o : findByApartmentID(roomAnnounce))
+                        roomAnnounce.attach(o);
+                }
             }
 
             result.close();
@@ -331,7 +333,7 @@ public class RoomDao {
                     result.getDouble("size"), result.getBoolean("available"),
                     utils.Date.stringToGregorianCalendar(result.getString("date")),
                     userDao.findByNickname(result.getString("user")), result.getInt("roomersNumber"),
-                    result.getBoolean("privateBathroom"), null);
+                    result.getBoolean("privateBathroom"), result.getInt("apartmentID"));
             roomAnnounce.setRoomers(findRoomers(roomAnnounce));
             roomAnnounces.add(roomAnnounce);
             for (ConcreteRoomAnnounceObserver o : findByApartmentID(roomAnnounce))
@@ -343,7 +345,7 @@ public class RoomDao {
                         result.getDouble("size"), result.getBoolean("available"),
                         utils.Date.stringToGregorianCalendar(result.getString("date")),
                         userDao.findByNickname(result.getString("user")), result.getInt("roomersNumber"),
-                        result.getBoolean("privateBathroom"), null);
+                        result.getBoolean("privateBathroom"), result.getInt("apartmentID"));
                 roomAnnounce.setRoomers(findRoomers(roomAnnounce));
                 roomAnnounces.add(roomAnnounce);
                 for (ConcreteRoomAnnounceObserver observer : findByApartmentID(roomAnnounce))
@@ -387,10 +389,13 @@ public class RoomDao {
         try {
             conn = this.ds.getConnection();
 
-            stmt = conn.prepareStatement("select * from \"public\".\"RoomDao\" where \"apartmentID\" = ? " +
+            stmt = conn.prepareStatement("select * from \"public\".\"Room\" where \"apartmentID\" = ? " +
                             "and \"available\" = false;",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            stmt.setInt(1, roomAnnounce.getApartmentID());
+            if (roomAnnounce.getApartmentID() == null)
+                stmt.setInt(1, 0);
+            else
+                stmt.setInt(1, roomAnnounce.getApartmentID());
             ResultSet result = stmt.executeQuery();
 
             if (!result.first()) // rs empty
@@ -433,9 +438,12 @@ public class RoomDao {
         try {
             conn = this.ds.getConnection();
 
-            stmt = conn.prepareStatement("select * from \"public\".\"RoomDao\" where \"apartmentID\" = ?;",
+            stmt = conn.prepareStatement("select * from \"public\".\"Room\" where \"apartmentID\" = ?;",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            stmt.setInt(1, roomAnnounce.getApartmentID());
+            if (roomAnnounce.getApartmentID() == null)
+                stmt.setInt(1, 0);
+            else
+                stmt.setInt(1, roomAnnounce.getApartmentID());
             ResultSet result = stmt.executeQuery();
 
             if (!result.first()) // rs empty
@@ -480,7 +488,7 @@ public class RoomDao {
         try {
             conn = this.ds.getConnection();
 
-            stmt = conn.prepareStatement("update \"public\".\"RoomDao\" set \"roomersNumber\" = ? where \"ID\" = ?;",
+            stmt = conn.prepareStatement("update \"public\".\"Room\" set \"roomersNumber\" = ? where \"ID\" = ?;",
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             stmt.setInt(1, roomAnnounce.getRoomersNumber() + a);
             stmt.setInt(2, roomAnnounce.getID());

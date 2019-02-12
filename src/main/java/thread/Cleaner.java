@@ -7,7 +7,6 @@ import entity.Research;
 import exception.EntityNotExistException;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -28,7 +27,6 @@ public class Cleaner implements Runnable {
     @Override
     public void run() {
         while (true) {
-            System.out.println("ciaoooooo");
             try {
                 List<Research> researches = new ArrayList<>();
                 if (apartmentResearchDao.findAll() != null)

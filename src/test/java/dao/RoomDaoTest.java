@@ -8,6 +8,7 @@ import entity.User;
 import exception.EntityAlreadyExistException;
 import exception.EntityNotExistException;
 import factory.ApartmentFactory;
+import factory.ResearchFactory;
 import factory.RoomFactory;
 import factory.UserFactory;
 import org.junit.After;
@@ -27,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(value = Parameterized.class)
 public class RoomDaoTest {
 
-    enum Type {CREATE, OTHER, FAVORITE}
+    enum Type {CREATE, OTHER, CONDITION}
 
     private RoomDaoTest.Type type;
     private RoomAnnounce roomAnnounce;
@@ -41,41 +42,83 @@ public class RoomDaoTest {
     @Parameterized.Parameters
     public static Collection<Object[]> GetTestParameters() {
         return Arrays.asList(new Object[][] {
-                // {Type ,ID, city, address, price, description, size, available, date, user , roomersNumber, privateBathroom, apartmentID }
+                // {Type ,ID, city, address, price, description, size, available, date, user , roomersNumber, privateBathroom, apartmentID
+                // city, priceMin, priceMax, size, date, favorite, sorting, roomersNumberMax, privateBathroom,
+                // onlyFemale, onlyMale}
                 {Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 3
-                        ,Boolean.TRUE ,5},
+                        ,Boolean.TRUE ,5,
+                        "Roma", 200.0, 600.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "moreRecent", 4,
+                        Boolean.FALSE, Boolean.FALSE, Boolean.FALSE},
                 {Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 3,
-                        Boolean.TRUE, 5},
+                        Boolean.TRUE, 5,
+                        "Roma", 200.0, 600.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "moreRecent", 4,
+                        Boolean.FALSE, Boolean.FALSE, Boolean.FALSE},
                 {Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 0,
-                        Boolean.TRUE, 5},
+                        Boolean.TRUE, 5,
+                        "Roma", 200.0, 600.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "moreRecent", 4,
+                        Boolean.FALSE, Boolean.FALSE, Boolean.FALSE},
                 {Type.CREATE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 1,
-                        Boolean.TRUE, 5},
+                        Boolean.TRUE, 5,
+                        "Roma", 200.0, 600.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "moreRecent", 4,
+                        Boolean.FALSE, Boolean.FALSE, Boolean.FALSE},
                 {Type.OTHER, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 0,
-                        Boolean.TRUE, 5},
+                        Boolean.TRUE, 5,
+                        "Roma", 200.0, 600.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "moreRecent", 4,
+                        Boolean.FALSE, Boolean.FALSE, Boolean.FALSE},
                 {Type.OTHER, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 2,
-                        Boolean.TRUE, 5},
-                {Type.FAVORITE, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 0,
-                        Boolean.TRUE, 5},
+                        Boolean.TRUE, 5,
+                        "Roma", 200.0, 600.0, 50.0, new GregorianCalendar(), Boolean.TRUE, "moreRecent", 4,
+                        Boolean.FALSE, Boolean.FALSE, Boolean.FALSE},
+                {Type.CONDITION, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 2,
+                        Boolean.TRUE, 5,
+                        "Roma", 200.0, 800.0, 40.0, new GregorianCalendar(), Boolean.TRUE, "moreBig", 4,
+                        Boolean.TRUE, Boolean.FALSE, Boolean.FALSE},
+                {Type.CONDITION, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 2,
+                        Boolean.TRUE, 5,
+                        "Roma", 200.0, 800.0, 40.0, new GregorianCalendar(), Boolean.TRUE, "lessBig", 4,
+                        Boolean.TRUE, Boolean.FALSE, Boolean.FALSE},
+                {Type.CONDITION, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 2,
+                        Boolean.TRUE, 5,
+                        "Roma", 200.0, 800.0, 40.0, new GregorianCalendar(), Boolean.TRUE, "moreExpensive", 4,
+                        Boolean.TRUE, Boolean.FALSE, Boolean.FALSE},
+                {Type.CONDITION, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 2,
+                        Boolean.TRUE, 5,
+                        "Roma", 200.0, 800.0, 40.0, new GregorianCalendar(), Boolean.TRUE, "lessExpensive", 4,
+                        Boolean.TRUE, Boolean.FALSE, Boolean.FALSE},
+                {Type.CONDITION, 1 ,"Roma", "via ", 600.0, "una descrizione", 50 ,Boolean.TRUE,new GregorianCalendar(), new User().getNickname(), 2,
+                        Boolean.TRUE, 5,
+                        "Roma", 200.0, 800.0, 40.0, new GregorianCalendar(), Boolean.TRUE, "moreBig", null,
+                        Boolean.TRUE, Boolean.FALSE, Boolean.FALSE},
 
         });
     }
 
     public RoomDaoTest(RoomDaoTest.Type type , int ID, String city, String address, Double price, String description, double size,
                             boolean available, GregorianCalendar date, User user, int roomersNumber,
-                            boolean privateBathroom, Integer apatmentID){
+                            boolean privateBathroom, Integer apatmentID,
+                            String cityRes, Double priceMin, Double priceMax, Double sizeRes,
+                            GregorianCalendar dateRes, Boolean favorite, String sorting, Integer roomersNumberMax,
+                            Boolean privateBathroomRes, Boolean onlyFemale, Boolean onlyMale) {
 
-        this.roomDao=new RoomDao();
+        this.roomDao = new RoomDao();
         this.type = type;
         this.userDao = new UserDao();
         this.user = UserFactory.getUser("nickname", "name", "surname",
-                "email@gmail.com","password", 'f');
-        this.roomAnnounce = RoomFactory.getRoomAnnounce(ID, city, address, price, description, size, available, date, this.user, roomersNumber, privateBathroom, apatmentID);
+                "email@gmail.com", "password", 'f');
+        this.roomAnnounce = RoomFactory.getRoomAnnounce(ID, city, address, price, description, size, available, date,
+                this.user, roomersNumber, privateBathroom, apatmentID);
+        if (type == Type.CONDITION) {
+            this.roomResearchDao = new RoomResearchDao();
+            this.roomResearch = ResearchFactory.getRoomResearch(null, cityRes, priceMin, priceMax, sizeRes,
+                    dateRes, favorite, this.user, sorting, roomersNumberMax, privateBathroomRes, onlyFemale, onlyMale);
+        }
     }
 
     @Before
     public void setUp() {
         try {
-            userDao.create(user.getNickname(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword(), user.getGender().toString().toCharArray()[0]);
+            userDao.create(user.getNickname(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword(),
+                    user.getGender().toString().toCharArray()[0]);
         } catch (EntityAlreadyExistException e) {
             e.printStackTrace();
         }
@@ -126,7 +169,7 @@ public class RoomDaoTest {
 
     @Test
     public void findByCondition(){
-        Assume.assumeTrue(type == RoomDaoTest.Type.OTHER);
+        Assume.assumeTrue(type == Type.CONDITION);
         RoomAnnounce roomAnnounceCreate = roomDao.create(roomAnnounce);
         List<RoomAnnounce> roomAnnouncesList = roomDao.findByCondition(roomResearch);
         try {

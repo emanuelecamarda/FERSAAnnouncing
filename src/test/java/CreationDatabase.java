@@ -19,6 +19,8 @@ public class CreationDatabase {
                 u = userDao.findByNickname("emanuele");
             }
 
+            // ----------- Apartment Research ------------------------
+
             ApartmentResearchDao apartmentResearchDao = new ApartmentResearchDao();
             GregorianCalendar date = new GregorianCalendar();
             ApartmentResearch apartmentResearch = new ApartmentResearch("Roma", 200.0, 800.0,
@@ -55,36 +57,40 @@ public class CreationDatabase {
             apartmentResearch.setSorting("moreExpensive");
             apartmentResearch = apartmentResearchDao.create(apartmentResearch);
 
+            // ---------------- Room Research -------------------------
+
             RoomResearchDao roomResearchDao = new RoomResearchDao();
             date = new GregorianCalendar();
-            RoomResearch roomResearch = new RoomResearch("Roma", 200.0, 800.0, 50.0, date,
-                    Boolean.TRUE, u, 3, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+            RoomResearch roomResearch = new RoomResearch("Roma", 200.0, 800.0, 10.0, date,
+                    Boolean.FALSE, u, 3, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
             roomResearch.setSorting("moreRecent");
             roomResearch = roomResearchDao.create(roomResearch);
 
             date.add(Calendar.DAY_OF_YEAR, -1);
-            roomResearch = new RoomResearch("Roma", 250.0, 600.0, 60.0, date,
-                    Boolean.TRUE, u, 3, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+            roomResearch = new RoomResearch("Roma", 250.0, 600.0, 10.0, date,
+                    Boolean.FALSE, u, 3, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
             roomResearch.setSorting("lessRecent");
             roomResearch = roomResearchDao.create(roomResearch);
 
             date.add(Calendar.DAY_OF_YEAR, -5);
-            roomResearch = new RoomResearch("Roma", 350.0, 700.0, 55.0, date,
-                    Boolean.TRUE, u, 3, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+            roomResearch = new RoomResearch("Roma", 150.0, 700.0, 15.0, date,
+                    Boolean.FALSE, u, 3, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE);
             roomResearch.setSorting("lessBig");
             roomResearch = roomResearchDao.create(roomResearch);
 
             date.add(Calendar.DAY_OF_YEAR, -3);
-            roomResearch = new RoomResearch("Roma", 400.0, 900.0, 65.0, date,
-                    Boolean.FALSE, u, 3, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+            roomResearch = new RoomResearch("Roma", 100.0, 900.0, 15.0, date,
+                    Boolean.FALSE, u, 3, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE);
             roomResearch.setSorting("lessExpensive");
             roomResearch = roomResearchDao.create(roomResearch);
 
             date.add(Calendar.DAY_OF_YEAR, -1);
-            roomResearch = new RoomResearch("Roma", 280.0, 650.0, 45.0, date,
-                    Boolean.TRUE, u, 3, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+            roomResearch = new RoomResearch("Roma", 180.0, 650.0, 12.0, date,
+                    Boolean.FALSE, u, 3, Boolean.TRUE, Boolean.FALSE, Boolean.TRUE);
             roomResearch.setSorting("moreExpensive");
             roomResearch = roomResearchDao.create(roomResearch);
+
+            // ----------- Locator -------------------
 
             User locator;
             if (userDao.findByNickname("locator") == null) {
@@ -93,6 +99,8 @@ public class CreationDatabase {
             } else {
                 locator = userDao.findByNickname("locator");
             }
+
+            // --------------- Apartment -----------------
 
             ApartmentDao apartmentDao = new ApartmentDao();
             date = new GregorianCalendar();
@@ -130,6 +138,8 @@ public class CreationDatabase {
                     "Via delle Robinie", 720.0, "An apartment", 88.0, Boolean.TRUE, date,
                     locator, 3, Boolean.TRUE, 1, 4);
             apartmentAnnounce = apartmentDao.create(apartmentAnnounce);
+
+            // ---------------- Room ---------------------------
 
             RoomDao roomDao = new RoomDao();
             date = new GregorianCalendar();
