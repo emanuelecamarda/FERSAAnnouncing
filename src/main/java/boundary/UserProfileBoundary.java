@@ -13,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import utils.JavaFx;
 
+import java.io.IOException;
+
 public class UserProfileBoundary {
 
     private User userLogged;
@@ -103,6 +105,21 @@ public class UserProfileBoundary {
             stage.setResizable(false);
             stage.show();
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void LogOut(){
+        try{
+            Stage stage = (Stage) nicknameField.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(JavaFx.class.getResource("/standAlone/login.fxml"));
+            Parent root = loader.load();
+            LoginBoundary loginBoundary = loader.getController();
+            stage.setTitle("Log In");
+            stage.setScene(new Scene(root, 1000, 650));
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
