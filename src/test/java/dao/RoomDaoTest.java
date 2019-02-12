@@ -128,14 +128,14 @@ public class RoomDaoTest {
     public void findByCondition(){
         Assume.assumeTrue(type == RoomDaoTest.Type.OTHER);
         RoomAnnounce roomAnnounceCreate = roomDao.create(roomAnnounce);
-        RoomResearch roomResearchCreate = roomResearchDao.create(roomResearch);
         List<RoomAnnounce> roomAnnouncesList = roomDao.findByCondition(roomResearch);
         try {
             roomDao.delete(roomAnnounceCreate.getID());
         } catch (EntityNotExistException e) {
             e.printStackTrace();
         }
-        assertEquals(roomAnnouncesList , roomResearch);
+        boolean check = roomAnnouncesList.contains(roomAnnounceCreate);
+        assertEquals(true, check);
 
     }
 
